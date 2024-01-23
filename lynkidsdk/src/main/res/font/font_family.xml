@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font android:fontFamily="@font/bevietnampro_black" />
+    <font android:fontFamily="@font/bevietnampro_blackitalic" />
+    <font android:fontFamily="@font/bevietnampro_bold" />
+    <font android:fontFamily="@font/bevietnampro_bolditalic" />
+    <font android:fontFamily="@font/bevietnampro_extrabold" />
+    <font android:fontFamily="@font/bevietnampro_extrabolditalic" />
+    <font android:fontFamily="@font/bevietnampro_extralight" />
+    <font android:fontFamily="@font/bevietnampro_extralightitalic" />
+    <font android:fontFamily="@font/bevietnampro_italic" />
+    <font android:fontFamily="@font/bevietnampro_light" />
+    <font android:fontFamily="@font/bevietnampro_lightitalic" />
+    <font android:fontFamily="@font/bevietnampro_medium" />
+    <font android:fontFamily="@font/bevietnampro_mediumitalic" />
+    <font android:fontFamily="@font/bevietnampro_regular" />
+    <font android:fontFamily="@font/bevietnampro_semibold" />
+    <font android:fontFamily="@font/bevietnampro_semibolditalic" />
+    <font android:fontFamily="@font/bevietnampro_thin" />
+    <font android:fontFamily="@font/bevietnampro_thinitalic" />
+</font-family>
