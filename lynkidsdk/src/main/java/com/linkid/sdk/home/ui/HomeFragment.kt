@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.linkid.sdk.R
 import com.linkid.sdk.databinding.FragmentHomeBinding
+import com.linkid.sdk.dpToPx
+import com.linkid.sdk.getStatusBarHeight
 import com.linkid.sdk.home.repository.HomeRepository
 import com.linkid.sdk.home.service.HomeService
 import com.linkid.sdk.home.viewmodel.HomeViewModel
@@ -39,9 +41,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpView()
         setUpMemberInfo()
         setUpPointInfo()
         setUpBannersAndNews()
+    }
+
+    private fun setUpView(){
+        binding.apply {
+            val layoutParams = imgAvatar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            imgAvatar.layoutParams = layoutParams
+        }
     }
 
     private fun setUpMemberInfo(){
