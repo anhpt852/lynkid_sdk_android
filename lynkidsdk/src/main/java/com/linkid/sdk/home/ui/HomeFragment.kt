@@ -44,7 +44,9 @@ class HomeFragment : Fragment() {
         setUpView()
         setUpMemberInfo()
         setUpPointInfo()
+        setUpCategories()
         setUpBannersAndNews()
+        setUpGift()
     }
 
     private fun setUpView(){
@@ -91,6 +93,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setUpCategories(){
+
+    }
+
     private fun setUpBannersAndNews() {
         viewModel.bannersAndNewsLoader.observe(viewLifecycleOwner) { loader ->
             if (loader) {
@@ -102,5 +108,9 @@ class HomeFragment : Fragment() {
                 Log.d("HomeFragment", "setUpBannersAndNews: ${bannersAndNews.getOrNull()}")
             }
         }
+    }
+
+    private fun setUpGift(){
+
     }
 }
