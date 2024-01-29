@@ -2,14 +2,14 @@ package com.linkid.sdk.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.linkid.sdk.home.models.HomeNewsAndBannerModel
-import com.linkid.sdk.home.models.Member
-import com.linkid.sdk.home.models.MemberResponseModel
-import com.linkid.sdk.home.models.Point
+import com.linkid.sdk.models.category.Category
+import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
+import com.linkid.sdk.models.member.Member
+import com.linkid.sdk.models.point.Point
 import com.linkid.sdk.home.repository.HomeRepository
+import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.onEach
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
@@ -40,6 +40,26 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         emitSource(repository.getBannerAndNews()
             .onEach {
                 bannersAndNewsLoader.postValue(false)
+            }
+            .asLiveData())
+    }
+
+    val categoriesLoader = MutableLiveData<Boolean>(true)
+    val categories = liveData<Result<List<Category>>> {
+        categoriesLoader.postValue(true)
+        emitSource(repository.getHomeCategories()
+            .onEach {
+                categoriesLoader.postValue(false)
+            }
+            .asLiveData())
+    }
+
+    val homeGiftGroupLoader = MutableLiveData<Boolean>(true)
+    val homeGiftGroup = liveData<Result<HomeGiftGroupResponseModel>> {
+        homeGiftGroupLoader.postValue(true)
+        emitSource(repository.getHomeGiftGroup()
+            .onEach {
+                homeGiftGroupLoader.postValue(false)
             }
             .asLiveData())
     }

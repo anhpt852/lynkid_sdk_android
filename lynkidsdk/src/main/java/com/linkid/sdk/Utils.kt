@@ -1,9 +1,11 @@
 package com.linkid.sdk
 
 import android.content.Context
+import android.icu.text.NumberFormat
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.util.Locale
 
 
 fun getStatusBarHeight(view: View): Int = ViewCompat.getRootWindowInsets(view)?.getInsets(
@@ -19,4 +21,9 @@ fun getNavigationBarHeight(view: View): Int = ViewCompat.getRootWindowInsets(vie
 fun Context.dpToPx(dp: Int): Int {
     val density = resources.displayMetrics.density
     return (dp * density).toInt()
+}
+
+fun Int.formatPrice(): String {
+    val format = NumberFormat.getNumberInstance(Locale.getDefault())
+    return format.format(this)
 }

@@ -2,9 +2,11 @@ package com.linkid.sdk.home.service
 
 import android.util.Log
 import com.linkid.sdk.APIEndpoints
-import com.linkid.sdk.home.models.HomeNewsAndBannerModel
-import com.linkid.sdk.home.models.MemberResponseModel
-import com.linkid.sdk.home.models.PointResponseModel
+import com.linkid.sdk.models.category.HomeCategoryResponseModel
+import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
+import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
+import com.linkid.sdk.models.member.MemberResponseModel
+import com.linkid.sdk.models.point.PointResponseModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
@@ -45,6 +47,28 @@ class HomeService(private val api: APIEndpoints) {
         )
     }.catch {
         Log.e("HomeService", "getBannerAndNews: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
+
+    suspend fun getHomeCategories(): Flow<Result<HomeCategoryResponseModel>> = flow {
+        emit(
+            Result.success(
+                api.getHomeCategories()
+            )
+        )
+    }.catch {
+        Log.e("HomeService", "getHomeCategories: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
+
+    suspend fun getHomeGiftGroup(): Flow<Result<HomeGiftGroupResponseModel>> = flow {
+        emit(
+            Result.success(
+                api.getHomeGiftGroup()
+            )
+        )
+    }.catch {
+        Log.e("HomeService", "getHomeGiftGroup: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 }

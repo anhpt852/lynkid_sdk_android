@@ -1,5 +1,7 @@
 package com.linkid.sdk
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -30,5 +32,16 @@ class LynkiDSDKActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
+    }
+
+
+    override fun getResources(): Resources {
+        val res = super.getResources()
+        val config = Configuration(res.configuration)
+        if (config.fontScale != 1.0f) {
+            config.fontScale = 1.0f
+            return createConfigurationContext(config).resources
+        }
+        return res
     }
 }

@@ -1,11 +1,5 @@
-package com.linkid.sdk.home.models
+package com.linkid.sdk.models.member
 
-import com.linkid.sdk.BaseModel
-
-data class MemberResponseModel(
-    val result: Int?,
-    val items: Member?
-) : BaseModel()
 
 data class Member(
     val id: Int?,
@@ -45,7 +39,3 @@ data class Member(
     val streetDetail: String?
 )
 
-data class GrantTypeBalance(
-    val grantType: String?,
-    val balance: Int?
-)

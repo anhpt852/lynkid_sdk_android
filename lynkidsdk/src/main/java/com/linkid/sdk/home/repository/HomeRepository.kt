@@ -1,12 +1,15 @@
 package com.linkid.sdk.home.repository
 
 import android.util.Log
-import com.linkid.sdk.home.models.HomeNewsAndBannerModel
-import com.linkid.sdk.home.models.Member
-import com.linkid.sdk.home.models.MemberResponseModel
-import com.linkid.sdk.home.models.Point
-import com.linkid.sdk.home.models.PointResponseModel
+import com.linkid.sdk.models.category.Category
+import com.linkid.sdk.models.category.HomeCategoryResponseModel
+import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
+import com.linkid.sdk.models.member.Member
+import com.linkid.sdk.models.member.MemberResponseModel
+import com.linkid.sdk.models.point.Point
+import com.linkid.sdk.models.point.PointResponseModel
 import com.linkid.sdk.home.service.HomeService
+import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -48,6 +51,42 @@ class HomeRepository(private val service: HomeService) {
                 Result.success(result.getOrNull()!!)
             } else {
                 Log.d("HomeRepository", "getBannerAndNews: ${result.exceptionOrNull()?.toString()}")
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+    suspend fun getHomeCategories(): Flow<Result<List<Category>>> =
+        service.getHomeCategories().map { result ->
+            if (result.isSuccess) {
+                val homeCategoryResponseModel: HomeCategoryResponseModel? = result.getOrNull()
+                if (homeCategoryResponseModel?.result?.row2 != null) {
+                    Result.success(homeCategoryResponseModel.result.row2)
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
+            } else {
+                Log.d(
+                    "HomeRepository",
+                    "getHomeCategories: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+    suspend fun getHomeGiftGroup(): Flow<Result<HomeGiftGroupResponseModel>> =
+        service.getHomeGiftGroup().map { result ->
+            if (result.isSuccess) {
+                val homeGiftGroupResponseModel: HomeGiftGroupResponseModel? = result.getOrNull()
+                if (homeGiftGroupResponseModel != null) {
+                    Result.success(homeGiftGroupResponseModel)
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
+            } else {
+                Log.d(
+                    "HomeRepository",
+                    "getHomeGiftGroup: ${result.exceptionOrNull()?.toString()}"
+                )
                 Result.failure(result.exceptionOrNull()!!)
             }
         }

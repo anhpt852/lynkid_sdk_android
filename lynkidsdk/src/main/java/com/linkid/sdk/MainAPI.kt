@@ -1,8 +1,10 @@
 package com.linkid.sdk
 
-import com.linkid.sdk.home.models.HomeNewsAndBannerModel
-import com.linkid.sdk.home.models.MemberResponseModel
-import com.linkid.sdk.home.models.PointResponseModel
+import com.linkid.sdk.models.category.HomeCategoryResponseModel
+import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
+import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
+import com.linkid.sdk.models.member.MemberResponseModel
+import com.linkid.sdk.models.point.PointResponseModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,4 +43,10 @@ interface APIEndpoints {
 
     @GET("api/Article/GetAllArticleAndRelatedNews_Optimize")
     suspend fun getBannerAndNews(@QueryMap queries: MutableMap<String, Any>): HomeNewsAndBannerModel
+
+    @GET("api/GiftCategory/GiftListCategoriesInTwoRows")
+    suspend fun getHomeCategories(@Query("memberCode") memberCode: String = LynkiD_SDK.memberCode): HomeCategoryResponseModel
+
+    @GET("api/GiftInfos/appv1dot1/get-gift-group-for-home-page")
+    suspend fun getHomeGiftGroup(@Query("memberCode") memberCode: String = LynkiD_SDK.memberCode): HomeGiftGroupResponseModel
 }

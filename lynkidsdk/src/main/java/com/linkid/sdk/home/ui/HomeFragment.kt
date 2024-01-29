@@ -7,11 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import com.linkid.sdk.R
 import com.linkid.sdk.databinding.FragmentHomeBinding
 import com.linkid.sdk.dpToPx
+import com.linkid.sdk.formatPrice
 import com.linkid.sdk.getStatusBarHeight
+import com.linkid.sdk.home.adapter.HomeBannerAdapter
+import com.linkid.sdk.home.adapter.HomeCategoryAdapter
+import com.linkid.sdk.home.adapter.HomeGiftAdapter
 import com.linkid.sdk.home.repository.HomeRepository
 import com.linkid.sdk.home.service.HomeService
 import com.linkid.sdk.home.viewmodel.HomeViewModel
@@ -49,7 +56,7 @@ class HomeFragment : Fragment() {
         setUpGift()
     }
 
-    private fun setUpView(){
+    private fun setUpView() {
         binding.apply {
             val layoutParams = imgAvatar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
@@ -57,7 +64,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpMemberInfo(){
+    private fun setUpMemberInfo() {
         viewModel.memberInfoLoader.observe(viewLifecycleOwner) { loader ->
             if (loader) {
                 Log.d("HomeFragment", "setUpMemberInfo: $loader")
@@ -77,7 +84,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpPointInfo(){
+    private fun setUpPointInfo() {
         viewModel.pointInfoLoader.observe(viewLifecycleOwner) { loader ->
             if (loader) {
                 Log.d("HomeFragment", "setUpPointInfo: $loader")
@@ -87,14 +94,27 @@ class HomeFragment : Fragment() {
             if (pointInfo.getOrNull() != null) {
                 val point = pointInfo.getOrNull()!!
                 binding.apply {
-                    txtBalance.text = point.tokenBalance.toString()
+                    txtBalance.text = point.tokenBalance!!.formatPrice()
                 }
             }
         }
     }
 
-    private fun setUpCategories(){
-
+    private fun setUpCategories() {
+        viewModel.categoriesLoader.observe(viewLifecycleOwner) { loader ->
+            if (loader) {
+                Log.d("HomeFragment", "setUpCategories: $loader")
+            }
+        }
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            if (categories.getOrNull() != null) {
+                binding.apply {
+                    listCategory.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    listCategory.adapter = HomeCategoryAdapter(categories.getOrNull()!!)
+                }
+            }
+        }
     }
 
     private fun setUpBannersAndNews() {
@@ -105,12 +125,34 @@ class HomeFragment : Fragment() {
         }
         viewModel.bannersAndNews.observe(viewLifecycleOwner) { bannersAndNews ->
             if (bannersAndNews.getOrNull() != null) {
-                Log.d("HomeFragment", "setUpBannersAndNews: ${bannersAndNews.getOrNull()}")
+                binding.apply {
+                    listBanner.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    listBanner.adapter = HomeBannerAdapter(
+                        bannersAndNews.getOrNull()!!.result?.get(0)?.resultDto?.items ?: listOf()
+                    )
+                    val snapHelper = PagerSnapHelper()
+                    snapHelper.attachToRecyclerView(listBanner)
+                }
             }
         }
     }
 
-    private fun setUpGift(){
+    private fun setUpGift() {
+        viewModel.homeGiftGroupLoader.observe(viewLifecycleOwner) { loader ->
+            if (loader) {
+                Log.d("HomeFragment", "setUpGift: $loader")
+            }
+        }
+        viewModel.homeGiftGroup.observe(viewLifecycleOwner) { homeGiftGroup ->
+            if (homeGiftGroup.getOrNull() != null) {
+                binding.apply {
+                    listGift.layoutManager = GridLayoutManager(requireContext(), 2)
+                    listGift.adapter =
+                        HomeGiftAdapter(homeGiftGroup.getOrNull()!!.result?.gifts ?: listOf())
+                }
+            }
+        }
 
     }
 }

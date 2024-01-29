@@ -1,4 +1,4 @@
-package com.linkid.sdk.home.models
+package com.linkid.sdk.models.article
 
 data class Article(
     val id: Int?,
