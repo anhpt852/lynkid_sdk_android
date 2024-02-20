@@ -2,6 +2,7 @@ package com.linkid.sdk
 
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
+import com.linkid.sdk.models.category.GiftCategoryResponseModel
 import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import com.linkid.sdk.models.member.MemberResponseModel
 import com.linkid.sdk.models.point.PointResponseModel
@@ -49,4 +50,10 @@ interface APIEndpoints {
 
     @GET("api/GiftInfos/appv1dot1/get-gift-group-for-home-page")
     suspend fun getHomeGiftGroup(@Query("memberCode") memberCode: String = LynkiD_SDK.memberCode): HomeGiftGroupResponseModel
+
+    @GET("/api/GiftCategory/GiftListCategories_v1")
+    suspend fun getGiftCategories(@QueryMap queries: MutableMap<String, Any>): GiftCategoryResponseModel
+
+    @GET("/api/GiftInfos/GetGiftAllInfors")
+    suspend fun getAllGiftGroups(@QueryMap queries: MutableMap<String, Any>): HomeGiftGroupResponseModel
 }

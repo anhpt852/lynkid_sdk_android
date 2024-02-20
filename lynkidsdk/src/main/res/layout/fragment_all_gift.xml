@@ -1,6 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/imgHeaderBackground"
+                android:layout_width="match_parent"
+                android:layout_height="296dp"
+                android:background="@drawable/home_gradient"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/imgHomeBackground2"
+                android:layout_width="match_parent"
+                android:layout_height="181dp"
+                android:background="@drawable/home_gradient_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgHeaderBackground" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCategory"
+                android:layout_width="match_parent"
+                android:layout_height="216dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtHotGiftTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Ưu đãi"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardCategory" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnHotGiftSeeMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Xem thêm"
+                android:textColor="#663692"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintBottom_toBottomOf="@id/txtHotGiftTitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listHotGift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/txtHotGiftTitle" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnInstallAppBig"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/img_banner_big"
+                app:layout_constraintDimensionRatio="H,343:116"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/listHotGift" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtGiftTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Ưu đãi hot"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnInstallAppBig" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnGiftSeeMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Xem thêm"
+                android:textColor="#663692"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintBottom_toBottomOf="@id/txtGiftTitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listGift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/txtGiftTitle" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:layout_constraintTop_toBottomOf="@id/listGift" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tất cả ưu đãi"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@color/white"
+        android:textSize="18sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editSearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="Tìm kiếm ưu đãi, thương hiệu"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@color/white"
+        android:textSize="14sp"
+        app:drawableTint="#FFFFFF"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

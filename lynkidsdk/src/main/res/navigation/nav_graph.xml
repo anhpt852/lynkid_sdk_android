@@ -18,5 +18,14 @@
         android:id="@+id/homeFragment"
         android:name="com.linkid.sdk.home.ui.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_allGiftFragment"
+            app:destination="@id/allGiftFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allGiftFragment"
+        android:name="com.linkid.sdk.all_gift.ui.AllGiftFragment"
+        android:label="AllGiftFragment"
+        tools:layout="@layout/fragment_all_gift"/>
 </navigation>

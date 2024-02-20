@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -37,12 +38,11 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        binding = FragmentHomeBinding.bind(view)
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
-        return view
+        return binding.root
 
     }
 
@@ -114,6 +114,10 @@ class HomeFragment : Fragment() {
                     listCategory.adapter = HomeCategoryAdapter(categories.getOrNull()!!)
                 }
             }
+        }
+        binding.btnCategorySeeMore.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToAllGiftFragment()
+            findNavController().navigate(action)
         }
     }
 
