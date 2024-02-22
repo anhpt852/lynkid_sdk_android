@@ -1,6 +1,7 @@
 package com.linkid.sdk.all_gift.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.linkid.sdk.all_gift.adapter.AllGiftCategoryAdapter
+import com.linkid.sdk.all_gift.adapter.AllGiftGroupAdapter
 import com.linkid.sdk.all_gift.repository.AllGiftRepository
 import com.linkid.sdk.all_gift.service.AllGiftService
 import com.linkid.sdk.all_gift.viewmodel.AllGiftViewModel
@@ -16,6 +18,7 @@ import com.linkid.sdk.all_gift.viewmodel.AllGiftViewModelFactory
 import com.linkid.sdk.databinding.FragmentAllGiftBinding
 import com.linkid.sdk.dpToPx
 import com.linkid.sdk.getStatusBarHeight
+import com.linkid.sdk.home.adapter.HomeGiftAdapter
 import com.linkid.sdk.mainAPI
 
 class AllGiftFragment : Fragment() {
@@ -40,13 +43,18 @@ class AllGiftFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
         setUpCategories()
+        setUpGift()
     }
 
     private fun setUpView() {
         binding.apply {
-            val layoutParams = btnBack.layoutParams as ViewGroup.MarginLayoutParams
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
-            btnBack.layoutParams = layoutParams
+            toolbar.layoutParams = layoutParams
+
+            val cardLayoutParams = cardCategory.layoutParams as ViewGroup.MarginLayoutParams
+            cardLayoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(128) ?: 0)
+            cardCategory.layoutParams = cardLayoutParams
         }
     }
 
@@ -65,6 +73,25 @@ class AllGiftFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    private fun setUpGift() {
+        viewModel.giftGroupLoader.observe(viewLifecycleOwner) { loader ->
+            if (loader) {
+                Log.d("AllGiftFragment", "setUpGift: $loader")
+            }
+        }
+        viewModel.giftGroups.observe(viewLifecycleOwner) { giftGroups ->
+            if (giftGroups.getOrNull() != null) {
+                binding.apply {
+                    listGift.layoutManager = LinearLayoutManager(requireContext())
+                    listGift.adapter =
+                        AllGiftGroupAdapter(giftGroups.getOrNull()!!)
+                }
+            }
+        }
+
     }
 
 

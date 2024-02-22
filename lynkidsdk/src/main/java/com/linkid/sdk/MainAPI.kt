@@ -3,6 +3,7 @@ package com.linkid.sdk
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import com.linkid.sdk.models.category.GiftCategoryResponseModel
+import com.linkid.sdk.models.gift.AllGiftGroupResponseModel
 import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import com.linkid.sdk.models.member.MemberResponseModel
 import com.linkid.sdk.models.point.PointResponseModel
@@ -55,5 +56,5 @@ interface APIEndpoints {
     suspend fun getGiftCategories(@QueryMap queries: MutableMap<String, Any>): GiftCategoryResponseModel
 
     @GET("/api/GiftInfos/GetGiftAllInfors")
-    suspend fun getAllGiftGroups(@QueryMap queries: MutableMap<String, Any>): HomeGiftGroupResponseModel
+    suspend fun getAllGiftGroups(@QueryMap queries: MutableMap<String, Any>): AllGiftGroupResponseModel
 }
