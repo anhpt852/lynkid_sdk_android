@@ -17,6 +17,7 @@ import com.linkid.sdk.databinding.FragmentHomeBinding
 import com.linkid.sdk.dpToPx
 import com.linkid.sdk.formatPrice
 import com.linkid.sdk.getStatusBarHeight
+import com.linkid.sdk.handleScroll
 import com.linkid.sdk.home.adapter.HomeBannerAdapter
 import com.linkid.sdk.home.adapter.HomeCategoryAdapter
 import com.linkid.sdk.home.adapter.HomeGiftAdapter
@@ -112,6 +113,7 @@ class HomeFragment : Fragment() {
                     listCategory.layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     listCategory.adapter = HomeCategoryAdapter(categories.getOrNull()!!)
+                    listCategory.handleScroll(binding.indicatorCategory)
                 }
             }
         }

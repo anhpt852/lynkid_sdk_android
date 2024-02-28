@@ -271,6 +271,16 @@
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/txtCategoryTitle" />
 
+            <include
+                android:id="@+id/indicatorCategory"
+                android:layout_width="30dp"
+                android:layout_height="4dp"
+                layout="@layout/item_scroller"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/listCategory"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btnInstallAppBig"
@@ -281,7 +291,7 @@
                 app:layout_constraintDimensionRatio="H,343:116"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/listCategory" />
+                app:layout_constraintTop_toBottomOf="@id/indicatorCategory" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listBanner"

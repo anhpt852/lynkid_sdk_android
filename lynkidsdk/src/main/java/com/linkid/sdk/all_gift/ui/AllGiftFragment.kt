@@ -18,6 +18,7 @@ import com.linkid.sdk.all_gift.viewmodel.AllGiftViewModelFactory
 import com.linkid.sdk.databinding.FragmentAllGiftBinding
 import com.linkid.sdk.dpToPx
 import com.linkid.sdk.getStatusBarHeight
+import com.linkid.sdk.handleScroll
 import com.linkid.sdk.home.adapter.HomeGiftAdapter
 import com.linkid.sdk.mainAPI
 
@@ -70,6 +71,7 @@ class AllGiftFragment : Fragment() {
                             false
                         )
                     listCategory.adapter = AllGiftCategoryAdapter(categories.getOrNull()!!)
+                    listCategory.handleScroll(binding.indicatorCategory)
                 }
             }
         }
