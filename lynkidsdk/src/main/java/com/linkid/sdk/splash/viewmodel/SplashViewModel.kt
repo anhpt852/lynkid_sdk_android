@@ -2,20 +2,25 @@ package com.linkid.sdk.splash.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
+import com.linkid.sdk.models.auth.AuthToken
+import com.linkid.sdk.splash.repository.SplashRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class SplashViewModel :ViewModel() {
+class SplashViewModel(private val repository: SplashRepository) :ViewModel() {
 
-    val loader = MutableLiveData<Boolean>()
-
-    init {
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(3000) // delay for 3 seconds
-            loader.value = true
-        }
+    val loader = MutableLiveData<Boolean>(true)
+    fun generateToken() = liveData<Result<AuthToken>> {
+        emitSource(repository.generateToken()
+            .onEach {
+                loader.postValue(false)
+            }
+            .asLiveData())
     }
 
 

@@ -7,17 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.linkid.sdk.LynkiD_SDK
 import com.linkid.sdk.R
 import com.linkid.sdk.databinding.FragmentSplashBinding
 import com.linkid.sdk.home.viewmodel.HomeViewModel
+import com.linkid.sdk.mainAPI
+import com.linkid.sdk.splash.repository.SplashRepository
+import com.linkid.sdk.splash.service.SplashService
 import com.linkid.sdk.splash.viewmodel.SplashViewModel
 import com.linkid.sdk.splash.viewmodel.SplashViewModelFactory
 
 class SplashFragment : Fragment() {
 
-    private lateinit var binding: FragmentSplashBinding
     private lateinit var viewModel: SplashViewModel
-    private val viewModelFactory = SplashViewModelFactory()
+    private val service = SplashService(mainAPI)
+    private val repository = SplashRepository(service)
+    private val viewModelFactory = SplashViewModelFactory(repository)
+    private lateinit var binding: FragmentSplashBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,12 +36,14 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpLoader()
+        setUpToken()
     }
 
-    private fun setUpLoader() {
-        viewModel.loader.observe(viewLifecycleOwner) { loader ->
-            if (loader) {
+    private fun setUpToken(){
+        viewModel.generateToken().observe(viewLifecycleOwner) {
+            val authToken = it.getOrNull()
+            if (authToken != null) {
+                LynkiD_SDK.token = authToken.seedToken
                 val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
                 findNavController().navigate(action)
             }

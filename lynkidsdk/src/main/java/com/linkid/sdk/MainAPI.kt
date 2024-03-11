@@ -1,5 +1,6 @@
 package com.linkid.sdk
 
+import com.linkid.sdk.models.auth.AuthToken
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import com.linkid.sdk.models.category.GiftCategoryResponseModel
@@ -13,6 +14,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -37,6 +40,15 @@ val retrofit: Retrofit = Retrofit.Builder()
 val mainAPI: APIEndpoints = retrofit.create(APIEndpoints::class.java)
 
 interface APIEndpoints {
+
+    @POST("api/sdk-v1/partner/generate-token")
+    suspend fun generateToken(
+        @Header("X-PartnerCode") partnerCode: String = LynkiD_SDK.partnerCode,
+        @Query("phoneNumber") phoneNumber: String = LynkiD_SDK.phoneNumber,
+        @Query("cif") cif: String = LynkiD_SDK.cif,
+        @Query("name") name: String = LynkiD_SDK.name
+    ): AuthToken
+
     @GET("api/Member/View")
     suspend fun getMemberInfo(@Query("memberCode") memberCode: String = LynkiD_SDK.memberCode): MemberResponseModel
 
