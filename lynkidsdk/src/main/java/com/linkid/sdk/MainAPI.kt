@@ -1,6 +1,8 @@
 package com.linkid.sdk
 
 import com.linkid.sdk.models.auth.AuthToken
+import com.linkid.sdk.models.auth.ConnectedMemberAuthToken
+import com.linkid.sdk.models.auth.MemberAuthToken
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import com.linkid.sdk.models.category.GiftCategoryResponseModel
@@ -15,6 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
@@ -23,12 +26,12 @@ val logging: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
 }
 val client: OkHttpClient = OkHttpClient.Builder()
-    .addInterceptor(Interceptor { chain ->
-        val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer ${LynkiD_SDK.token}")
-            .build()
-        chain.proceed(newRequest)
-    })
+//    .addInterceptor(Interceptor { chain ->
+//        val newRequest = chain.request().newBuilder()
+//            .addHeader("Authorization", "Bearer ${LynkiD_SDK.token}")
+//            .build()
+//        chain.proceed(newRequest)
+//    })
     .addInterceptor(logging)
     .build()
 val retrofit: Retrofit = Retrofit.Builder()
@@ -48,6 +51,26 @@ interface APIEndpoints {
         @Query("cif") cif: String = LynkiD_SDK.cif,
         @Query("name") name: String = LynkiD_SDK.name
     ): AuthToken
+
+    @POST("api/sdk-v1/check-member-and-connection")
+    suspend fun checkMember(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ),
+        @Query("phoneNumber") phoneNumber: String = LynkiD_SDK.phoneNumber,
+        @Query("cif") cif: String = LynkiD_SDK.cif
+    ): ConnectedMemberAuthToken
+
+    @POST("api/sdk-v1/authen-with-connected-phone")
+    suspend fun authConnectedMember(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ),
+        @Query("originalPhone") phoneNumber: String = LynkiD_SDK.phoneNumber,
+        @Query("connectedPhone") cif: String = LynkiD_SDK.connectedPhoneNumber
+    ): MemberAuthToken
 
     @GET("api/Member/View")
     suspend fun getMemberInfo(@Query("memberCode") memberCode: String = LynkiD_SDK.memberCode): MemberResponseModel

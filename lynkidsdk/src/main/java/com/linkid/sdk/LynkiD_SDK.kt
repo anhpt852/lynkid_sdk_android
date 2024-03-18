@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 
 object LynkiD_SDK {
-    lateinit var token: String
+    lateinit var seedToken: String
+    lateinit var accessToken: String
     lateinit var memberCode: String
     lateinit var partnerCode: String
     lateinit var phoneNumber: String
+    lateinit var connectedPhoneNumber: String
     lateinit var cif: String
     lateinit var name: String
     fun start(context: Context, partnerCode: String, phoneNumber: String, cif: String, name: String) {
