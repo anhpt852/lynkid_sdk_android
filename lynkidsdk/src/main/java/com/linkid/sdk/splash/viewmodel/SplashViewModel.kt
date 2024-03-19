@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class SplashViewModel(private val repository: SplashRepository) :ViewModel() {
 
     val loader = MutableLiveData<Boolean>(true)
-    fun generateToken() = liveData<Result<AuthToken>> {
+    fun generateToken() = liveData<Int> {
         emitSource(repository.generateToken()
             .onEach {
                 loader.postValue(false)
