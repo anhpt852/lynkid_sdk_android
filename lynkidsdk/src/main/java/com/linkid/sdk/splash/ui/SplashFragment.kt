@@ -12,6 +12,7 @@ import com.linkid.sdk.R
 import com.linkid.sdk.databinding.FragmentSplashBinding
 import com.linkid.sdk.home.viewmodel.HomeViewModel
 import com.linkid.sdk.mainAPI
+import com.linkid.sdk.models.auth.AuthType
 import com.linkid.sdk.splash.repository.SplashRepository
 import com.linkid.sdk.splash.service.SplashService
 import com.linkid.sdk.splash.viewmodel.SplashViewModel
@@ -28,8 +29,7 @@ class SplashFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_splash, container, false)
-        binding = FragmentSplashBinding.bind(view)
+        binding = FragmentSplashBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
         return view
     }
@@ -39,11 +39,16 @@ class SplashFragment : Fragment() {
         setUpToken()
     }
 
-    private fun setUpToken(){
-        viewModel.generateToken().observe(viewLifecycleOwner) {
-            val authToken = it.getOrNull()
-            if (authToken != null) {
-                LynkiD_SDK.token = authToken.seedToken
+    private fun setUpToken() {
+        viewModel.generateToken().observe(viewLifecycleOwner) { authType ->
+            if (authType != null) {
+//                val authTypeString = when (authType) {
+//                    AuthType.ANONYMOUS -> TODO()
+//                    AuthType.CONNECTED_MEMBER -> TODO()
+//                    AuthType.CONNECTED_NON_MEMBER -> TODO()
+//                    AuthType.NON_CONNECTED_MEMBER -> TODO()
+//                    AuthType.NON_CONNECTED_NON_MEMBER -> TODO()
+//                }
                 val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
                 findNavController().navigate(action)
             }
