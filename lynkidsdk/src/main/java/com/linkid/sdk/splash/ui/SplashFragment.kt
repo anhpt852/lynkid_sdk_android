@@ -1,6 +1,7 @@
 package com.linkid.sdk.splash.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class SplashFragment : Fragment() {
     ): View? {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +50,8 @@ class SplashFragment : Fragment() {
 //                    AuthType.NON_CONNECTED_MEMBER -> TODO()
 //                    AuthType.NON_CONNECTED_NON_MEMBER -> TODO()
 //                }
-                val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
+                Log.d("SplashFragment", "setUpToken: $authType")
+                val action = SplashFragmentDirections.actionSplashFragmentToAuthFragment()
                 findNavController().navigate(action)
             }
         }

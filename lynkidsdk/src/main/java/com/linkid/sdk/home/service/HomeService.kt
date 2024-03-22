@@ -2,6 +2,7 @@ package com.linkid.sdk.home.service
 
 import android.util.Log
 import com.linkid.sdk.APIEndpoints
+import com.linkid.sdk.LynkiD_SDK
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 class HomeService(private val api: APIEndpoints) {
 
     suspend fun getMemberInfo(): Flow<Result<MemberResponseModel>> = flow {
+        Log.d("HomeService", "getMemberInfo: LynkiD_SDK.accessToken ${LynkiD_SDK.accessToken}")
         emit(
             Result.success(
                 api.getMemberInfo()
@@ -36,6 +38,7 @@ class HomeService(private val api: APIEndpoints) {
     }
 
     suspend fun getBannerAndNews(): Flow<Result<HomeNewsAndBannerModel>> = flow {
+        Log.d("HomeService", "getBannerAndNews: LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}")
         emit(
             Result.success(
                 api.getBannerAndNews(

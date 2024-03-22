@@ -1,5 +1,6 @@
 package com.linkid.sdk.splash.repository
 
+import android.util.Log
 import com.linkid.sdk.LynkiD_SDK
 import com.linkid.sdk.models.auth.AuthToken
 import com.linkid.sdk.models.auth.AuthType
@@ -18,7 +19,9 @@ class SplashRepository(private val service: SplashService) {
             if (result.isSuccess) {
                 val authToken: AuthToken? = result.getOrNull()
                 if (authToken != null && authToken.isSuccess) {
+                    Log.d("SplashRepository", "generateToken: ${authToken.seedToken}/ LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}")
                     LynkiD_SDK.seedToken = authToken.seedToken
+                    Log.d("SplashRepository", "generateToken: LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}")
                     checkMember()
                 } else {
                     flowOf(AuthType.ANONYMOUS)
