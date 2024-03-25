@@ -59,8 +59,8 @@ class HomeRepository(private val service: HomeService) {
         service.getHomeCategories().map { result ->
             if (result.isSuccess) {
                 val homeCategoryResponseModel: HomeCategoryResponseModel? = result.getOrNull()
-                if (homeCategoryResponseModel?.result?.row2 != null) {
-                    Result.success(homeCategoryResponseModel.result.row2)
+                if (homeCategoryResponseModel?.data?.row2 != null) {
+                    Result.success(homeCategoryResponseModel.data.row2)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

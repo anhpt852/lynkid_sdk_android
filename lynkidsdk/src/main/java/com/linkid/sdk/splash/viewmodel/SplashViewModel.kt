@@ -23,7 +23,4 @@ class SplashViewModel(private val repository: SplashRepository) :ViewModel() {
             }
             .asLiveData())
     }
-
-
-
 }

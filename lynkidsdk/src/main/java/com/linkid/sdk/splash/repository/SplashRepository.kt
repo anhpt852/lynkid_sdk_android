@@ -36,6 +36,7 @@ class SplashRepository(private val service: SplashService) {
             if (result.isSuccess) {
                 val connectedMemberAuthToken: ConnectedMemberAuthToken? = result.getOrNull()
                 if (connectedMemberAuthToken != null && connectedMemberAuthToken.isSuccess) {
+                    LynkiD_SDK.memberCode = connectedMemberAuthToken.data?.basicInfo?.memberCode ?: ""
                     if (connectedMemberAuthToken.data?.isExisting == true) {
                         LynkiD_SDK.accessToken = connectedMemberAuthToken.data.basicInfo?.accessToken ?: ""
                         if (connectedMemberAuthToken.data.connectionInfo?.isExisting == true) {

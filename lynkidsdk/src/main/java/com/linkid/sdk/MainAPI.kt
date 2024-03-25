@@ -1,5 +1,6 @@
 package com.linkid.sdk
 
+import android.util.Log
 import com.linkid.sdk.models.auth.AuthToken
 import com.linkid.sdk.models.auth.ConnectedMemberAuthToken
 import com.linkid.sdk.models.auth.MemberAuthToken
@@ -37,6 +38,17 @@ val client: OkHttpClient = OkHttpClient.Builder()
 //        chain.proceed(newRequest)
 //    })
     .addInterceptor(logging)
+    .addInterceptor(Interceptor { chain ->
+        val request = chain.request()
+        val response = chain.proceed(request)
+        val responseBody = response.peekBody(Long.MAX_VALUE)
+        try{
+            Log.d("Response Body", responseBody.string())
+        } catch (e: Exception) {
+            Log.e("Response Body", e.message ?: "empty")
+        }
+        response
+    })
     .build()
 val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl("https://vpid-mobile-api-uat.linkid.vn")
@@ -85,34 +97,39 @@ interface APIEndpoints {
     @GET("api/Member/View")
     suspend fun getMemberInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): MemberResponseModel
 
-    @GET("api/Member/ViewPoint")
+    @GET("/api/sdk-v1/view-point")
     suspend fun getPointInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): PointResponseModel
 
-    @GET("api/Article/GetAllArticleAndRelatedNews_Optimize")
+    @GET("/api/sdk-v1/get-all-article-and-related-news")
     suspend fun getBannerAndNews(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): HomeNewsAndBannerModel
 
-    @GET("api/GiftCategory/GiftListCategoriesInTwoRows")
+    @GET("/api/sdk-v1/get-list-categories")
     suspend fun getHomeCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
-        ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeCategoryResponseModel
 
-    @GET("api/GiftInfos/appv1dot1/get-gift-group-for-home-page")
+    @GET("/api/sdk-v1/get-gift-group")
     suspend fun getHomeGiftGroup(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeGiftGroupResponseModel
@@ -120,13 +137,15 @@ interface APIEndpoints {
     @GET("/api/GiftCategory/GiftListCategories_v1")
     suspend fun getGiftCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftCategoryResponseModel
 
-    @GET("/api/GiftInfos/GetGiftAllInfors")
+    @GET("/api/sdk-v1/get-gift-all-infors")
     suspend fun getAllGiftGroups(
         @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel

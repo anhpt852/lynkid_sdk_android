@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
         setUpMemberInfo()
-        setUpPointInfo()
-        setUpCategories()
+//        setUpPointInfo()
+//        setUpCategories()
         setUpBannersAndNews()
-        setUpGift()
+//        setUpGift()
     }
 
     private fun setUpView() {
