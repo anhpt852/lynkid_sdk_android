@@ -94,7 +94,19 @@ interface APIEndpoints {
         )
     ): MemberAuthToken
 
-    @GET("api/Member/View")
+    @POST("api/sdk-v1/create-member")
+    suspend fun createMember(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ),
+        @Body body: Map<String, String> = mapOf(
+            "phoneNumber" to LynkiD_SDK.phoneNumber,
+            "cif" to LynkiD_SDK.cif
+        )
+    ): ConnectedMemberAuthToken
+
+    @GET("api/sdk-v1/Member/View")
     suspend fun getMemberInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -102,7 +114,7 @@ interface APIEndpoints {
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): MemberResponseModel
 
-    @GET("/api/sdk-v1/view-point")
+    @GET("api/sdk-v1/view-point")
     suspend fun getPointInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -110,7 +122,7 @@ interface APIEndpoints {
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): PointResponseModel
 
-    @GET("/api/sdk-v1/get-all-article-and-related-news")
+    @GET("api/sdk-v1/get-all-article-and-related-news")
     suspend fun getBannerAndNews(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -118,7 +130,7 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): HomeNewsAndBannerModel
 
-    @GET("/api/sdk-v1/get-list-categories")
+    @GET("api/sdk-v1/get-list-categories")
     suspend fun getHomeCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -126,7 +138,7 @@ interface APIEndpoints {
         ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeCategoryResponseModel
 
-    @GET("/api/sdk-v1/get-gift-group")
+    @GET("api/sdk-v1/get-gift-group")
     suspend fun getHomeGiftGroup(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -134,7 +146,7 @@ interface APIEndpoints {
         ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeGiftGroupResponseModel
 
-    @GET("/api/GiftCategory/GiftListCategories_v1")
+    @GET("api/GiftCategory/GiftListCategories_v1")
     suspend fun getGiftCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
@@ -142,7 +154,7 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftCategoryResponseModel
 
-    @GET("/api/sdk-v1/get-gift-all-infors")
+    @GET("api/sdk-v1/get-gift-all-infors")
     suspend fun getAllGiftGroups(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
