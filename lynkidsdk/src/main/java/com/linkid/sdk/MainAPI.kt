@@ -111,15 +111,15 @@ interface APIEndpoints {
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
-        ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): MemberResponseModel
 
-    @GET("api/sdk-v1/view-point")
+    @GET("api/sdk-v1/Member/View-point")
     suspend fun getPointInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
-        ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): PointResponseModel
 
     @GET("api/sdk-v1/get-all-article-and-related-news")
@@ -143,7 +143,7 @@ interface APIEndpoints {
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
-        ), @Query("memberCode") memberCode: String = LynkiD_SDK.memberCode
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeGiftGroupResponseModel
 
     @GET("api/GiftCategory/GiftListCategories_v1")

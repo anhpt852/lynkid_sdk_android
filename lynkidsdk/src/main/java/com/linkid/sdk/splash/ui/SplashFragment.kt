@@ -29,7 +29,7 @@ class SplashFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[SplashViewModel::class.java]
         return binding.root
@@ -41,17 +41,10 @@ class SplashFragment : Fragment() {
     }
 
     private fun setUpToken() {
-        viewModel.generateToken().observe(viewLifecycleOwner) { authType ->
-            if (authType != null) {
-//                val authTypeString = when (authType) {
-//                    AuthType.ANONYMOUS -> TODO()
-//                    AuthType.CONNECTED_MEMBER -> TODO()
-//                    AuthType.CONNECTED_NON_MEMBER -> TODO()
-//                    AuthType.NON_CONNECTED_MEMBER -> TODO()
-//                    AuthType.NON_CONNECTED_NON_MEMBER -> TODO()
-//                }
-                Log.d("SplashFragment", "setUpToken: $authType")
-                val action = SplashFragmentDirections.actionSplashFragmentToAuthFragment()
+        viewModel.generateToken().observe(viewLifecycleOwner) { connectedMember ->
+            if (connectedMember != null) {
+                val action =
+                    SplashFragmentDirections.actionSplashFragmentToAuthFragment(connectedMember)
                 findNavController().navigate(action)
             }
         }

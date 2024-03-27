@@ -3,5 +3,7 @@ package com.linkid.sdk.models.gift
 import com.linkid.sdk.BaseModel
 
 data class HomeGiftGroupResponseModel(
-    val result: HomeGiftGroup?,
-) : BaseModel()
+    val data: HomeGiftGroup?,
+    val message: String,
+    val isSuccess: Boolean
+)

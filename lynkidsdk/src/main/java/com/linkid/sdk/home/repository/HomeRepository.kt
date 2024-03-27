@@ -19,8 +19,8 @@ class HomeRepository(private val service: HomeService) {
         service.getMemberInfo().map { result ->
             if (result.isSuccess) {
                 val memberResponseModel: MemberResponseModel? = result.getOrNull()
-                if (memberResponseModel != null && memberResponseModel.result == 200 && memberResponseModel.items != null) {
-                    Result.success(memberResponseModel.items)
+                if (memberResponseModel != null && memberResponseModel.isSuccess == true) {
+                    Result.success(memberResponseModel.data!!)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }
@@ -34,8 +34,8 @@ class HomeRepository(private val service: HomeService) {
         service.getPointInfo().map { result ->
             if (result.isSuccess) {
                 val pointResponseModel: PointResponseModel? = result.getOrNull()
-                if (pointResponseModel != null && pointResponseModel.result == 200 && pointResponseModel.items != null) {
-                    Result.success(pointResponseModel.items)
+                if (pointResponseModel != null && pointResponseModel.isSuccess == true) {
+                    Result.success(pointResponseModel.data!!.items!!)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

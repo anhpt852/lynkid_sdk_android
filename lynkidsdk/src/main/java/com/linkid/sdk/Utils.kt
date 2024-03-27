@@ -31,6 +31,11 @@ fun Int.formatPrice(): String {
     return format.format(this)
 }
 
+fun Double.formatPrice(): String {
+    val format = NumberFormat.getNumberInstance(Locale.getDefault())
+    return format.format(this)
+}
+
 fun RecyclerView.handleScroll(itemScrollerBinding: ItemScrollerBinding) {
     post {
         val parentWidth = itemScrollerBinding.parent.width

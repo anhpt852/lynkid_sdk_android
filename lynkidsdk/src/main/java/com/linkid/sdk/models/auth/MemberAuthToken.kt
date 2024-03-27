@@ -7,6 +7,11 @@ data class MemberAuthToken(
 )
 
 data class MemberAuth(
-    val newAccessToken: String?,
-    val seedTokenReplacement: String?
+    val newAccessToken: MemberToken?,
+    val seedTokenReplacement: MemberToken?
+)
+
+data class MemberToken(
+    val accessToken: String?,
+    val refreshToken: String?
 )

@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
         setUpMemberInfo()
-//        setUpPointInfo()
-//        setUpCategories()
+        setUpPointInfo()
+        setUpCategories()
         setUpBannersAndNews()
-//        setUpGift()
+        setUpGift()
     }
 
     private fun setUpView() {
@@ -135,7 +135,7 @@ class HomeFragment : Fragment() {
                     listBanner.layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     listBanner.adapter = HomeBannerAdapter(
-                        bannersAndNews.getOrNull()!!.result?.get(0)?.resultDto?.items ?: listOf()
+                        bannersAndNews.getOrNull()!!.data?.get(0)?.resultDto?.items ?: listOf()
                     )
                     val snapHelper = PagerSnapHelper()
                     snapHelper.attachToRecyclerView(listBanner)
@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
                 binding.apply {
                     listGift.layoutManager = GridLayoutManager(requireContext(), 2)
                     listGift.adapter =
-                        HomeGiftAdapter(homeGiftGroup.getOrNull()!!.result?.gifts ?: listOf())
+                        HomeGiftAdapter(homeGiftGroup.getOrNull()!!.data?.gifts ?: listOf())
                 }
             }
         }

@@ -3,23 +3,11 @@ package com.linkid.sdk.auth.service
 import android.util.Log
 import com.linkid.sdk.APIEndpoints
 import com.linkid.sdk.models.auth.ConnectedMemberAuthToken
-import com.linkid.sdk.models.auth.MemberAuthToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
-class SwitchAccountService(private val api: APIEndpoints) {
-    suspend fun switchMember(): Flow<Result<MemberAuthToken>> = flow {
-        emit(
-            Result.success(
-                api.authConnectedMember()
-            )
-        )
-    }.catch {
-        Log.e("SwitchAccountService", "switchMember: ${it.message}")
-        emit(Result.failure(RuntimeException("Something went wrong")))
-    }
-
+class RegisterService(private val api: APIEndpoints) {
     suspend fun createMember(): Flow<Result<ConnectedMemberAuthToken>> = flow {
         emit(
             Result.success(
@@ -27,7 +15,7 @@ class SwitchAccountService(private val api: APIEndpoints) {
             )
         )
     }.catch {
-        Log.e("SwitchAccountService", "createMember: ${it.message}")
+        Log.e("RegisterService", "createMember: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 }

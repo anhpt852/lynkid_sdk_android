@@ -13,6 +13,9 @@ import com.linkid.sdk.auth.viewmodel.AuthViewModel
 import com.linkid.sdk.auth.viewmodel.AuthViewModelFactory
 import com.linkid.sdk.databinding.FragmentAuthBinding
 import com.linkid.sdk.mainAPI
+import com.linkid.sdk.models.auth.ConnectedMember
+import androidx.navigation.fragment.navArgs
+
 
 class AuthFragment : Fragment() {
 
@@ -21,6 +24,9 @@ class AuthFragment : Fragment() {
     private val repository = AuthRepository(service)
     private val viewModelFactory = AuthViewModelFactory(repository)
     private lateinit var binding: FragmentAuthBinding
+
+    private val args: AuthFragmentArgs by navArgs()
+    private val connectedMember: ConnectedMember by lazy { args.connectedMember }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +43,19 @@ class AuthFragment : Fragment() {
         setUpView()
     }
 
-    private fun setUpView(){
+    private fun setUpView() {
         binding.apply {
             btnAllow.setOnClickListener {
-                val action = AuthFragmentDirections.actionAuthFragmentToHomeFragment()
+                val isAccountExist = connectedMember.isExisting ?: false
+                val isAccountConnected = connectedMember.connectionInfo?.isExisting ?: false
+                val action =
+                    if (isAccountExist) AuthFragmentDirections.actionAuthFragmentToLoginFragment(
+                        connectedMember
+                    )
+                    else if (isAccountConnected) AuthFragmentDirections.actionAuthFragmentToSwitchAccountFragment(
+                        connectedMember
+                    )
+                    else AuthFragmentDirections.actionAuthFragmentToRegisterFragment(connectedMember)
                 findNavController().navigate(action)
             }
         }

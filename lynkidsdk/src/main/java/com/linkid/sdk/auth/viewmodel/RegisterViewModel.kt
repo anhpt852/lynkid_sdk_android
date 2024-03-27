@@ -4,20 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.linkid.sdk.auth.repository.SwitchAccountRepository
+import com.linkid.sdk.auth.repository.RegisterRepository
 import com.linkid.sdk.models.auth.ConnectedMember
 import kotlinx.coroutines.flow.onEach
 
-class SwitchAccountViewModel(private val repository: SwitchAccountRepository): ViewModel() {
+class RegisterViewModel(private val repository: RegisterRepository) : ViewModel() {
     val loader = MutableLiveData<Boolean>(false)
-    fun switchMember() = liveData<Boolean?> {
-        loader.postValue(true)
-        emitSource(repository.switchMember()
-            .onEach {
-                loader.postValue(false)
-            }
-            .asLiveData())
-    }
     fun createMember() = liveData<ConnectedMember?> {
         loader.postValue(true)
         emitSource(repository.createMember()
