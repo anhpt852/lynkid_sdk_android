@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 class SplashRepository(private val service: SplashService) {
 
     suspend fun generateToken(): Flow<ConnectedMember?> =
-        service.generateToken().flatMapConcat { result ->
+        service.generateToken().flatMapConcat {result ->
             if (result.isSuccess) {
                 val authToken: AuthToken? = result.getOrNull()
                 if (authToken != null && authToken.isSuccess) {

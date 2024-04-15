@@ -7,6 +7,7 @@ import com.linkid.sdk.models.auth.MemberAuthToken
 import com.linkid.sdk.models.category.HomeCategoryResponseModel
 import com.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import com.linkid.sdk.models.category.GiftCategoryResponseModel
+import com.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import com.linkid.sdk.models.gift.AllGiftGroupResponseModel
 import com.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import com.linkid.sdk.models.member.MemberResponseModel
@@ -161,4 +162,12 @@ interface APIEndpoints {
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel
+
+    @GET("api/sdk-v1/get-all-by-member-code")
+    suspend fun getGiftsByCategory(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GiftsByCategoryResponseModel
 }
