@@ -9,8 +9,8 @@ import com.linkid.sdk.models.auth.ConnectedMember
 import kotlinx.coroutines.flow.onEach
 
 class RegisterViewModel(private val repository: RegisterRepository) : ViewModel() {
-    val loader = MutableLiveData<Boolean>(false)
-    fun createMember() = liveData<ConnectedMember?> {
+    val loader = MutableLiveData(false)
+    fun createMember() = liveData {
         loader.postValue(true)
         emitSource(repository.createMember()
             .onEach {

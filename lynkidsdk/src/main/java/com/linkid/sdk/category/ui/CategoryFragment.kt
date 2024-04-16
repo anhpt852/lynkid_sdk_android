@@ -33,6 +33,23 @@ class CategoryFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpLoader()
+        setUpCategoryList()
+        setUpGiftList()
+    }
+
+    private fun setUpLoader(){
+        viewModel.loader.observe(viewLifecycleOwner, {
+
+        })
+    }
+
+    private fun setUpCategoryList(){
+
+    }
+
+    private fun setUpGiftList(){
+
     }
 
 }
