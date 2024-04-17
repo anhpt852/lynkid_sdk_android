@@ -13,7 +13,7 @@
         android:theme="@style/Theme.LynkidSDKApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="vn.linkid.sdk.app.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

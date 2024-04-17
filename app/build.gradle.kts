@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.linkid.sdk.app"
+    namespace = "vn.linkid.sdk.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.linkid.sdk.app"
+        applicationId = "vn.linkid.sdk.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

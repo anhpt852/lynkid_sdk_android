@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <activity
-            android:name=".LynkiDSDKActivity"
+            android:name="vn.linkid.sdk.LynkiDSDKActivity"
             android:exported="true"
             android:theme="@style/Theme.LynkiD_SDK">
             <intent-filter>

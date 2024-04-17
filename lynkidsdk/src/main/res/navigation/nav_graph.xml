@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.linkid.sdk.splash.ui.SplashFragment"
+        android:name="vn.linkid.sdk.splash.ui.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.linkid.sdk.home.ui.HomeFragment"
+        android:name="vn.linkid.sdk.home.ui.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
-        android:name="com.linkid.sdk.all_gift.ui.AllGiftFragment"
+        android:name="vn.linkid.sdk.all_gift.ui.AllGiftFragment"
         android:label="AllGiftFragment"
         tools:layout="@layout/fragment_all_gift" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.linkid.sdk.auth.ui.AuthFragment"
+        android:name="vn.linkid.sdk.auth.ui.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
         <action
@@ -45,14 +45,14 @@
             app:destination="@id/loginFragment" />
         <argument
             android:name="connectedMember"
-            app:argType="com.linkid.sdk.models.auth.ConnectedMember" />
+            app:argType="vn.linkid.sdk.models.auth.ConnectedMember" />
         <action
             android:id="@+id/action_authFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/switchAccountFragment"
-        android:name="com.linkid.sdk.auth.ui.SwitchAccountFragment"
+        android:name="vn.linkid.sdk.auth.ui.SwitchAccountFragment"
         android:label="SwitchAccountFragment"
         tools:layout="@layout/fragment_switch_account">
         <action
@@ -60,11 +60,11 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="connectedMember"
-            app:argType="com.linkid.sdk.models.auth.ConnectedMember" />
+            app:argType="vn.linkid.sdk.models.auth.ConnectedMember" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.linkid.sdk.auth.ui.LoginFragment"
+        android:name="vn.linkid.sdk.auth.ui.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -72,11 +72,11 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="connectedMember"
-            app:argType="com.linkid.sdk.models.auth.ConnectedMember" />
+            app:argType="vn.linkid.sdk.models.auth.ConnectedMember" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.linkid.sdk.auth.ui.RegisterFragment"
+        android:name="vn.linkid.sdk.auth.ui.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
@@ -84,11 +84,11 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="connectedMember"
-            app:argType="com.linkid.sdk.models.auth.ConnectedMember" />
+            app:argType="vn.linkid.sdk.models.auth.ConnectedMember" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.linkid.sdk.category.ui.CategoryFragment"
+        android:name="vn.linkid.sdk.category.ui.CategoryFragment"
         android:label="CategoryFragment"
         tools:layout="@layout/fragment_category">
         <argument

@@ -4,15 +4,15 @@ plugins {
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("maven-publish")
 }
 
 android {
-    namespace = "com.linkid.sdk"
+    namespace = "vn.linkid.sdk"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -37,7 +37,38 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
+
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "vn.linkid"
+            artifactId = "sdk"
+            version = "1.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+    repositories {
+        // Specifies the repository to publish to
+        maven {
+            // URL of the repository to publish to
+            url = uri("https://myrepository.example.com/mavenreleases")
+
+            // Authentication details
+            credentials {
+                username = System.getenv("MAVEN_REPO_USER") ?: ""
+                password = System.getenv("MAVEN_REPO_PASSWORD") ?: ""
+            }
+        }
+    }
+}
+
 
 dependencies {
 
