@@ -27,7 +27,11 @@
         android:id="@+id/allGiftFragment"
         android:name="com.linkid.sdk.all_gift.ui.AllGiftFragment"
         android:label="AllGiftFragment"
-        tools:layout="@layout/fragment_all_gift" />
+        tools:layout="@layout/fragment_all_gift" >
+        <action
+            android:id="@+id/action_allGiftFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/authFragment"
         android:name="com.linkid.sdk.auth.ui.AuthFragment"
@@ -81,5 +85,14 @@
         <argument
             android:name="connectedMember"
             app:argType="com.linkid.sdk.models.auth.ConnectedMember" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.linkid.sdk.category.ui.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="categoryCode"
+            app:argType="string" />
     </fragment>
 </navigation>

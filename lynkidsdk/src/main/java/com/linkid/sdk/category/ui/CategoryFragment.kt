@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.linkid.sdk.category.adapter.CategoryAdapter
+import com.linkid.sdk.category.adapter.GiftsByCategoryAdapter
 import com.linkid.sdk.category.repository.CategoryRepository
 import com.linkid.sdk.category.service.CategoryService
 import com.linkid.sdk.category.viewmodel.CategoryViewModel
@@ -13,13 +16,16 @@ import com.linkid.sdk.category.viewmodel.CategoryViewModelFactory
 import com.linkid.sdk.databinding.FragmentCategoryBinding
 import com.linkid.sdk.mainAPI
 
-class CategoryFragment: Fragment() {
+class CategoryFragment : Fragment() {
 
     private lateinit var viewModel: CategoryViewModel
     private val service = CategoryService(mainAPI)
     private val repository = CategoryRepository(service)
     private val viewModelFactory = CategoryViewModelFactory(repository)
     private lateinit var binding: FragmentCategoryBinding
+
+    private val categoryAdapter = CategoryAdapter(emptyList(), "")
+    private val giftsByCategoryAdapter = GiftsByCategoryAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,18 +44,40 @@ class CategoryFragment: Fragment() {
         setUpGiftList()
     }
 
-    private fun setUpLoader(){
+    private fun setUpLoader() {
         viewModel.loader.observe(viewLifecycleOwner, {
 
         })
     }
 
-    private fun setUpCategoryList(){
-
+    private fun setUpCategoryList() {
+        binding.apply {
+            listCategory.layoutManager =
+                LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+            listCategory.adapter = categoryAdapter
+            categoryAdapter.onItemClick = { category ->
+                viewModel.categoryCode.postValue(category.code)
+                viewModel.getGiftsByCategory(0)
+                categoryAdapter.updateSelectedCategoryCode(category.code ?: "")
+            }
+        }
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            categoryAdapter.updateCategories(categories.getOrNull() ?: emptyList())
+        }
     }
 
-    private fun setUpGiftList(){
+    private fun setUpGiftList() {
+        binding.apply {
+            listGift.layoutManager = LinearLayoutManager(binding.root.context)
+            listGift.adapter = giftsByCategoryAdapter
+            giftsByCategoryAdapter.onItemClick = { gift ->
 
+            }
+        }
+        viewModel.giftsByCategory.observe(viewLifecycleOwner) { giftsByCategory ->
+            giftsByCategoryAdapter.updateGifts(giftsByCategory)
+        }
+        viewModel.getGiftsByCategory(0)
     }
 
 }

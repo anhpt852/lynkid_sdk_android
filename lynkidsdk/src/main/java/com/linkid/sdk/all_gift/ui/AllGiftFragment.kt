@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.linkid.sdk.all_gift.adapter.AllGiftCategoryAdapter
@@ -70,7 +71,15 @@ class AllGiftFragment : Fragment() {
                             LinearLayoutManager.HORIZONTAL,
                             false
                         )
-                    listCategory.adapter = AllGiftCategoryAdapter(categories.getOrNull()!!)
+                    val categoryAdapter = AllGiftCategoryAdapter(categories.getOrNull()!!)
+                    listCategory.adapter = categoryAdapter
+                    categoryAdapter.onItemClick = { category ->
+                        val action =
+                            AllGiftFragmentDirections.actionAllGiftFragmentToCategoryFragment(
+                                category.code ?: ""
+                            )
+                        findNavController().navigate(action)
+                    }
                     listCategory.handleScroll(binding.indicatorCategory)
                 }
             }

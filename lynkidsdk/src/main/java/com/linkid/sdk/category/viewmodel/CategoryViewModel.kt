@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.linkid.sdk.category.repository.CategoryRepository
+import com.linkid.sdk.models.category.Gift
 import com.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import kotlinx.coroutines.flow.onEach
 
@@ -21,13 +22,21 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     }
 
     val loader = MutableLiveData(false)
-    fun getGiftsByCategory(categoryCode: String, index: Int) =
+    private val totalGiftCount = MutableLiveData<Int>(0)
+    val giftsByCategory = MutableLiveData<List<Gift>>(emptyList())
+    val categoryCode = MutableLiveData<String>("")
+    fun getGiftsByCategory(index: Int) =
         liveData {
             loader.postValue(true)
             emitSource(
-                repository.getGiftsByCategoryCode(categoryCode, index)
+                repository.getGiftsByCategoryCode(categoryCode.value ?: "", index)
                     .onEach {
                         loader.postValue(false)
+                        totalGiftCount.postValue(it?.data?.totalCount ?: 0)
+                        val currentGifts = giftsByCategory.value ?: emptyList()
+                        val newGifts = it?.data?.items ?: emptyList()
+                        giftsByCategory.postValue(currentGifts + newGifts)
+                        giftsByCategory.postValue(if (index == 0) newGifts else currentGifts + newGifts)
                     }.asLiveData()
             )
 

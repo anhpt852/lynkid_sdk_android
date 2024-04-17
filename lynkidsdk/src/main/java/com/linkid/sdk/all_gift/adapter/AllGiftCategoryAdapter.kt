@@ -10,6 +10,8 @@ import com.linkid.sdk.models.category.Category
 class AllGiftCategoryAdapter(private val categories: List<Category>) :
     RecyclerView.Adapter<AllGiftCategoryAdapter.AllGiftCategoryViewHolder>() {
 
+    var onItemClick: ((Category) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllGiftCategoryViewHolder {
         val binding =
             ItemAllGiftCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
