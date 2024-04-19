@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<TextView>(R.id.btnOpenSDK).setOnClickListener {
-            vn.linkid.sdk.LynkiD_SDK.start(
+            LynkiD_SDK.start(
                 this,
                 "218",
                 "+84866400192",
