@@ -39,8 +39,12 @@ android {
     }
 
 
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
-
 
 publishing {
     publications {
@@ -55,16 +59,9 @@ publishing {
         }
     }
     repositories {
-        // Specifies the repository to publish to
         maven {
-            // URL of the repository to publish to
-            url = uri("https://myrepository.example.com/mavenreleases")
-
-            // Authentication details
-            credentials {
-                username = System.getenv("MAVEN_REPO_USER") ?: ""
-                password = System.getenv("MAVEN_REPO_PASSWORD") ?: ""
-            }
+            name = "myrepo"
+            url = uri("${project.buildDir}/repo")
         }
     }
 }
