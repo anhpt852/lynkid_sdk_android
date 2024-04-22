@@ -4,4 +4,4 @@ import vn.linkid.sdk.BaseModel
 
 data class GiftCategoryResponseModel(
     val result: GiftCategory?
-) : vn.linkid.sdk.BaseModel()
+) : BaseModel()

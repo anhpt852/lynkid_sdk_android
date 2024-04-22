@@ -1,6 +1,7 @@
 package vn.linkid.sdk.category.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import vn.linkid.sdk.category.service.CategoryService
 import vn.linkid.sdk.category.viewmodel.CategoryViewModel
 import vn.linkid.sdk.category.viewmodel.CategoryViewModelFactory
 import vn.linkid.sdk.databinding.FragmentCategoryBinding
+import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getStatusBarHeight
 import vn.linkid.sdk.mainAPI
 
 class CategoryFragment : Fragment() {
@@ -39,9 +42,18 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpView()
         setUpLoader()
         setUpCategoryList()
         setUpGiftList()
+    }
+
+    private fun setUpView() {
+        binding.apply {
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+        }
     }
 
     private fun setUpLoader() {
@@ -57,7 +69,9 @@ class CategoryFragment : Fragment() {
             listCategory.adapter = categoryAdapter
             categoryAdapter.onItemClick = { category ->
                 viewModel.categoryCode.postValue(category.code)
-                viewModel.getGiftsByCategory(0)
+                viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
+                    Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
+                }
                 categoryAdapter.updateSelectedCategoryCode(category.code ?: "")
             }
         }
@@ -77,7 +91,9 @@ class CategoryFragment : Fragment() {
         viewModel.giftsByCategory.observe(viewLifecycleOwner) { giftsByCategory ->
             giftsByCategoryAdapter.updateGifts(giftsByCategory)
         }
-        viewModel.getGiftsByCategory(0)
+        viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
+            Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
+        }
     }
 
 }

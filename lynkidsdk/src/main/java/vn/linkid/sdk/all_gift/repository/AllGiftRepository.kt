@@ -9,14 +9,15 @@ import vn.linkid.sdk.models.gift.HomeGiftGroup
 import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 
 class AllGiftRepository(private val service: AllGiftService) {
     suspend fun getGiftCategories(): Flow<Result<List<Category>>> =
         service.getGiftCategories().map { result ->
             if (result.isSuccess) {
-                val giftCategoryResponseModel: GiftCategoryResponseModel? = result.getOrNull()
-                if (giftCategoryResponseModel?.result?.items != null) {
-                    Result.success(giftCategoryResponseModel.result.items)
+                val homeCategoryResponseModel: HomeCategoryResponseModel? = result.getOrNull()
+                if (homeCategoryResponseModel?.data?.row2 != null) {
+                    Result.success(homeCategoryResponseModel.data.row2)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }
@@ -33,8 +34,8 @@ class AllGiftRepository(private val service: AllGiftService) {
         service.getAllGiftGroups().map { result ->
             if (result.isSuccess) {
                 val giftGroupResponseModel: AllGiftGroupResponseModel? = result.getOrNull()
-                if (giftGroupResponseModel?.result?.items != null) {
-                    Result.success(giftGroupResponseModel.result.items)
+                if (giftGroupResponseModel?.data?.items != null) {
+                    Result.success(giftGroupResponseModel.data.items)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

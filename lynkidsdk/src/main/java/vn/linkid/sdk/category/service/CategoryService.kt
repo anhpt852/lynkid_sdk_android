@@ -8,21 +8,13 @@ import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 
 class CategoryService(private val api: APIEndpoints) {
-    suspend fun getGiftCategories(): Flow<Result<GiftCategoryResponseModel>> = flow {
+    suspend fun getGiftCategories(): Flow<Result<HomeCategoryResponseModel>> = flow {
         emit(
             Result.success(
-                api.getGiftCategories(
-                    queries = mutableMapOf(
-                        "MemberCode" to vn.linkid.sdk.LynkiD_SDK.memberCode,
-                        "MaxLevelFilter" to 1,
-                        "MaxItem" to 50,
-                        "StatusFilter" to "A",
-                        "Channel" to "linkid",
-                        "Ver" to "next"
-                    )
-                )
+                api.getHomeCategories()
             )
         )
     }.catch {
@@ -37,7 +29,7 @@ class CategoryService(private val api: APIEndpoints) {
             Result.success(
                 api.getGiftsByCategory(
                     queries = mutableMapOf(
-                        "MemberCode" to vn.linkid.sdk.LynkiD_SDK.memberCode,
+                        "MemberCode" to LynkiD_SDK.memberCode,
                         "GiftCategoryCodeFilter" to categoryCode,
                         "SkipCount" to index,
                         "MaxItem" to 50

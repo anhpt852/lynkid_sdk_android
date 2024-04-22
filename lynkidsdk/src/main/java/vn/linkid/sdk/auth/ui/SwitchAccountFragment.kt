@@ -11,6 +11,8 @@ import vn.linkid.sdk.auth.service.SwitchAccountService
 import vn.linkid.sdk.auth.viewmodel.SwitchAccountViewModel
 import vn.linkid.sdk.auth.viewmodel.SwitchAccountViewModelFactory
 import vn.linkid.sdk.databinding.FragmentSwitchAccountBinding
+import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getStatusBarHeight
 import vn.linkid.sdk.mainAPI
 
 class SwitchAccountFragment : Fragment() {
@@ -29,5 +31,18 @@ class SwitchAccountFragment : Fragment() {
         binding = FragmentSwitchAccountBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[SwitchAccountViewModel::class.java]
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpView()
+    }
+
+    private fun setUpView() {
+        binding.apply {
+            val layoutParams = btnExit.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            btnExit.layoutParams = layoutParams
+        }
     }
 }

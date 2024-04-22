@@ -11,4 +11,4 @@ data class PointResponseModel(
 data class PointResponse(
     val result: Int?,
     val items: Point?
-) : vn.linkid.sdk.BaseModel()
+) : BaseModel()

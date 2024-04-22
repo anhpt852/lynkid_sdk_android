@@ -15,6 +15,9 @@ import vn.linkid.sdk.databinding.FragmentAuthBinding
 import vn.linkid.sdk.mainAPI
 import vn.linkid.sdk.models.auth.ConnectedMember
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getStatusBarHeight
 
 
 class AuthFragment : Fragment() {
@@ -45,6 +48,11 @@ class AuthFragment : Fragment() {
 
     private fun setUpView() {
         binding.apply {
+            val layoutParams = btnExit.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            btnExit.layoutParams = layoutParams
+            txtName.text = connectedMember.basicInfo?.name
+            txtPhone.text = connectedMember.phoneNumber
             btnAllow.setOnClickListener {
                 val isAccountExist = connectedMember.isExisting ?: false
                 val isAccountConnected = connectedMember.connectionInfo?.isExisting ?: false
