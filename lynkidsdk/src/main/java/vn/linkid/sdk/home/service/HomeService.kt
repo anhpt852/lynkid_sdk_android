@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 class HomeService(private val api: APIEndpoints) {
 
     suspend fun getMemberInfo(): Flow<Result<MemberResponseModel>> = flow {
-        Log.d("HomeService", "getMemberInfo: LynkiD_SDK.accessToken ${vn.linkid.sdk.LynkiD_SDK.accessToken}")
+        Log.d("HomeService", "getMemberInfo: LynkiD_SDK.accessToken ${LynkiD_SDK.accessToken}")
         emit(
             Result.success(
                 api.getMemberInfo()
@@ -38,7 +38,7 @@ class HomeService(private val api: APIEndpoints) {
     }
 
     suspend fun getBannerAndNews(): Flow<Result<HomeNewsAndBannerModel>> = flow {
-        Log.d("HomeService", "getBannerAndNews: LynkiD_SDK.seedToken ${vn.linkid.sdk.LynkiD_SDK.seedToken}")
+        Log.d("HomeService", "getBannerAndNews: LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}")
         emit(
             Result.success(
                 api.getBannerAndNews(

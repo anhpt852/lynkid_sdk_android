@@ -63,111 +63,111 @@ interface APIEndpoints {
 
     @POST("api/sdk-v1/partner/generate-token")
     suspend fun generateToken(
-        @Header("X-PartnerCode") partnerCode: String = vn.linkid.sdk.LynkiD_SDK.partnerCode,
+        @Header("X-PartnerCode") partnerCode: String = LynkiD_SDK.partnerCode,
         @Body body: Map<String, String> = mapOf(
-            "phoneNumber" to vn.linkid.sdk.LynkiD_SDK.phoneNumber,
-            "cif" to vn.linkid.sdk.LynkiD_SDK.cif,
-            "name" to vn.linkid.sdk.LynkiD_SDK.name
+            "phoneNumber" to LynkiD_SDK.phoneNumber,
+            "cif" to LynkiD_SDK.cif,
+            "name" to LynkiD_SDK.name
         )
     ): AuthToken
 
     @POST("api/sdk-v1/check-member-and-connection")
     suspend fun checkMember(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ),
         @Body body: Map<String, String> = mapOf(
-            "phoneNumber" to vn.linkid.sdk.LynkiD_SDK.phoneNumber,
-            "cif" to vn.linkid.sdk.LynkiD_SDK.cif
+            "phoneNumber" to LynkiD_SDK.phoneNumber,
+            "cif" to LynkiD_SDK.cif
         )
     ): ConnectedMemberAuthToken
 
     @POST("api/sdk-v1/authen-with-connected-phone")
     suspend fun authConnectedMember(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ),
         @Body body: Map<String, String> = mapOf(
-            "originalPhone" to vn.linkid.sdk.LynkiD_SDK.phoneNumber,
-            "connectedPhone" to vn.linkid.sdk.LynkiD_SDK.connectedPhoneNumber
+            "originalPhone" to LynkiD_SDK.phoneNumber,
+            "connectedPhone" to LynkiD_SDK.connectedPhoneNumber
         )
     ): MemberAuthToken
 
     @POST("api/sdk-v1/create-member")
     suspend fun createMember(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ),
         @Body body: Map<String, String> = mapOf(
-            "phoneNumber" to vn.linkid.sdk.LynkiD_SDK.phoneNumber,
-            "cif" to vn.linkid.sdk.LynkiD_SDK.cif
+            "phoneNumber" to LynkiD_SDK.phoneNumber,
+            "cif" to LynkiD_SDK.cif
         )
     ): ConnectedMemberAuthToken
 
     @GET("api/sdk-v1/Member/View")
     suspend fun getMemberInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.accessToken}"
-        ), @Query("MemberCode") memberCode: String = vn.linkid.sdk.LynkiD_SDK.memberCode
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): MemberResponseModel
 
     @GET("api/sdk-v1/Member/View-point")
     suspend fun getPointInfo(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.accessToken}"
-        ), @Query("MemberCode") memberCode: String = vn.linkid.sdk.LynkiD_SDK.memberCode
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): PointResponseModel
 
     @GET("api/sdk-v1/get-all-article-and-related-news")
     suspend fun getBannerAndNews(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): HomeNewsAndBannerModel
 
     @GET("api/sdk-v1/get-list-categories")
     suspend fun getHomeCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
-        ), @Query("MemberCode") memberCode: String = vn.linkid.sdk.LynkiD_SDK.memberCode
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeCategoryResponseModel
 
     @GET("api/sdk-v1/get-gift-group")
     suspend fun getHomeGiftGroup(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
-        ), @Query("MemberCode") memberCode: String = vn.linkid.sdk.LynkiD_SDK.memberCode
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @Query("MemberCode") memberCode: String = LynkiD_SDK.memberCode
     ): HomeGiftGroupResponseModel
 
     @GET("api/GiftCategory/GiftListCategories_v1")
     suspend fun getGiftCategories(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftCategoryResponseModel
 
     @GET("api/sdk-v1/get-gift-all-infors")
     suspend fun getAllGiftGroups(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel
 
     @GET("api/sdk-v1/get-all-by-member-code")
     suspend fun getGiftsByCategory(
         @HeaderMap headers: Map<String, String> = mapOf(
-            "X-PartnerCode" to vn.linkid.sdk.LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftsByCategoryResponseModel
 }

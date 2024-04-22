@@ -21,11 +21,11 @@ object LynkiD_SDK {
         cif: String,
         name: String
     ) {
-        vn.linkid.sdk.LynkiD_SDK.partnerCode = partnerCode
-        vn.linkid.sdk.LynkiD_SDK.phoneNumber = phoneNumber
-        vn.linkid.sdk.LynkiD_SDK.cif = cif
-        vn.linkid.sdk.LynkiD_SDK.name = name
-        val intent = Intent(context, vn.linkid.sdk.LynkiDSDKActivity::class.java)
+        LynkiD_SDK.partnerCode = partnerCode
+        LynkiD_SDK.phoneNumber = phoneNumber
+        LynkiD_SDK.cif = cif
+        LynkiD_SDK.name = name
+        val intent = Intent(context, LynkiDSDKActivity::class.java)
         context.startActivity(intent)
     }
 }

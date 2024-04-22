@@ -22,12 +22,12 @@ class SplashRepository(private val service: SplashService) {
                 if (authToken != null && authToken.isSuccess) {
                     Log.d(
                         "SplashRepository",
-                        "generateToken: ${authToken.seedToken}/ LynkiD_SDK.seedToken ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+                        "generateToken: ${authToken.seedToken}/ LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}"
                     )
-                    vn.linkid.sdk.LynkiD_SDK.seedToken = authToken.seedToken
+                    LynkiD_SDK.seedToken = authToken.seedToken
                     Log.d(
                         "SplashRepository",
-                        "generateToken: LynkiD_SDK.seedToken ${vn.linkid.sdk.LynkiD_SDK.seedToken}"
+                        "generateToken: LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}"
                     )
                     checkMember()
                 } else {
