@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.linkid.sdk.category.adapter.CategoryAdapter
 import vn.linkid.sdk.category.adapter.GiftsByCategoryAdapter
@@ -29,6 +30,9 @@ class CategoryFragment : Fragment() {
 
     private val categoryAdapter = CategoryAdapter(emptyList(), "")
     private val giftsByCategoryAdapter = GiftsByCategoryAdapter(emptyList())
+
+    private val args: CategoryFragmentArgs by navArgs()
+    private val categoryCode: String by lazy { args.categoryCode }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +61,9 @@ class CategoryFragment : Fragment() {
     }
 
     private fun setUpLoader() {
-        viewModel.loader.observe(viewLifecycleOwner, {
-
-        })
+        viewModel.loader.observe(viewLifecycleOwner) {
+            binding.loading.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setUpCategoryList() {
@@ -68,15 +72,22 @@ class CategoryFragment : Fragment() {
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             listCategory.adapter = categoryAdapter
             categoryAdapter.onItemClick = { category ->
+                Log.d("CategoryFragment", "Selected category: ${category.code}")
                 viewModel.categoryCode.postValue(category.code)
-                viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
-                    Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
-                }
-                categoryAdapter.updateSelectedCategoryCode(category.code ?: "")
             }
         }
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             categoryAdapter.updateCategories(categories.getOrNull() ?: emptyList())
+        }
+        viewModel.categoryCode.postValue(categoryCode)
+        viewModel.categoryCode.observe(viewLifecycleOwner) { categoryCode ->
+            Log.d("CategoryFragment", "Selected category load: $categoryCode")
+            if (categoryCode.isNotEmpty()) {
+                viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
+                    Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
+                }
+                categoryAdapter.updateSelectedCategoryCode(categoryCode ?: "")
+            }
         }
     }
 
@@ -89,11 +100,12 @@ class CategoryFragment : Fragment() {
             }
         }
         viewModel.giftsByCategory.observe(viewLifecycleOwner) { giftsByCategory ->
+            Log.d("CategoryFragment", "giftsByCategory: $giftsByCategory")
             giftsByCategoryAdapter.updateGifts(giftsByCategory)
         }
-        viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
-            Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
-        }
+//        viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
+//            Log.d("CategoryFragment", "getGiftsByCategory: $giftsByCategory")
+//        }
     }
 
 }

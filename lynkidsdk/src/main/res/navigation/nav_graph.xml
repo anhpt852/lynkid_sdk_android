@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_allGiftFragment"
             app:destination="@id/allGiftFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"

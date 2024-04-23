@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemCategoryGiftBinding
 import vn.linkid.sdk.formatPrice
 import vn.linkid.sdk.models.category.Gift
 
-class GiftsByCategoryAdapter(private val gifts: List<Gift>) : RecyclerView.Adapter<GiftsByCategoryAdapter.GiftsByCategoryViewHolder>() {
+class GiftsByCategoryAdapter(private var gifts: List<Gift>) : RecyclerView.Adapter<GiftsByCategoryAdapter.GiftsByCategoryViewHolder>() {
     var onItemClick: ((Gift) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiftsByCategoryViewHolder {
@@ -26,6 +27,7 @@ class GiftsByCategoryAdapter(private val gifts: List<Gift>) : RecyclerView.Adapt
     fun updateGifts(newGifts: List<Gift>) {
         val diffCallback = GiftsByCategoryDiffCallback(gifts, newGifts)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
+        gifts = newGifts
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -35,7 +37,8 @@ class GiftsByCategoryAdapter(private val gifts: List<Gift>) : RecyclerView.Adapt
         fun bind(gift: Gift) {
             binding.apply {
                 Glide.with(root.context)
-                    .load(gift.imageLink?.first() ?: "")
+                    .load(gift.imageLink?.firstOrNull()?.link ?: "")
+                    .placeholder(R.drawable.home_gradient)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfor?.name ?: ""
                 txtPrice.text = (gift.giftInfor?.requiredCoin ?: 0).formatPrice()

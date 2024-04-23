@@ -11,6 +11,7 @@ import vn.linkid.sdk.models.category.Category
 class HomeCategoryAdapter(private val categories: List<Category>) :
     RecyclerView.Adapter<HomeCategoryAdapter.HomeCategoryViewHolder>() {
 
+    var onItemClick: ((Category) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -36,6 +37,7 @@ class HomeCategoryAdapter(private val categories: List<Category>) :
                     .load(category.fullLink ?: "")
                     .into(imgCategory)
                 txtCategory.text = category.name ?: ""
+                itemView.setOnClickListener { onItemClick?.invoke(category) }
             }
         }
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
+import vn.linkid.sdk.all_gift.ui.AllGiftFragmentDirections
 import vn.linkid.sdk.databinding.FragmentHomeBinding
 import vn.linkid.sdk.dpToPx
 import vn.linkid.sdk.formatPrice
@@ -112,8 +113,16 @@ class HomeFragment : Fragment() {
                 binding.apply {
                     listCategory.layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                    listCategory.adapter = HomeCategoryAdapter(categories.getOrNull()!!)
+                    val categoryAdapter = HomeCategoryAdapter(categories.getOrNull()!!)
+                    listCategory.adapter = categoryAdapter
                     listCategory.handleScroll(binding.indicatorCategory)
+                    categoryAdapter.onItemClick = { category ->
+                        val action =
+                            HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
+                                category.code ?: ""
+                            )
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
