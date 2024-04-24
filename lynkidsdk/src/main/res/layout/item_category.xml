@@ -31,6 +31,7 @@
                 app:cardBackgroundColor="#F0F0F4"
                 app:cardCornerRadius="100dp"
                 app:cardElevation="0dp"
+                app:contentPadding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

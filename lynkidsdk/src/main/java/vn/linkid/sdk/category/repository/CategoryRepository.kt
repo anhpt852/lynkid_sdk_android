@@ -15,7 +15,16 @@ class CategoryRepository(private val service: CategoryService) {
             if (result.isSuccess) {
                 val homeCategoryResponseModel: HomeCategoryResponseModel? = result.getOrNull()
                 if (homeCategoryResponseModel?.data?.row2 != null) {
-                    Result.success(homeCategoryResponseModel.data.row2)
+                    Result.success(
+                        listOf(
+                            Category(
+                                "all",
+                                "Tất cả",
+                                "",
+                                ""
+                            )
+                        ).plus(homeCategoryResponseModel.data.row2)
+                    )
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }
@@ -27,6 +36,7 @@ class CategoryRepository(private val service: CategoryService) {
                 Result.failure(result.exceptionOrNull()!!)
             }
         }
+
     suspend fun getGiftsByCategoryCode(
         categoryCode: String,
         index: Int

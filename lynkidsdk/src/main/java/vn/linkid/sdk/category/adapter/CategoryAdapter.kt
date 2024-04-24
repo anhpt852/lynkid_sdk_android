@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemCategoryBinding
 import vn.linkid.sdk.models.category.Category
 
@@ -65,7 +66,7 @@ class CategoryAdapter(
         fun bind(category: Category) {
             binding.apply {
                 Glide.with(root.context)
-                    .load(category.fullLink)
+                    .load(if (category.code == "all") R.drawable.ic_category_all else category.fullLink)
                     .into(imgCategory)
                 txtCategory.text = category.name
                 if (category.code == selectedCategoryCode) {

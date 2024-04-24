@@ -28,8 +28,9 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     fun getGiftsByCategory(index: Int) =
         liveData {
             loader.postValue(true)
+            val categoryCode = if (categoryCode.value == "all") "" else categoryCode.value ?: ""
             emitSource(
-                repository.getGiftsByCategoryCode(categoryCode.value ?: "", index)
+                repository.getGiftsByCategoryCode(categoryCode, index)
                     .onEach {
                         loader.postValue(false)
                         totalGiftCount.postValue(it?.data?.totalCount ?: 0)
