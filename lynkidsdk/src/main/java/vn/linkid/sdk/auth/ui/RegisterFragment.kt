@@ -13,6 +13,7 @@ import vn.linkid.sdk.auth.viewmodel.RegisterViewModel
 import vn.linkid.sdk.auth.viewmodel.RegisterViewModelFactory
 import vn.linkid.sdk.databinding.FragmentRegisterBinding
 import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getNavigationBarHeight
 import vn.linkid.sdk.getStatusBarHeight
 import vn.linkid.sdk.mainAPI
 
@@ -44,6 +45,17 @@ class RegisterFragment: Fragment() {
             val layoutParams = btnExit.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             btnExit.layoutParams = layoutParams
+
+            val bottomLayoutParam = layoutAuth.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            layoutAuth.layoutParams = bottomLayoutParam
+
+            btnRegister.setOnClickListener {
+                viewModel.createMember().observe(viewLifecycleOwner) {
+                    val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
+                    findNavController().navigate(action)
+                }
+            }
         }
     }
 

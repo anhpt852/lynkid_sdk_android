@@ -15,6 +15,7 @@ import vn.linkid.sdk.databinding.FragmentLoginBinding
 import vn.linkid.sdk.mainAPI
 import androidx.navigation.fragment.navArgs
 import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getNavigationBarHeight
 import vn.linkid.sdk.getStatusBarHeight
 import vn.linkid.sdk.models.auth.ConnectedMember
 
@@ -49,6 +50,12 @@ class LoginFragment : Fragment() {
             val layoutParams = btnExit.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             btnExit.layoutParams = layoutParams
+
+            val bottomLayoutParam = layoutAuth.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            layoutAuth.layoutParams = bottomLayoutParam
+
+
             btnLogin.text =
                 if (connectedMember.connectionInfo?.isExisting == true) "Xác nhận" else "Tiếp tục"
 

@@ -9,6 +9,8 @@ import vn.linkid.sdk.models.auth.ConnectedMember
 import kotlinx.coroutines.flow.onEach
 
 class SwitchAccountViewModel(private val repository: SwitchAccountRepository): ViewModel() {
+    val currentOption = MutableLiveData<Int>(0)
+
     val loader = MutableLiveData<Boolean>(false)
     fun switchMember() = liveData<Boolean?> {
         loader.postValue(true)
