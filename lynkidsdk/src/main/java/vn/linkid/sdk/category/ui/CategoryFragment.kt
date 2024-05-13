@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.category.adapter.CategoryAdapter
 import vn.linkid.sdk.category.adapter.GiftsByCategoryAdapter
 import vn.linkid.sdk.category.repository.CategoryRepository
@@ -50,6 +51,7 @@ class CategoryFragment : Fragment() {
         setUpLoader()
         setUpCategoryList()
         setUpGiftList()
+        setUpFilter()
     }
 
     private fun setUpView() {
@@ -98,6 +100,21 @@ class CategoryFragment : Fragment() {
             giftsByCategoryAdapter.onItemClick = { gift ->
 
             }
+            listGift.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                var previousScrollPosition = 0
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    if (dy > previousScrollPosition) {
+                        viewModel.setShowFilter(false)
+                    } else if (dy < previousScrollPosition) {
+                        viewModel.setShowFilter(true)
+                    }
+
+                    previousScrollPosition = dy
+                }
+            })
         }
         viewModel.giftsByCategory.observe(viewLifecycleOwner) { giftsByCategory ->
             Log.d("CategoryFragment", "giftsByCategory: $giftsByCategory")
@@ -106,6 +123,13 @@ class CategoryFragment : Fragment() {
 //        viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
 //            Log.d("CategoryFragment", "getGiftsByCategory: $giftsByCategory")
 //        }
+    }
+
+    private fun setUpFilter(){
+
+        viewModel.isShowFilter.observe(viewLifecycleOwner) { isShowFilter ->
+
+        }
     }
 
 }

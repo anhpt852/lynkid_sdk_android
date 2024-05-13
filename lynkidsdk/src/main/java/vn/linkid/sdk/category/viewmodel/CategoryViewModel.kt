@@ -43,4 +43,9 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
 
         }
 
+    val isShowFilter = MutableLiveData(false)
+    fun setShowFilter(isScrollingUp: Boolean) {
+        isShowFilter.postValue(isScrollingUp)
+    }
+
 }
