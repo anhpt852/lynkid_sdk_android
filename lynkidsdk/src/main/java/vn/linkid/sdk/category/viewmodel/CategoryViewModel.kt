@@ -8,6 +8,7 @@ import vn.linkid.sdk.category.repository.CategoryRepository
 import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import kotlinx.coroutines.flow.onEach
+import vn.linkid.sdk.models.category.GiftFilterModel
 
 class CategoryViewModel(private val repository: CategoryRepository) : ViewModel() {
 
@@ -43,9 +44,14 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
 
         }
 
-    val isShowFilter = MutableLiveData(false)
+    val isShowFilter = MutableLiveData(true)
     fun setShowFilter(isScrollingUp: Boolean) {
         isShowFilter.postValue(isScrollingUp)
+    }
+
+    val giftFilter = MutableLiveData<GiftFilterModel>(GiftFilterModel())
+    fun setGiftFilter(giftFilter: GiftFilterModel) {
+        this.giftFilter.postValue(giftFilter)
     }
 
 }

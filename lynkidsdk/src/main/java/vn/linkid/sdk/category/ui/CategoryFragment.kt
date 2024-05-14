@@ -18,8 +18,10 @@ import vn.linkid.sdk.category.viewmodel.CategoryViewModel
 import vn.linkid.sdk.category.viewmodel.CategoryViewModelFactory
 import vn.linkid.sdk.databinding.FragmentCategoryBinding
 import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getNavigationBarHeight
 import vn.linkid.sdk.getStatusBarHeight
 import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.models.category.GiftFilterModel
 
 class CategoryFragment : Fragment() {
 
@@ -126,9 +128,18 @@ class CategoryFragment : Fragment() {
     }
 
     private fun setUpFilter(){
-
+        val layoutParams = binding.layoutFilter.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.bottomMargin = getNavigationBarHeight(binding.root) + (context?.dpToPx(8) ?: 0)
+        binding.layoutFilter.layoutParams = layoutParams
+        binding.layoutFilter.setOnClickListener {
+            val bottomSheet = CategoryFilterBottomSheet(viewModel.giftFilter.value ?: GiftFilterModel())
+            bottomSheet.onApplyFilter = { filter ->
+                viewModel.giftFilter.postValue(filter)
+            }
+            bottomSheet.show(childFragmentManager, "CategoryFilterBottomSheet")
+        }
         viewModel.isShowFilter.observe(viewLifecycleOwner) { isShowFilter ->
-
+            binding.layoutFilter.visibility = if (isShowFilter) View.VISIBLE else View.GONE
         }
     }
 

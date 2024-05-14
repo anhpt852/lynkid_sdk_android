@@ -131,7 +131,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="4dp"
             android:text="0-100k"
             android:textAlignment="center"
             android:textColor="#242424"
@@ -174,7 +174,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="4dp"
             android:text="100k-200k"
             android:textAlignment="center"
             android:textColor="#242424"
@@ -217,7 +217,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="4dp"
             android:text="200k-300k"
             android:textAlignment="center"
             android:textColor="#242424"
@@ -260,7 +260,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="4dp"
             android:text="400k-500k"
             android:textAlignment="center"
             android:textColor="#242424"
@@ -288,27 +288,16 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/checkAll"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/dividerType"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginStart="8dp"
         android:text="Giá phù hợp nhất với bạn"
-        android:textAlignment="center"
         android:textColor="#242424"
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_regular"
-        app:layout_constraintBottom_toBottomOf="@id/checkAll"
-        app:layout_constraintStart_toEndOf="@id/checkAll"
-        app:layout_constraintTop_toTopOf="@id/checkAll" />
+        app:layout_constraintBottom_toTopOf="@id/dividerType"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/dividerType"
