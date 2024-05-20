@@ -98,4 +98,9 @@
             android:name="categoryCode"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/myRewardFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardFragment"
+        android:label="MyRewardFragment"
+        tools:layout="@layout/fragment_my_reward" />
 </navigation>

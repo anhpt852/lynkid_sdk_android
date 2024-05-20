@@ -78,6 +78,7 @@ class CategoryFragment : Fragment() {
             categoryAdapter.onItemClick = { category ->
                 Log.d("CategoryFragment", "Selected category: ${category.code}")
                 viewModel.categoryCode.postValue(category.code)
+                viewModel.giftFilter.postValue(GiftFilterModel())
             }
         }
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
