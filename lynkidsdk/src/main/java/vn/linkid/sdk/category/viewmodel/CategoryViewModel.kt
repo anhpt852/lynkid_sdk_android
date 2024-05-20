@@ -23,7 +23,7 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     }
 
     val loader = MutableLiveData(false)
-    private val totalGiftCount = MutableLiveData<Int>(0)
+    val totalGiftCount = MutableLiveData<Int>(0)
     val giftsByCategory = MutableLiveData<List<Gift>>(emptyList())
     val categoryCode = MutableLiveData<String>("")
     fun getGiftsByCategory(index: Int) =

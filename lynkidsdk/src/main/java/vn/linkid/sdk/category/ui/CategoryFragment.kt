@@ -37,6 +37,8 @@ class CategoryFragment : Fragment() {
     private val args: CategoryFragmentArgs by navArgs()
     private val categoryCode: String by lazy { args.categoryCode }
 
+    private var currentPage = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,9 +90,10 @@ class CategoryFragment : Fragment() {
         viewModel.categoryCode.observe(viewLifecycleOwner) { categoryCode ->
             Log.d("CategoryFragment", "Selected category load: $categoryCode")
             if (categoryCode.isNotEmpty()) {
-                viewModel.getGiftsByCategory(0).observe(viewLifecycleOwner) { giftsByCategory ->
-                    Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
-                }
+                viewModel.getGiftsByCategory(currentPage)
+                    .observe(viewLifecycleOwner) { giftsByCategory ->
+                        Log.d("CategoryFragment", "Gifts by category: $giftsByCategory")
+                    }
                 categoryAdapter.updateSelectedCategoryCode(categoryCode ?: "")
             }
         }
@@ -116,6 +119,18 @@ class CategoryFragment : Fragment() {
                     }
 
                     previousScrollPosition = dy
+
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                    val endHasBeenReached = lastVisibleItem + 1 >= totalItemCount
+                    if (totalItemCount > 0 && endHasBeenReached && viewModel.loader.value == false && ((viewModel.giftsByCategory.value?.size
+                            ?: 0) < (viewModel.totalGiftCount.value ?: 0))
+                    ) {
+                        currentPage++
+                        viewModel.getGiftsByCategory(currentPage)
+                    }
                 }
             })
         }
@@ -128,12 +143,13 @@ class CategoryFragment : Fragment() {
 //        }
     }
 
-    private fun setUpFilter(){
+    private fun setUpFilter() {
         val layoutParams = binding.layoutFilter.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.bottomMargin = getNavigationBarHeight(binding.root) + (context?.dpToPx(8) ?: 0)
         binding.layoutFilter.layoutParams = layoutParams
         binding.layoutFilter.setOnClickListener {
-            val bottomSheet = CategoryFilterBottomSheet(viewModel.giftFilter.value ?: GiftFilterModel())
+            val bottomSheet =
+                CategoryFilterBottomSheet(viewModel.giftFilter.value ?: GiftFilterModel())
             bottomSheet.onApplyFilter = { filter ->
                 viewModel.giftFilter.postValue(filter)
             }
