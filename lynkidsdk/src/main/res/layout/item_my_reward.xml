@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_my_reward">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2566" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgBrand"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            android:maxLines="1"
+            android:textColor="#837E85"
+            android:textSize="10sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintStart_toStartOf="@id/guidelineVertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGiftName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:lines="2"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/txtBrand"
+            app:layout_constraintTop_toBottomOf="@id/txtBrand"
+            tools:text="Title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtExpireDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#837E85"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintStart_toStartOf="@id/txtBrand"
+            app:layout_constraintTop_toBottomOf="@id/txtGiftName"
+            tools:text="Title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textColor="#663692"
+            android:textSize="12sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintBottom_toBottomOf="@id/txtExpireDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtExpireDate"
+            tools:text="Title" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            app:layout_constraintTop_toBottomOf="@id/txtAction" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
