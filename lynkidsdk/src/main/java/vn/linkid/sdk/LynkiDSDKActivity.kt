@@ -11,6 +11,8 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import vn.linkid.sdk.databinding.ActivityMainSdkBinding
 
 class LynkiDSDKActivity : AppCompatActivity() {
@@ -38,6 +40,56 @@ class LynkiDSDKActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
+
+        setUpNavController()
+    }
+
+
+    private fun setUpNavController() {
+        binding.apply {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val navController = navHostFragment.navController
+            val menu = bottomNavigation.menu
+            val middleItem = menu.getItem(1)
+            middleItem.isEnabled = false
+            bottomNavigation.setupWithNavController(navController)
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment) {
+                    bottomNavigation.visibility = View.VISIBLE
+                } else {
+                    bottomNavigation.visibility = View.GONE
+                }
+//                if (destination.id == R.id.homeFragment || destination.id == R.id.settingFragment || destination.id == R.id.introFragment) {
+//                    window.navigationBarColor = Color.WHITE
+//                } else {
+//                    window.navigationBarColor = Color.parseColor("#F7F7F7")
+//                }
+//                if (destination.id == R.id.homeFragment || destination.id == R.id.languageFragment) {
+//                    window.statusBarColor = Color.parseColor("#1A998E")
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                        window.insetsController?.setSystemBarsAppearance(
+//                            0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+//                        )
+//                    } else {
+//                        @Suppress("DEPRECATION")
+//                        window.decorView.systemUiVisibility = 0
+//                    }
+//                } else {
+//                    window.statusBarColor = Color.WHITE
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                        window.insetsController?.setSystemBarsAppearance(
+//                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+//                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+//                        )
+//                    } else {
+//                        @Suppress("DEPRECATION")
+//                        window.decorView.systemUiVisibility =
+//                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//                    }
+//                }
+            }
+        }
     }
 
 
