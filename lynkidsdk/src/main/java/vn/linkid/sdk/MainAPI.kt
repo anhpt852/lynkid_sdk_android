@@ -178,4 +178,12 @@ interface APIEndpoints {
             "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel
+
+    @GET("/api/GiftTransactions/GetAllWithEGift")
+    suspend fun getMyRewardDetail(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): AllGiftGroupResponseModel
 }

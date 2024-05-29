@@ -102,5 +102,18 @@
         android:id="@+id/myRewardFragment"
         android:name="vn.linkid.sdk.my_reward.ui.MyRewardFragment"
         android:label="MyRewardFragment"
-        tools:layout="@layout/fragment_my_reward" />
+        tools:layout="@layout/fragment_my_reward" >
+        <action
+            android:id="@+id/action_myRewardFragment_to_myRewardDetailFragment"
+            app:destination="@id/myRewardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRewardDetailFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardDetailFragment"
+        android:label="MyRewardDetailFragment"
+        tools:layout="@layout/fragment_my_reward_detail">
+        <argument
+            android:name="transactionCode"
+            app:argType="string" />
+    </fragment>
 </navigation>
