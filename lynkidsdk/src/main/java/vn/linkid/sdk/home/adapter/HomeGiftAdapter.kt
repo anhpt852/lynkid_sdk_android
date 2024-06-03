@@ -29,7 +29,7 @@ class HomeGiftAdapter(private val gifts: List<Gift>) :
                     .load(gift.fullLink)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfo?.name ?: ""
-                txtPrice.text = (gift.giftInfo?.requiredCoin ?: 0).formatPrice()
+                txtPrice.text = (gift.giftInfo?.requiredCoin ?: 0.0).formatPrice()
             }
         }
 

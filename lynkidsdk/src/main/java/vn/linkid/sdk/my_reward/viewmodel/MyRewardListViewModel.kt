@@ -11,8 +11,8 @@ class MyRewardListViewModel(private val repository: MyRewardListRepository) : Vi
     val isLoading = MutableLiveData<Boolean>(true)
     val page = MutableLiveData<Int>(0)
 
-    fun getMyRewards() = liveData {
-        emitSource(repository.getMyRewards(page.value ?: 0).asLiveData())
+    fun getMyRewards(tab: Int) = liveData {
+        emitSource(repository.getMyRewards(page.value ?: 0, tab).asLiveData())
     }
 
 }

@@ -41,7 +41,7 @@ class GiftsByCategoryAdapter(private var gifts: List<Gift>) : RecyclerView.Adapt
                     .placeholder(R.drawable.home_gradient)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfor?.name ?: ""
-                txtPrice.text = (gift.giftInfor?.requiredCoin ?: 0).formatPrice()
+                txtPrice.text = (gift.giftInfor?.requiredCoin ?: 0.0).formatPrice()
                 itemView.setOnClickListener {
                     onItemClick?.invoke(gifts[bindingAdapterPosition])
                 }

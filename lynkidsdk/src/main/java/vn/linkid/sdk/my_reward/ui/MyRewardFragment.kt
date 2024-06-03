@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import vn.linkid.sdk.databinding.FragmentMyRewardBinding
+import vn.linkid.sdk.dpToPx
+import vn.linkid.sdk.getStatusBarHeight
 
 class MyRewardFragment: Fragment() {
 
@@ -28,6 +30,11 @@ class MyRewardFragment: Fragment() {
     }
 
     private fun setUpView(){
+        binding.apply {
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+        }
         setUpPager()
     }
 

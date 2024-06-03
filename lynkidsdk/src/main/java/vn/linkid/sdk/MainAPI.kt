@@ -27,6 +27,7 @@ import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
+import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
 
 val logging: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -171,19 +172,19 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftsByCategoryResponseModel
 
-    @GET("/api/GiftTransactions/GetAllWithEGift")
+    @GET("/api/sdk-v1/GetAllWithEGift")
     suspend fun getMyRewards(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
-    ): AllGiftGroupResponseModel
+    ): MyRewardListResponseModel
 
     @GET("/api/GiftTransactions/GetAllWithEGift")
     suspend fun getMyRewardDetail(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel
 }

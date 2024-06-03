@@ -50,9 +50,6 @@ class LynkiDSDKActivity : AppCompatActivity() {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             val navController = navHostFragment.navController
-            val menu = bottomNavigation.menu
-            val middleItem = menu.getItem(1)
-            middleItem.isEnabled = false
             bottomNavigation.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment) {

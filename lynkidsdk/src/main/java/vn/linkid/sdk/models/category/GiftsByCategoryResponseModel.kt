@@ -1,5 +1,7 @@
 package vn.linkid.sdk.models.category
 
+import vn.linkid.sdk.models.gift.GiftInfo
+
 data class GiftsByCategoryResponseModel(
     val data: Data?,
     val message: String?,
@@ -16,50 +18,6 @@ data class Gift(
     val imageLink: List<ImageLink>?,
     val flashSaleProgramInfor: FlashSaleProgramInfo?,
     val giftDiscountInfor: GiftDiscountInfo?
-)
-
-data class GiftInfo(
-    val code: String?,
-    val name: String?,
-    val description: String?,
-    val introduce: String?,
-    val fullGiftCategoryCode: String?,
-    val brandName: String?,
-    val thirdPartyBrandName: String?,
-    val vendor: String?,
-    val effectiveFrom: String?,
-    val effectiveTo: String?,
-    val requiredCoin: Int?,
-    val status: String?,
-    val totalQuantity: Int?,
-    val usedQuantity: Int?,
-    val remainingQuantity: Int?,
-    val fullPrice: Double?,
-    val discountPrice: Double?,
-    val isEGift: Boolean?,
-    val targetAudience: TargetAudience?,
-    val targetAudienceId: Int?,
-    val lastModificationTime: String?,
-    val creationTime: String?,
-    val createdByUser: String?,
-    val updatedByUser: String?,
-    val tag: String?,
-    val id: Int?,
-    val office: List<Office>?,
-    val totalWish: Int?,
-    val giftGroups: List<GiftGroup>?,
-    val vendorHotline: String?,
-    val totalRedeem: Int?,
-    val giftUpdatedTime: String?,
-    val giftCreatedTime: String?,
-    val vendorName: String?,
-    val vendorType: String?,
-    val vendorImage: String?,
-    val merchantId: Int?,
-    val merchantName: String?,
-    val merchantAvatar: String?,
-    val merchantDescription: String?,
-    val brandId: Int?
 )
 
 data class TargetAudience(
