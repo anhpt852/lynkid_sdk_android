@@ -1,4 +1,4 @@
-package vn.linkid.sdk.my_reward.ui
+package vn.linkid.sdk.my_reward.adapter
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemMyRewardBinding
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import java.util.Date
@@ -75,14 +76,19 @@ class MyRewardListAdapter(
                 Glide.with(imgBrand)
                     .load(giftInfoItem.brandInfo?.brandImage)
                     .circleCrop()
+                    .placeholder(R.drawable.img_lynkid)
                     .into(imgBrand)
-                txtGiftName.text = giftInfoItem.giftInfor?.name
+                txtGiftName.text = giftInfoItem.giftTransaction?.giftName
                 txtBrand.text = if ((giftInfoItem.brandInfo?.brandName
                         ?: "").isEmpty()
                 ) "THƯƠNG HIỆU KHÁC" else giftInfoItem.brandInfo?.brandName?.uppercase()
+                txtExpireDate.text = ""
+                txtAction.visibility = View.GONE
                 if (tab == 0) {
+                    txtAction.visibility = View.VISIBLE
                     if (giftInfoItem.eGift != null) {
                         txtExpireDate.visibility = View.VISIBLE
+                        txtAction.text = "DÙNG NGAY"
                         txtExpireDate.text = if (remainingDay in 1..10) {
                             "Hết hạn sau $remainingDay ngày"
                         } else if (remainingHour in 1..23) {
@@ -91,8 +97,14 @@ class MyRewardListAdapter(
                             "HSD: $expireDateString"
                         }
                     } else {
-                        txtExpireDate.text = ""
+                        txtAction.text = "THEO DÕI"
                     }
+                }
+                itemView.setOnClickListener {
+                    onItemClicked?.invoke(giftInfoItem)
+                }
+                txtAction.setOnClickListener {
+                    onItemClicked?.invoke(giftInfoItem)
                 }
             }
         }
