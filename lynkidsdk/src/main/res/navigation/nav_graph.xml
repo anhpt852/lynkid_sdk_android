@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_giftDetailFragment"
+            app:destination="@id/giftDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_allGiftFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_allGiftFragment_to_giftDetailFragment"
+            app:destination="@id/giftDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -97,6 +103,9 @@
         <argument
             android:name="categoryCode"
             app:argType="string" />
+        <action
+            android:id="@+id/action_categoryFragment_to_giftDetailFragment"
+            app:destination="@id/giftDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/myRewardFragment"
@@ -115,5 +124,14 @@
         <argument
             android:name="transactionCode"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftDetailFragment"
+        android:name="vn.linkid.sdk.gift_detail.ui.GiftDetailFragment"
+        android:label="GiftDetailFragment"
+        tools:layout="@layout/fragment_gift_detail">
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
     </fragment>
 </navigation>
