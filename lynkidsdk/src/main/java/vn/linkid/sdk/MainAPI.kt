@@ -185,7 +185,7 @@ interface APIEndpoints {
     suspend fun getGiftDetails(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftDetailResponseModel
 

@@ -6,8 +6,15 @@
     android:layout_height="match_parent"
     android:background="#F3F3F3">
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/imgHeaderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="296dp"
+        android:background="@drawable/home_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,10 +23,12 @@
             android:layout_height="wrap_content">
 
 
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgGift"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@color/white"
                 app:layout_constraintDimensionRatio="H,375:185"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/img_my_reward_used" />
@@ -60,9 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:includeFontPadding="false"
                     android:textColor="#F2994A"
                     android:textSize="16sp"
-                    android:includeFontPadding="false"
                     app:fontFamily="@font/bevietnampro_bold"
                     app:layout_constraintBottom_toBottomOf="@id/imgCoin"
                     app:layout_constraintStart_toEndOf="@id/imgCoin"
@@ -74,9 +83,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:includeFontPadding="false"
                     android:textColor="#A7A7B3"
                     android:textSize="14sp"
-                    android:includeFontPadding="false"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintBottom_toBottomOf="@id/imgCoin"
                     app:layout_constraintStart_toEndOf="@id/txtPrice"
@@ -99,9 +108,9 @@
                         android:id="@+id/txtSalePercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
                         android:textColor="@color/white"
                         android:textSize="12sp"
-                        android:includeFontPadding="false"
                         app:fontFamily="@font/bevietnampro_semibold"
                         app:layout_constraintBottom_toBottomOf="@id/imgCoin"
                         app:layout_constraintStart_toEndOf="@id/txtPrice"
@@ -390,20 +399,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:alpha="1"
         android:background="@drawable/home_gradient"
         app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="4dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -414,10 +412,37 @@
             android:textColorHint="@color/white"
             android:textSize="18sp"
             app:fontFamily="@font/bevietnampro_semibold"
-            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnBack" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bgBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:alpha="1"
+        android:padding="8dp"
+        app:cardBackgroundColor="#99242424"
+        app:cardCornerRadius="333dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

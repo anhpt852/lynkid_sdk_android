@@ -163,8 +163,15 @@ class HomeFragment : Fragment() {
             if (homeGiftGroup.getOrNull() != null) {
                 binding.apply {
                     listGift.layoutManager = GridLayoutManager(requireContext(), 2)
-                    listGift.adapter =
+                    val adapter =
                         HomeGiftAdapter(homeGiftGroup.getOrNull()!!.data?.gifts ?: listOf())
+                    adapter.onItemClickListener = { gift ->
+                        val action =
+                            HomeFragmentDirections.actionHomeFragmentToGiftDetailFragment(gift.giftInfo?.id ?: 0)
+                        findNavController().navigate(action)
+                    }
+                    listGift.adapter = adapter
+
                 }
             }
         }

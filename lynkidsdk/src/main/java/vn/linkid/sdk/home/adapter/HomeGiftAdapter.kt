@@ -11,8 +11,11 @@ import vn.linkid.sdk.models.gift.Gift
 class HomeGiftAdapter(private val gifts: List<Gift>) :
     RecyclerView.Adapter<HomeGiftAdapter.HomeGiftViewHolder>() {
 
+    var onItemClickListener: ((Gift) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeGiftViewHolder {
-        val binding = ItemHomeGiftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemHomeGiftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeGiftViewHolder(binding)
     }
 
@@ -30,6 +33,9 @@ class HomeGiftAdapter(private val gifts: List<Gift>) :
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfo?.name ?: ""
                 txtPrice.text = (gift.giftInfo?.requiredCoin ?: 0.0).formatPrice()
+                itemView.setOnClickListener {
+                    onItemClickListener?.invoke(gift)
+                }
             }
         }
 
