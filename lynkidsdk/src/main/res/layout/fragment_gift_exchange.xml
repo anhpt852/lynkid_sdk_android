@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/imgHeaderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/home_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="4dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận"
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutGiftInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/bg_outlined_button"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#EFEFF6"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgGift"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="W,164:82"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtGiftName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="#333333"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/bevietnampro_semibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgGift"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="adsjklfnskadjbnikjdirfrnbkjedzfnbjuedhrfosdfjlkbdlsfnbdfnbjdnfbdhfubnerbhouaewRNbedrnhfbjuednrfbvuhawreggbnwrhbuwnerrvblwhegffnqewlfnoqwewnedgvunwegvwosegbngvwebnu" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgCoin"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_coin_small"
+                    app:layout_constraintStart_toStartOf="@id/txtGiftName"
+                    app:layout_constraintTop_toBottomOf="@id/txtGiftName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="#837E85"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/imgCoin"
+                    app:layout_constraintStart_toEndOf="@id/imgCoin"
+                    app:layout_constraintTop_toTopOf="@id/imgCoin"
+                    tools:text="100000000" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/dividerGift"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="#EFEFF6"
+        app:layout_constraintTop_toBottomOf="@id/layoutGiftInfo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtQuantityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Số lượng"
+        android:textColor="#6D6B7A"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toBottomOf="@id/btnAddQuantities"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAddQuantities" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnSubtractQuantities"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="#F0F0F4"
+        app:cardCornerRadius="333dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnAddQuantities"
+        app:layout_constraintEnd_toStartOf="@id/txtQuantity"
+        app:layout_constraintTop_toTopOf="@id/btnAddQuantities">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_subtract" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:textColor="#323B4B"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="@id/btnAddQuantities"
+        app:layout_constraintEnd_toStartOf="@id/btnAddQuantities"
+        app:layout_constraintTop_toTopOf="@id/btnAddQuantities"
+        tools:text="1" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnAddQuantities"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="#F0F0F4"
+        app:cardCornerRadius="333dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerGift">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_add" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/dividerQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#EFEFF6"
+        app:layout_constraintTop_toBottomOf="@id/btnAddQuantities" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtAvailablePointTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Điểm khả dụng"
+        android:textColor="#6D6B7A"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toBottomOf="@id/txtAvailablePoint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtAvailablePoint" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_coin_small"
+        app:layout_constraintTop_toTopOf="@id/txtAvailablePoint"
+        app:layout_constraintBottom_toBottomOf="@id/txtAvailablePoint"
+        app:layout_constraintEnd_toStartOf="@id/txtAvailablePoint"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtAvailablePoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#34C759"
+        android:includeFontPadding="false"
+        android:textSize="16sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerQuantity"
+        tools:text="100000" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/dividerPoint"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#EFEFF6"
+        app:layout_constraintTop_toBottomOf="@id/txtAvailablePoint" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtRequiredPointTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Tổng điểm thanh toán"
+        android:textColor="#6D6B7A"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toBottomOf="@id/txtRequiredPoint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtRequiredPoint" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_coin_small"
+        app:layout_constraintTop_toTopOf="@id/txtRequiredPoint"
+        app:layout_constraintBottom_toBottomOf="@id/txtRequiredPoint"
+        app:layout_constraintEnd_toStartOf="@id/txtRequiredPoint"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtRequiredPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#F5574E"
+        android:includeFontPadding="false"
+        android:textSize="16sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerPoint"
+        tools:text="100000" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExchange"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_gradient_button"
+        android:gravity="center"
+        android:text="Xác nhận"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

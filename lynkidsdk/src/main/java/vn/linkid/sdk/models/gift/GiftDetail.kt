@@ -6,7 +6,7 @@ import vn.linkid.sdk.models.my_reward.ImageLink
 
 data class GiftDetail(
     val giftInfor: GiftInfo?,
-    val imageLink: ImageLink?,
+    val imageLink: List<ImageLink>?,
     val flashSaleProgramInfor: FlashSaleProgramInfor?,
     val giftDiscountInfor: GiftDiscountInfor?,
     val giftUsageAddress: List<GiftAddressItem>?,

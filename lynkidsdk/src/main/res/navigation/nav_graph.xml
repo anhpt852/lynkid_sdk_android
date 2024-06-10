@@ -133,5 +133,17 @@
         <argument
             android:name="giftId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_giftDetailFragment_to_giftExchangeFragment"
+            app:destination="@id/giftExchangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftExchangeFragment"
+        android:name="vn.linkid.sdk.gift_detail.ui.GiftExchangeFragment"
+        android:label="GiftExchangeFragment"
+        tools:layout="@layout/fragment_gift_exchange">
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
     </fragment>
 </navigation>
