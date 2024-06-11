@@ -1,7 +1,7 @@
 package vn.linkid.sdk.auth.service
 
 import android.util.Log
-import vn.linkid.sdk.APIEndpoints
+import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.models.auth.ConnectedMemberAuthToken
 import vn.linkid.sdk.models.auth.MemberAuthToken
 import kotlinx.coroutines.flow.Flow

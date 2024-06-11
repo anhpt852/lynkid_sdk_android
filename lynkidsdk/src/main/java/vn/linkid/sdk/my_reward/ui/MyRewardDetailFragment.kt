@@ -18,9 +18,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentMyRewardDetailBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import vn.linkid.sdk.models.my_reward.RewardUsedStatus
 import vn.linkid.sdk.models.my_reward.WhyHaveRewardType

@@ -17,10 +17,10 @@ import vn.linkid.sdk.category.service.CategoryService
 import vn.linkid.sdk.category.viewmodel.CategoryViewModel
 import vn.linkid.sdk.category.viewmodel.CategoryViewModelFactory
 import vn.linkid.sdk.databinding.FragmentCategoryBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.category.GiftFilterModel
 
 class CategoryFragment : Fragment() {

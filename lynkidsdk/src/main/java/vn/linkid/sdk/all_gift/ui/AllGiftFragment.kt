@@ -17,11 +17,10 @@ import vn.linkid.sdk.all_gift.service.AllGiftService
 import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModel
 import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModelFactory
 import vn.linkid.sdk.databinding.FragmentAllGiftBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.handleScroll
-import vn.linkid.sdk.home.adapter.HomeGiftAdapter
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.handleScroll
+import vn.linkid.sdk.utils.mainAPI
 
 class AllGiftFragment : Fragment() {
 

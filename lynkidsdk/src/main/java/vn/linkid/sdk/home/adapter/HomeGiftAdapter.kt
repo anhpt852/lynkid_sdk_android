@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.databinding.ItemHomeGiftBinding
-import vn.linkid.sdk.formatPrice
+import vn.linkid.sdk.utils.formatPrice
 import vn.linkid.sdk.models.gift.Gift
 
 class HomeGiftAdapter(private val gifts: List<Gift>) :

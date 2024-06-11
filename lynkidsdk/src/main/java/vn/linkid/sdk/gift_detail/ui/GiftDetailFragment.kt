@@ -7,26 +7,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.constraintlayout.helper.widget.Carousel
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentGiftDetailBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.formatPrice
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.formatPrice
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.gift_detail.adapter.ImagePagerAdapter
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
 import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModelFactory
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
 import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
 import java.util.Date
@@ -185,7 +181,10 @@ class GiftDetailFragment : Fragment() {
             }
         }
 
-
+        btnExchange.setOnClickListener {
+            val action = GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(giftId)
+            findNavController().navigate(action)
+        }
     }
 
 }

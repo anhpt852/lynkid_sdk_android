@@ -1,4 +1,4 @@
-package vn.linkid.sdk
+package vn.linkid.sdk.utils
 
 import android.content.Context
 import android.icu.text.NumberFormat
@@ -69,5 +69,11 @@ fun RecyclerView.handleScroll(itemScrollerBinding: ItemScrollerBinding) {
                 }
             })
         }
+    }
+}
+
+fun generateCacheKey(url: String, params: Map<String, Any>): String {
+    return url + params.entries.sortedBy { it.key }.joinToString(separator = "&", prefix = "?") {
+        "${it.key}=${it.value}"
     }
 }

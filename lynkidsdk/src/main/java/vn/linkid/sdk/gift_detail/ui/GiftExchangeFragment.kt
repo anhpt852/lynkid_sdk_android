@@ -1,6 +1,7 @@
 package vn.linkid.sdk.gift_detail.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,17 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import vn.linkid.sdk.databinding.FragmentGiftExchangeBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getStatusBarHeight
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.formatPrice
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModelFactory
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
 
-class GiftExchangeFragment: Fragment() {
+class GiftExchangeFragment : Fragment() {
 
     private lateinit var binding: FragmentGiftExchangeBinding
     private lateinit var viewModel: GiftExchangeViewModel
@@ -64,27 +68,83 @@ class GiftExchangeFragment: Fragment() {
             setUpQuantity(giftDetail)
             setUpGiftInfo(giftDetail)
             setUpBalance(giftDetail)
+            setUpExchangeButton(giftDetail)
         }
     }
 
     private fun FragmentGiftExchangeBinding.setUpGiftInfo(giftDetail: GiftDetail) {
-
+        txtGiftName.text = giftDetail.giftInfor?.name ?: ""
+        txtPrice.text = (giftDetail.giftInfor?.requiredCoin ?: 0.0).formatPrice()
+        Glide.with(root.context).load((giftDetail.imageLink ?: emptyList()).firstOrNull()?.link)
+            .into(imgGift)
     }
 
     private fun FragmentGiftExchangeBinding.setUpQuantity(giftDetail: GiftDetail) {
+        val maxAllowedRedemptionOfUser = giftDetail.giftInfor?.maxAllowedRedemptionOfUser ?: 0
+        val maxQuantityPerRedemptionOfUser =
+            giftDetail.giftInfor?.maxQuantityPerRedemptionOfUser ?: 0
+        val totalRedemptionOfUser = giftDetail.giftInfor?.totalRedeemedOfUser ?: 0
+        val remainingQuantity = maxAllowedRedemptionOfUser - totalRedemptionOfUser
         viewModel.quantity.observe(viewLifecycleOwner) { quantity ->
             txtQuantity.text = quantity.toString()
+            txtRequiredPoint.text =
+                ((giftDetail.giftInfor?.requiredCoin ?: 0.0) * quantity).formatPrice()
             btnSubtractQuantities.isEnabled = quantity > 1
-            btnAddQuantities.isEnabled = quantity < 1
+            btnAddQuantities.isEnabled =
+                if (maxAllowedRedemptionOfUser == 0 && maxQuantityPerRedemptionOfUser == 0) true else quantity < remainingQuantity
+            checkButtonAvailability(giftDetail)
         }
         btnSubtractQuantities.setOnClickListener { viewModel.decreaseQuantity() }
         btnAddQuantities.setOnClickListener { viewModel.increaseQuantity() }
     }
 
     private fun FragmentGiftExchangeBinding.setUpBalance(giftDetail: GiftDetail) {
-
+        viewModel.pointInfoLoader.observe(viewLifecycleOwner) { loader ->
+            if (loader) {
+                Log.d("GiftExchangeFragment", "setUpPointInfo: $loader")
+            }
+        }
+        viewModel.pointInfo.observe(viewLifecycleOwner) { pointInfo ->
+            if (pointInfo.getOrNull() != null) {
+                val point = pointInfo.getOrNull()!!
+                txtAvailablePoint.text = point.tokenBalance!!.formatPrice()
+                checkButtonAvailability(giftDetail)
+            }
+        }
     }
 
+    private fun FragmentGiftExchangeBinding.setUpExchangeButton(giftDetail: GiftDetail) {
+        val bottomLayoutParam = btnExchange.layoutParams as ViewGroup.MarginLayoutParams
+        bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+        btnExchange.layoutParams = bottomLayoutParam
+
+        val maxAllowedRedemptionOfUser = giftDetail.giftInfor?.maxAllowedRedemptionOfUser ?: 0
+        val maxQuantityPerRedemptionOfUser =
+            giftDetail.giftInfor?.maxQuantityPerRedemptionOfUser ?: 0
+        val totalRedemptionOfUser = giftDetail.giftInfor?.totalRedeemedOfUser ?: 0
+        val remainingQuantity = maxAllowedRedemptionOfUser - totalRedemptionOfUser
+
+        btnExchange.setOnClickListener {
+            val action = GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment()
+            findNavController().navigate(action)
+//            viewModel.createTransaction(
+//                giftDetail.giftInfor?.code ?: "",
+//                (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1)
+//            ).observe(viewLifecycleOwner) { result ->
+//                result.getOrNull()?.let { exchangeModel ->
+//                    val isOtpSent = exchangeModel.isOtpSent ?: false
+//                }
+//            }
+        }
+    }
+
+    private fun FragmentGiftExchangeBinding.checkButtonAvailability(giftDetail: GiftDetail) {
+        val quantity = viewModel.quantity.value ?: 1
+        val totalCost = (giftDetail.giftInfor?.requiredCoin ?: 0.0) * quantity
+        val balance = viewModel.pointInfo.value?.getOrNull()?.tokenBalance ?: 0.0
+        btnExchange.isEnabled = balance >= totalCost
+        btnExchange.alpha = if (balance >= totalCost) 1f else 0.6f
+    }
 
 
 }

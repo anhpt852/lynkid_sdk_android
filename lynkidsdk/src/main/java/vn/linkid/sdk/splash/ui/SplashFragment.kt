@@ -1,19 +1,14 @@
 package vn.linkid.sdk.splash.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import vn.linkid.sdk.LynkiD_SDK
-import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentSplashBinding
-import vn.linkid.sdk.home.viewmodel.HomeViewModel
-import vn.linkid.sdk.mainAPI
-import vn.linkid.sdk.models.auth.AuthType
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.splash.repository.SplashRepository
 import vn.linkid.sdk.splash.service.SplashService
 import vn.linkid.sdk.splash.viewmodel.SplashViewModel

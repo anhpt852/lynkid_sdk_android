@@ -1,4 +1,4 @@
-package vn.linkid.sdk
+package vn.linkid.sdk.utils
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,9 +1,8 @@
 package vn.linkid.sdk.category.service
 
 import android.util.Log
-import vn.linkid.sdk.APIEndpoints
+import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.LynkiD_SDK
-import vn.linkid.sdk.models.category.GiftCategoryResponseModel
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

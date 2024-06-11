@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import vn.linkid.sdk.databinding.FragmentMyRewardBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getStatusBarHeight
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
 
 class MyRewardFragment: Fragment() {
 

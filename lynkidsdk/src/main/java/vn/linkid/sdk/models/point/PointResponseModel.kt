@@ -1,6 +1,6 @@
 package vn.linkid.sdk.models.point
 
-import vn.linkid.sdk.BaseModel
+import vn.linkid.sdk.models.BaseModel
 
 data class PointResponseModel(
     val data: PointResponse?,

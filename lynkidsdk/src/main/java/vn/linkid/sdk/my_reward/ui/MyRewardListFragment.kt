@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.linkid.sdk.databinding.FragmentMyRewardListBinding
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.my_reward.adapter.MyRewardListAdapter
 import vn.linkid.sdk.my_reward.repository.MyRewardListRepository
 import vn.linkid.sdk.my_reward.service.MyRewardListService

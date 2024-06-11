@@ -1,11 +1,9 @@
 package vn.linkid.sdk.all_gift.service
 
 import android.util.Log
-import vn.linkid.sdk.APIEndpoints
+import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.LynkiD_SDK
-import vn.linkid.sdk.models.category.GiftCategoryResponseModel
 import vn.linkid.sdk.models.gift.AllGiftGroupResponseModel
-import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow

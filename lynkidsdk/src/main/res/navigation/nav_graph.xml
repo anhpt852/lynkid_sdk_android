@@ -145,5 +145,25 @@
         <argument
             android:name="giftId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_giftExchangeFragment_to_giftOTPFragment"
+            app:destination="@id/giftOTPFragment" />
+        <action
+            android:id="@+id/action_giftExchangeFragment_to_giftExchangeSuccessFragment"
+            app:destination="@id/giftExchangeSuccessFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/giftOTPFragment"
+        android:name="vn.linkid.sdk.gift_detail.ui.GiftOTPFragment"
+        android:label="GiftOTPFragment"
+        tools:layout="@layout/fragment_gift_otp">
+        <action
+            android:id="@+id/action_giftOTPFragment_to_giftExchangeSuccessFragment"
+            app:destination="@id/giftExchangeSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftExchangeSuccessFragment"
+        android:name="vn.linkid.sdk.gift_detail.ui.GiftExchangeSuccessFragment"
+        android:label="GiftExchangeSuccessFragment"
+        tools:layout="@layout/fragment_gift_exchange_success"/>
 </navigation>

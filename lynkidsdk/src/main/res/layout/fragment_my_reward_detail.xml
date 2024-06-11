@@ -565,7 +565,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtDescriptionTitle" />
 
-                <vn.linkid.sdk.WrapContentWebView
+                <vn.linkid.sdk.utils.WrapContentWebView
                     android:id="@+id/webViewIntroduce"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -592,7 +592,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dividerIntroduce" />
 
-                <vn.linkid.sdk.WrapContentWebView
+                <vn.linkid.sdk.utils.WrapContentWebView
                     android:id="@+id/webViewInstruction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -703,7 +703,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <vn.linkid.sdk.WrapContentWebView
+                <vn.linkid.sdk.utils.WrapContentWebView
                     android:id="@+id/webViewCondition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -12,13 +12,12 @@ import vn.linkid.sdk.auth.service.AuthService
 import vn.linkid.sdk.auth.viewmodel.AuthViewModel
 import vn.linkid.sdk.auth.viewmodel.AuthViewModelFactory
 import vn.linkid.sdk.databinding.FragmentAuthBinding
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.auth.ConnectedMember
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 
 
 class AuthFragment : Fragment() {

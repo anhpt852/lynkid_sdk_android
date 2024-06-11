@@ -14,10 +14,10 @@ import vn.linkid.sdk.auth.service.SwitchAccountService
 import vn.linkid.sdk.auth.viewmodel.SwitchAccountViewModel
 import vn.linkid.sdk.auth.viewmodel.SwitchAccountViewModelFactory
 import vn.linkid.sdk.databinding.FragmentSwitchAccountBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.mainAPI
 
 class SwitchAccountFragment : Fragment() {
 

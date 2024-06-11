@@ -12,10 +12,10 @@ import vn.linkid.sdk.auth.service.RegisterService
 import vn.linkid.sdk.auth.viewmodel.RegisterViewModel
 import vn.linkid.sdk.auth.viewmodel.RegisterViewModelFactory
 import vn.linkid.sdk.databinding.FragmentRegisterBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.mainAPI
 
 class RegisterFragment: Fragment() {
 

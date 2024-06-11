@@ -1,7 +1,7 @@
 package vn.linkid.sdk.splash.service
 
 import android.util.Log
-import vn.linkid.sdk.APIEndpoints
+import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.models.auth.AuthToken
 import vn.linkid.sdk.models.auth.ConnectedMemberAuthToken
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
 package vn.linkid.sdk.models.my_reward
 
-import vn.linkid.sdk.BaseModel
+import vn.linkid.sdk.models.BaseModel
 
 data class MyRewardListResponseModel(
     val message: String?,

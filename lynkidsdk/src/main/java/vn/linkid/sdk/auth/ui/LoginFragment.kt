@@ -12,11 +12,11 @@ import vn.linkid.sdk.auth.service.LoginService
 import vn.linkid.sdk.auth.viewmodel.LoginViewModel
 import vn.linkid.sdk.auth.viewmodel.LoginViewModelFactory
 import vn.linkid.sdk.databinding.FragmentLoginBinding
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 import androidx.navigation.fragment.navArgs
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.getNavigationBarHeight
-import vn.linkid.sdk.getStatusBarHeight
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.models.auth.ConnectedMember
 
 class LoginFragment : Fragment() {

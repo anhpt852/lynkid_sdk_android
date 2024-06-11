@@ -1,4 +1,4 @@
-package vn.linkid.sdk
+package vn.linkid.sdk.models
 
 open class BaseModel(
     var targetUrl: String? = null,

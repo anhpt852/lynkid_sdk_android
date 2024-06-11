@@ -75,6 +75,7 @@
                     android:id="@+id/imgGift"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="W,164:82"
                     app:layout_constraintStart_toStartOf="parent"

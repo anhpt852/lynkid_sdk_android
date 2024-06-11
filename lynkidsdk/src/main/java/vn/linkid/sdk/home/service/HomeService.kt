@@ -1,8 +1,7 @@
 package vn.linkid.sdk.home.service
 
 import android.util.Log
-import vn.linkid.sdk.APIEndpoints
-import vn.linkid.sdk.LynkiD_SDK
+import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 import vn.linkid.sdk.models.banner.HomeNewsAndBannerModel
 import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
@@ -11,65 +10,87 @@ import vn.linkid.sdk.models.point.PointResponseModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
+import vn.linkid.sdk.utils.Endpoints
+import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.utils.generateCacheKey
 
 class HomeService(private val api: APIEndpoints) {
 
     suspend fun getMemberInfo(): Flow<Result<MemberResponseModel>> = flow {
-        Log.d("HomeService", "getMemberInfo: LynkiD_SDK.accessToken ${LynkiD_SDK.accessToken}")
-        emit(
-            Result.success(
-                api.getMemberInfo()
-            )
-        )
+        val cacheKey = Endpoints.GET_MEMBER_INFO
+        val cachedResponse = MainCache.get<MemberResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getMemberInfo()
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("HomeService", "getMemberInfo: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 
     suspend fun getPointInfo(): Flow<Result<PointResponseModel>> = flow {
-        emit(
-            Result.success(
-                api.getPointInfo()
-            )
-        )
+        val cacheKey = Endpoints.GET_POINT_INFO
+        val cachedResponse = MainCache.get<PointResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getPointInfo()
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("HomeService", "getPointInfo: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 
     suspend fun getBannerAndNews(): Flow<Result<HomeNewsAndBannerModel>> = flow {
-        Log.d("HomeService", "getBannerAndNews: LynkiD_SDK.seedToken ${LynkiD_SDK.seedToken}")
-        emit(
-            Result.success(
-                api.getBannerAndNews(
-                    queries = mutableMapOf(
-                        "SkipCount" to 0, "MaxResultCount" to 5, "Sorting" to "Article.Ordinal asc"
-                    )
-                )
-            )
+        val params: MutableMap<String, Any> = mutableMapOf(
+            "SkipCount" to 0,
+            "MaxResultCount" to 5,
+            "Sorting" to "Article.Ordinal asc"
         )
+        val cacheKey = generateCacheKey(Endpoints.GET_BANNER_AND_NEWS, params)
+        val cachedResponse = MainCache.get<HomeNewsAndBannerModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getBannerAndNews(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("HomeService", "getBannerAndNews: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 
     suspend fun getHomeCategories(): Flow<Result<HomeCategoryResponseModel>> = flow {
-        emit(
-            Result.success(
-                api.getHomeCategories()
-            )
-        )
+        val cacheKey = Endpoints.GET_HOME_CATEGORIES
+        val cachedResponse = MainCache.get<HomeCategoryResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getHomeCategories()
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("HomeService", "getHomeCategories: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 
     suspend fun getHomeGiftGroup(): Flow<Result<HomeGiftGroupResponseModel>> = flow {
-        emit(
-            Result.success(
-                api.getHomeGiftGroup()
-            )
-        )
+        val cacheKey = Endpoints.GET_HOME_GIFT_GROUP
+        val cachedResponse = MainCache.get<HomeGiftGroupResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getHomeGiftGroup()
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("HomeService", "getHomeGiftGroup: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))

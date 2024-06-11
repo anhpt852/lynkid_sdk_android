@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemCategoryGiftBinding
-import vn.linkid.sdk.formatPrice
+import vn.linkid.sdk.utils.formatPrice
 import vn.linkid.sdk.models.category.Gift
 
 class GiftsByCategoryAdapter(private var gifts: List<Gift>) : RecyclerView.Adapter<GiftsByCategoryAdapter.GiftsByCategoryViewHolder>() {

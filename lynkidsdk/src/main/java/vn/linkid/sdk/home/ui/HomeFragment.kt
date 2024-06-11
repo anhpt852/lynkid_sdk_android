@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
-import vn.linkid.sdk.R
-import vn.linkid.sdk.all_gift.ui.AllGiftFragmentDirections
 import vn.linkid.sdk.databinding.FragmentHomeBinding
-import vn.linkid.sdk.dpToPx
-import vn.linkid.sdk.formatPrice
-import vn.linkid.sdk.getStatusBarHeight
-import vn.linkid.sdk.handleScroll
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.formatPrice
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.handleScroll
 import vn.linkid.sdk.home.adapter.HomeBannerAdapter
 import vn.linkid.sdk.home.adapter.HomeCategoryAdapter
 import vn.linkid.sdk.home.adapter.HomeGiftAdapter
@@ -26,7 +24,7 @@ import vn.linkid.sdk.home.repository.HomeRepository
 import vn.linkid.sdk.home.service.HomeService
 import vn.linkid.sdk.home.viewmodel.HomeViewModel
 import vn.linkid.sdk.home.viewmodel.HomeViewModelFactory
-import vn.linkid.sdk.mainAPI
+import vn.linkid.sdk.utils.mainAPI
 
 class HomeFragment : Fragment() {
 
