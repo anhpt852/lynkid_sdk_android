@@ -96,8 +96,15 @@ class AllGiftFragment : Fragment() {
             if (giftGroups.getOrNull() != null) {
                 binding.apply {
                     listGift.layoutManager = LinearLayoutManager(requireContext())
-                    listGift.adapter =
-                        AllGiftGroupAdapter(giftGroups.getOrNull()!!)
+                    val adapter = AllGiftGroupAdapter(giftGroups.getOrNull()!!)
+                    adapter.onItemClick = { gift ->
+                        val action =
+                            AllGiftFragmentDirections.actionAllGiftFragmentToGiftDetailFragment(
+                                gift.giftInfo?.id ?: 0
+                            )
+                        findNavController().navigate(action)
+                    }
+                    listGift.adapter = adapter
                 }
             }
         }

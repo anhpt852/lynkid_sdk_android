@@ -11,6 +11,8 @@ import vn.linkid.sdk.models.gift.Gift
 class AllGiftListAdapter(private val gifts: List<Gift>) :
     RecyclerView.Adapter<AllGiftListAdapter.AllGiftListViewHolder>() {
 
+        var onItemClick: ((Gift) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllGiftListViewHolder {
         val binding = ItemAllGiftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AllGiftListViewHolder(binding)

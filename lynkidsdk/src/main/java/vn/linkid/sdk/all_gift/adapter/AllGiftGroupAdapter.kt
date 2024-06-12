@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.databinding.BannerInstallAppBigBinding
 import vn.linkid.sdk.databinding.ItemAllGiftGroupBinding
 import vn.linkid.sdk.home.adapter.HomeGiftAdapter
+import vn.linkid.sdk.models.gift.Gift
 import vn.linkid.sdk.models.gift.HomeGiftGroup
 
 
 class AllGiftGroupAdapter(private val giftGroups: List<HomeGiftGroup>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var onItemClick: ((Gift) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0) {
@@ -54,8 +56,9 @@ class AllGiftGroupAdapter(private val giftGroups: List<HomeGiftGroup>) :
                 txtTitle.text = giftGroup.giftGroup?.name
                 listGift.layoutManager =
                     LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-                listGift.adapter =
-                    AllGiftListAdapter(giftGroup.gifts ?: listOf())
+                val adapter = AllGiftListAdapter(giftGroup.gifts ?: listOf())
+                adapter.onItemClick = onItemClick
+                listGift.adapter = adapter
             }
         }
     }

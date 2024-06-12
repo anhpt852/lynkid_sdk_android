@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +43,7 @@ class CategoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[CategoryViewModel::class.java]
@@ -104,7 +105,10 @@ class CategoryFragment : Fragment() {
             listGift.layoutManager = LinearLayoutManager(binding.root.context)
             listGift.adapter = giftsByCategoryAdapter
             giftsByCategoryAdapter.onItemClick = { gift ->
-
+                val action = CategoryFragmentDirections.actionCategoryFragmentToGiftDetailFragment(
+                    gift.giftInfor?.id ?: 0
+                )
+                findNavController().navigate(action)
             }
             listGift.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 var previousScrollPosition = 0
