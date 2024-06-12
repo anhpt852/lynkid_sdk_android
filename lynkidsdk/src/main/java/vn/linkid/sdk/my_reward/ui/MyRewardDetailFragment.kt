@@ -28,6 +28,7 @@ import vn.linkid.sdk.my_reward.repository.MyRewardDetailRepository
 import vn.linkid.sdk.my_reward.service.MyRewardDetailService
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModel
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModelFactory
+import vn.linkid.sdk.utils.formatDate
 import java.util.Date
 import java.util.Locale
 
@@ -143,21 +144,6 @@ class MyRewardDetailFragment : Fragment() {
 
     }
 
-    private fun formatDate(date: String?): String {
-        if (date.isNullOrEmpty()) return ""
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-            val expireDate = inputFormat.parse(date)?.let {
-                Date(it.time + 7 * 3600 * 1000) // Adjusting for UTC+7
-            }
-
-            val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            outputFormat.format(expireDate)
-        } catch (e: Exception) {
-            ""
-        }
-    }
 
     private fun FragmentMyRewardDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
 

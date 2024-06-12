@@ -46,7 +46,7 @@ class GiftDetailRepository(private val service: GiftDetailService) {
         giftCode: String,
         quantity: Int,
         totalAmount: Double
-    ) = service.createTransaction(giftCode, quantity, totalAmount).map { result ->
+    ) = service.createTransaction(giftCode, quantity, totalAmount, "").map { result ->
         if (result.isSuccess) {
             val pairResult = result.getOrNull()
             if (pairResult != null && pairResult.second.isSuccess == true) {

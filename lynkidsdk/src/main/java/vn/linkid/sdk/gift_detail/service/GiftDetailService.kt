@@ -53,14 +53,16 @@ class GiftDetailService(private val api: APIEndpoints) {
     suspend fun createTransaction(
         giftCode: String,
         quantity: Int,
-        totalAmount: Double
+        totalAmount: Double,
+        description: String
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
         val session = "LynkiD_SDK.session"
         val params: MutableMap<String, Any> = mutableMapOf(
             "cifCode" to LynkiD_SDK.cif,
             "giftCode" to giftCode,
             "quantity" to quantity,
-            "totalAmount" to totalAmount
+            "totalAmount" to totalAmount,
+            "description" to description
         )
         val response = api.createTransaction(body = params)
         emit(Result.success(Pair(session, response)))

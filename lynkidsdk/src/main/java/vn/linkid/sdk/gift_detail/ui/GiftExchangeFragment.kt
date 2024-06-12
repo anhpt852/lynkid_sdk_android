@@ -21,6 +21,7 @@ import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModelFactory
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
+import vn.linkid.sdk.utils.formatDate
 
 class GiftExchangeFragment : Fragment() {
 
@@ -125,16 +126,31 @@ class GiftExchangeFragment : Fragment() {
         val remainingQuantity = maxAllowedRedemptionOfUser - totalRedemptionOfUser
 
         btnExchange.setOnClickListener {
-            val action = GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment()
-            findNavController().navigate(action)
-//            viewModel.createTransaction(
-//                giftDetail.giftInfor?.code ?: "",
-//                (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1)
-//            ).observe(viewLifecycleOwner) { result ->
-//                result.getOrNull()?.let { exchangeModel ->
-//                    val isOtpSent = exchangeModel.isOtpSent ?: false
-//                }
-//            }
+            viewModel.createTransaction(
+                giftDetail.giftInfor?.code ?: "",
+                (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1)
+            ).observe(viewLifecycleOwner) { result ->
+                result.getOrNull()?.let { exchangeModel ->
+                    val isOtpSent = exchangeModel.isOtpSent ?: false
+                    val action = if (isOtpSent) {
+                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment()
+                    } else {
+                        val expiredString =
+                            formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
+                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
+                            amount = viewModel.quantity.value ?: 1,
+                            coin = ((giftDetail.giftInfor?.requiredCoin
+                                ?: 0.0) * (viewModel.quantity.value ?: 1)).toLong(),
+                            brandImage = giftDetail.giftInfor?.brandLinkLogo ?: "",
+                            brandName = giftDetail.giftInfor?.brandName ?: "",
+                            giftName = giftDetail.giftInfor?.name ?: "",
+                            expiredString = expiredString,
+                            transactionCode = exchangeModel.items?.firstOrNull()?.code ?: ""
+                        )
+                    }
+                    findNavController().navigate(action)
+                }
+            }
         }
     }
 
