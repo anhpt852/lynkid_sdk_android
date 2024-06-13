@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeFragment_to_giftDetailFragment"
             app:destination="@id/giftDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
@@ -40,6 +43,9 @@
         <action
             android:id="@+id/action_allGiftFragment_to_giftDetailFragment"
             app:destination="@id/giftDetailFragment" />
+        <action
+            android:id="@+id/action_allGiftFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -136,6 +142,9 @@
         <action
             android:id="@+id/action_giftDetailFragment_to_giftExchangeFragment"
             app:destination="@id/giftExchangeFragment" />
+        <action
+            android:id="@+id/action_giftDetailFragment_to_giftExchangeAddressFragment"
+            app:destination="@id/giftExchangeAddressFragment" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeFragment"
@@ -152,6 +161,9 @@
             android:id="@+id/action_giftExchangeFragment_to_giftExchangeSuccessFragment"
             app:destination="@id/giftExchangeSuccessFragment"
             app:popUpTo="@id/giftDetailFragment" />
+        <action
+            android:id="@+id/action_giftExchangeFragment_to_giftExchangeAddressFragment"
+            app:destination="@id/giftExchangeAddressFragment" />
     </fragment>
     <fragment
         android:id="@+id/giftOTPFragment"
@@ -190,5 +202,51 @@
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardDetailFragment"
             app:destination="@id/myRewardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftExchangeAddressFragment"
+        android:name="vn.linkid.sdk.gift_detail.ui.GiftExchangeAddressFragment"
+        android:label="GiftExchangeAddressFragment"
+        tools:layout="@layout/fragment_gift_exchange_address">
+        <action
+            android:id="@+id/action_giftExchangeAddressFragment_to_giftExchangeFragment"
+            app:destination="@id/giftExchangeFragment" />
+        <action
+            android:id="@+id/action_giftExchangeAddressFragment_to_addressPickerFragment"
+            app:destination="@id/addressPickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="vn.linkid.sdk.transaction.ui.TransactionFragment"
+        android:label="TransactionFragment"
+        tools:layout="@layout/fragment_transaction">
+
+        <action
+            android:id="@+id/action_transactionFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="vn.linkid.sdk.transaction.ui.TransactionDetailFragment"
+        android:label="TransactionDetailFragment"
+        tools:layout="@layout/fragment_transaction_detail">
+        <action
+            android:id="@+id/action_transactionDetailFragment_to_myRewardDetailFragment"
+            app:destination="@id/myRewardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="vn.linkid.sdk.search.ui.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/addressPickerFragment"
+        android:name="vn.linkid.sdk.address.ui.AddressPickerFragment"
+        android:label="AddressPickerFragment"
+        tools:layout="@layout/fragment_address_picker">
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
