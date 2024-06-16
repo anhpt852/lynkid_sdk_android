@@ -191,6 +191,47 @@ interface APIEndpoints {
         @Body body: MutableMap<String, Any>
     ): ExchangeResponseModel
 
+    @POST(Endpoints.CONFIRM_TRANSACTION)
+    suspend fun confirmTransaction(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ),
+        @Body body: MutableMap<String, Any>
+    )
+
+    @GET(Endpoints.GET_TRANSACTIONS)
+    suspend fun getTransactions(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    )
+
+    @GET(Endpoints.GET_TRANSACTION_DETAIL)
+    suspend fun getTransactionDetail(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    )
+
+    @GET(Endpoints.GET_LOCATIONS)
+    suspend fun getLocations(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    )
+
+    @GET(Endpoints.GET_GIFT_USAGE_ADDRESS)
+    suspend fun getGiftUsageAddress(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    )
+
 }
 
 object Endpoints {
@@ -206,7 +247,12 @@ object Endpoints {
     const val GET_GIFT_CATEGORIES = "api/GiftCategory/GiftListCategories_v1"
     const val GET_ALL_GIFT_GROUPS = "api/sdk-v1/get-gift-all-infors"
     const val GET_GIFTS_BY_CATEGORY = "api/sdk-v1/get-all-by-member-code"
-    const val GET_MY_REWARDS = "/api/sdk-v1/GetAllWithEGift"
-    const val GET_GIFT_DETAILS = "/api/sdk-v1/get-gift-details"
-    const val CREATE_TRANSACTION = "/api/sdk-v1/create-transaction"
+    const val GET_MY_REWARDS = "api/sdk-v1/GetAllWithEGift"
+    const val GET_GIFT_DETAILS = "api/sdk-v1/get-gift-details"
+    const val CREATE_TRANSACTION = "api/sdk-v1/create-transaction"
+    const val CONFIRM_TRANSACTION = "api/sdk-v1/confirm-otp-create-transaction"
+    const val GET_TRANSACTIONS = "api/sdk-v1/get-transaction"
+    const val GET_TRANSACTION_DETAIL = "api/sdk-v1/Member/TokenTrans/GetTokenTransById"
+    const val GET_LOCATIONS = "api/sdk-v1/Location/GetAll"
+    const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"
 }

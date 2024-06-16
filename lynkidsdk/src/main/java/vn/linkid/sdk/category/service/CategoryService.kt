@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flow
 import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 
 class CategoryService(private val api: APIEndpoints) {
+
     suspend fun getGiftCategories(): Flow<Result<HomeCategoryResponseModel>> = flow {
         emit(
             Result.success(
@@ -20,6 +21,7 @@ class CategoryService(private val api: APIEndpoints) {
         Log.e("CategoryService", "getGiftCategories: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
+
     suspend fun getGiftsByCategoryCode(
         categoryCode: String,
         index: Int
