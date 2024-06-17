@@ -32,8 +32,8 @@ class CategoryService(private val api: APIEndpoints) {
                     queries = mutableMapOf(
                         "MemberCode" to LynkiD_SDK.memberCode,
                         "GiftCategoryCodeFilter" to categoryCode,
-                        "SkipCount" to index,
-                        "MaxItem" to 50
+                        "SkipCount" to index * 10,
+                        "MaxItem" to 10
                     )
                 )
             )

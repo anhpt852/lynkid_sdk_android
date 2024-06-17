@@ -14,62 +14,53 @@ import vn.linkid.sdk.models.category.Category
 
 
 class CategoryAdapter(
-    private var categories: List<Category>,
-    private var selectedCategoryCode: String
+    private var categories: List<Category>
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     var onItemClick: ((Category) -> Unit)? = null
+
+    var selectedPosition: Int = RecyclerView.NO_POSITION
+        set(value) {
+            if (field != value) {
+                val oldPosition = field
+                field = value
+                notifyItemChanged(oldPosition)
+                notifyItemChanged(value)
+            }
+        }
+
+    fun updateCategories(newCategories: List<Category>) {
+        val diffCallback = CategoryDiffCallback(categories, newCategories)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        categories = newCategories
+        diffResult.dispatchUpdatesTo(this)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding =
             ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding, selectedCategoryCode)
+        return CategoryViewHolder(binding)
     }
 
     override fun getItemCount(): Int = categories.size
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categories[position])
+        val isSelected = position == selectedPosition
+        Log.d("CategoryAdapter", "onBindViewHolder: $isSelected")
+        holder.bind(categories[position], isSelected)
     }
 
-    fun updateSelectedCategoryCode(newSelectedCategoryCode: String) {
-        val oldSelectedCategoryCode = selectedCategoryCode
-        selectedCategoryCode = newSelectedCategoryCode
-
-        val diffCallback = object : DiffUtil.Callback() {
-            override fun getOldListSize(): Int = categories.size
-            override fun getNewListSize(): Int = categories.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return true
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return !(categories[oldItemPosition].code == oldSelectedCategoryCode ||
-                        categories[oldItemPosition].code == newSelectedCategoryCode)
-            }
-        }
-
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun updateCategories(newCategories: List<Category>) {
-        val diffCallback = CategoryDiffCallback(categories, newCategories)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        categories = newCategories
-        diffResult.dispatchUpdatesTo(this)
-    }
 
     inner class CategoryViewHolder(
-        private val binding: ItemCategoryBinding,
-        private val selectedCategoryCode: String
+        private val binding: ItemCategoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(category: Category) {
+        fun bind(category: Category, isSelected: Boolean) {
             binding.apply {
                 Glide.with(root.context)
                     .load(if (category.code == "all") R.drawable.ic_category_all else category.fullLink)
                     .into(imgCategory)
                 txtCategory.text = category.name
-                if (category.code == selectedCategoryCode) {
+                if (itemView.isSelected != isSelected) {
                     val backgroundColor = ColorStateList.valueOf(Color.parseColor("#F0F0F4"))
                     backgroundCategory.setCardBackgroundColor(backgroundColor)
                     val imageBackgroundColor = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
@@ -81,26 +72,30 @@ class CategoryAdapter(
                     cardCategory.setCardBackgroundColor(imageBackgroundColor)
                 }
                 itemView.setOnClickListener {
-                    onItemClick?.invoke(categories[bindingAdapterPosition])
+                    if (selectedPosition != layoutPosition) {
+                        selectedPosition = layoutPosition
+                        onItemClick?.invoke(categories[bindingAdapterPosition])
+                    }
                 }
             }
         }
     }
 
     inner class CategoryDiffCallback(
-        private val oldList: List<Category>,
-        private val newList: List<Category>
+        private val oldCategories: List<Category>,
+        private val newCategories: List<Category>
     ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
 
-        override fun getNewListSize(): Int = newList.size
+        override fun getOldListSize(): Int = oldCategories.size
+
+        override fun getNewListSize(): Int = newCategories.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].code == newList[newItemPosition].code
+            return oldCategories[oldItemPosition].code == newCategories[newItemPosition].code
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
+            return oldCategories[oldItemPosition] == newCategories[newItemPosition]
         }
     }
 

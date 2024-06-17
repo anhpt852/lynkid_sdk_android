@@ -64,7 +64,6 @@ fun RecyclerView.handleScroll(itemScrollerBinding: ItemScrollerBinding) {
                     dx: Int,
                     dy: Int,
                 ) {
-                    Log.d("TAG", "onScrolled: $dx, $dy")
                     super.onScrolled(recyclerView, dx, dy)
                     val scrolledWidth =
                         this@handleScroll.computeHorizontalScrollOffset()
