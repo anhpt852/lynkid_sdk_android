@@ -9,21 +9,21 @@ import vn.linkid.sdk.category.service.CategoryService
 import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 
-class CategoryPagingSource(private val service: CategoryService, private val categoryCode: String) : PagingSource<Int, Gift>() {
+class CategoryPagingSource(private val service: CategoryService, private val categoryCode: String) :
+    PagingSource<Int, Gift>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Gift> {
         val pageIndex = params.key ?: 0
 
         return try {
-            // Collect the flow and handle the result
             val result = service.getGiftsByCategoryCode(categoryCode, pageIndex).first()
-
             result.fold(
                 onSuccess = { response ->
+                    val totalCount = response.data?.totalCount ?: 0
                     LoadResult.Page(
                         data = response.data?.items ?: emptyList(),
                         prevKey = if (pageIndex == 0) null else pageIndex - 1,
-                        nextKey = if (response.data?.items.isNullOrEmpty()) null else pageIndex + 1
+                        nextKey = if (response.data?.items.isNullOrEmpty() or ((totalCount > 0) and (totalCount <= ((pageIndex + 1) * 10)))) null else pageIndex + 1
                     )
                 },
                 onFailure = { exception ->

@@ -238,7 +238,11 @@
         android:id="@+id/searchFragment"
         android:name="vn.linkid.sdk.search.ui.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_giftDetailFragment"
+            app:destination="@id/giftDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addressPickerFragment"
         android:name="vn.linkid.sdk.address.ui.AddressPickerFragment"

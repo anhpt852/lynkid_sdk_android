@@ -56,6 +56,11 @@ class AllGiftFragment : Fragment() {
             val cardLayoutParams = cardCategory.layoutParams as ViewGroup.MarginLayoutParams
             cardLayoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(128) ?: 0)
             cardCategory.layoutParams = cardLayoutParams
+
+            editSearch.setOnClickListener {
+                val action = AllGiftFragmentDirections.actionAllGiftFragmentToSearchFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

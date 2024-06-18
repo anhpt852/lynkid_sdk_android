@@ -43,7 +43,7 @@ class CategoryRepository(private val service: CategoryService) {
         }
 
     fun getGiftsStream(categoryCode: String): Flow<PagingData<Gift>> = Pager(
-        PagingConfig(pageSize = 50, enablePlaceholders = false)
+        PagingConfig(pageSize = 10, enablePlaceholders = false)
     ) {
         CategoryPagingSource(service, categoryCode)
     }.flow

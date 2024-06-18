@@ -61,6 +61,11 @@ class HomeFragment : Fragment() {
             val layoutParams = imgAvatar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             imgAvatar.layoutParams = layoutParams
+
+            btnFindDark.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

@@ -25,6 +25,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import vn.linkid.sdk.LynkiD_SDK
+import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
@@ -222,7 +223,7 @@ interface APIEndpoints {
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
-    )
+    ): AddressResponseModel
 
     @GET(Endpoints.GET_GIFT_USAGE_ADDRESS)
     suspend fun getGiftUsageAddress(
@@ -231,6 +232,14 @@ interface APIEndpoints {
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     )
+
+    @GET(Endpoints.GET_GIFTS)
+    suspend fun searchGift(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): AllGiftGroupResponseModel
 
 }
 
@@ -255,4 +264,5 @@ object Endpoints {
     const val GET_TRANSACTION_DETAIL = "api/sdk-v1/Member/TokenTrans/GetTokenTransById"
     const val GET_LOCATIONS = "api/sdk-v1/Location/GetAll"
     const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"
+    const val GET_GIFTS = "/api/sdk-v1/get-gift-all-infors"
 }
