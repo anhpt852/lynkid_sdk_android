@@ -1,4 +1,4 @@
-package vn.linkid.sdk.search.adapter
+package vn.linkid.sdk.search.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

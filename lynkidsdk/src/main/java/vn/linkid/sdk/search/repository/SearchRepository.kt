@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import vn.linkid.sdk.models.gift.Gift
-import vn.linkid.sdk.search.adapter.SearchPagingSource
+import vn.linkid.sdk.search.paging.SearchPagingSource
 import vn.linkid.sdk.search.service.SearchService
 
 class SearchRepository(private val service: SearchService) {
