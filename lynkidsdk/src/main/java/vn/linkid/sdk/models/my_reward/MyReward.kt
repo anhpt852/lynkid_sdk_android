@@ -110,6 +110,22 @@ data class BrandInfo(
     val isBrandFavourite: Boolean?
 )
 
+data class MerchantInfo(
+    val merchantId: Int?,
+    val merchantName: String?,
+    val merchantAvatar: String?,
+    val merchantDescription: String?
+)
+
+data class GiftUsageAddress(
+    val id: Int?,
+    val name: String?,
+    val address: String?,
+    val phone: String?,
+    val latitude: String?,
+    val longitude: String?
+)
+
 data class ImageLink(
     val code: String?,
     val type: String?,

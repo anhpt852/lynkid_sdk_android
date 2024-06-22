@@ -17,9 +17,7 @@ class TransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentTransactionBinding
     private lateinit var viewModel: TransactionViewModel
-    private val service = TransactionService(mainAPI)
-    private val repository = TransactionRepository(service)
-    private val viewModelFactory = TransactionViewModelFactory(repository)
+    private val viewModelFactory = TransactionViewModelFactory()
 
     override fun onCreateView(
         inflater: LayoutInflater,
