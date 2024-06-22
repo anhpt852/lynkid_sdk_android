@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import vn.linkid.sdk.databinding.FragmentTransactionBinding
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 import vn.linkid.sdk.transaction.service.TransactionService
 import vn.linkid.sdk.transaction.viewmodel.TransactionViewModel
 import vn.linkid.sdk.transaction.viewmodel.TransactionViewModelFactory
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
 
 class TransactionFragment : Fragment() {
@@ -27,6 +31,39 @@ class TransactionFragment : Fragment() {
         binding = FragmentTransactionBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionViewModel::class.java]
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpView()
+    }
+
+    private fun setUpView(){
+        binding.apply {
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+        }
+        setUpPager()
+    }
+
+    private fun setUpPager(){
+        binding.viewPager.adapter = SectionsPagerAdapter(this)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Tất cả"
+                1 -> "Tích điểm"
+                2 -> "Đổi điểm"
+                3 -> "Dùng điểm"
+                else -> null
+            }
+        }.attach()
+    }
+
+    inner class SectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 4
+
+        override fun createFragment(position: Int): Fragment = TransactionListFragment.newInstance(position)
     }
 
 }

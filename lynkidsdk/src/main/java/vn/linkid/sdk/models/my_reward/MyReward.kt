@@ -100,7 +100,8 @@ data class VendorInfo(
     val image: String?,
     val hotLine: String?,
     val id: Int?,
-    val type: String?
+    val type: String?,
+    val vendorName: String?
 )
 
 data class BrandInfo(

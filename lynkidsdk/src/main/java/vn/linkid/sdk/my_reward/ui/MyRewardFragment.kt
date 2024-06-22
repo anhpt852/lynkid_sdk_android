@@ -52,6 +52,6 @@ class MyRewardFragment: Fragment() {
     inner class SectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         override fun getItemCount(): Int = 2
 
-        override fun createFragment(position: Int): Fragment = MyRewardListFragment(position)
+        override fun createFragment(position: Int): Fragment = MyRewardListFragment.newInstance(position)
     }
 }

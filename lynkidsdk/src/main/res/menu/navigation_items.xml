@@ -8,5 +8,9 @@
         android:id="@id/myRewardFragment"
         android:icon="@drawable/ic_nav_reward"
         android:title="Quà của tôi" />
+    <item
+        android:id="@id/transactionFragment"
+        android:icon="@drawable/ic_nav_transaction"
+        android:title="Lịch sử" />
 
 </menu>

@@ -220,7 +220,6 @@
         android:name="vn.linkid.sdk.transaction.ui.TransactionFragment"
         android:label="TransactionFragment"
         tools:layout="@layout/fragment_transaction">
-
         <action
             android:id="@+id/action_transactionFragment_to_transactionDetailFragment"
             app:destination="@id/transactionDetailFragment" />
@@ -233,6 +232,9 @@
         <action
             android:id="@+id/action_transactionDetailFragment_to_myRewardDetailFragment"
             app:destination="@id/myRewardDetailFragment" />
+        <argument
+            android:name="transactionCode"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -252,5 +254,23 @@
             android:name="type"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRewardListFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardListFragment"
+        android:label="MyRewardListFragment"
+        tools:layout="@layout/fragment_my_reward_list">
+        <action
+            android:id="@+id/action_myRewardListFragment_to_myRewardDetailFragment"
+            app:destination="@id/myRewardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionListFragment"
+        android:name="vn.linkid.sdk.transaction.ui.TransactionListFragment"
+        android:label="TransactionListFragment"
+        tools:layout="@layout/fragment_transaction_list">
+        <action
+            android:id="@+id/action_transactionListFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
     </fragment>
 </navigation>

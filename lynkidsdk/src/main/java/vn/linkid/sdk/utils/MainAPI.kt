@@ -29,6 +29,7 @@ import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
+import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
 import vn.linkid.sdk.models.transaction.GetTransactionResponseModel
 
 val logging: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
@@ -214,9 +215,9 @@ interface APIEndpoints {
     suspend fun getTransactionDetail(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
-    )
+    ): GetTransactionDetailResponseModel
 
     @GET(Endpoints.GET_LOCATIONS)
     suspend fun getLocations(

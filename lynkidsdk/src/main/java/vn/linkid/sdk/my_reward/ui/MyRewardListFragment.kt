@@ -15,7 +15,28 @@ import vn.linkid.sdk.my_reward.service.MyRewardListService
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardListViewModel
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardListViewModelFactory
 
-class MyRewardListFragment(private val tab: Int) : Fragment() {
+class MyRewardListFragment() : Fragment() {
+
+    private var tab: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            tab = it.getInt(ARG_POSITION)
+        }
+    }
+
+    companion object {
+        private const val ARG_POSITION = "position"
+
+        fun newInstance(position: Int): MyRewardListFragment {
+            val fragment = MyRewardListFragment()
+            val args = Bundle()
+            args.putInt(ARG_POSITION, position)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     private lateinit var binding: FragmentMyRewardListBinding
     private lateinit var viewModel: MyRewardListViewModel

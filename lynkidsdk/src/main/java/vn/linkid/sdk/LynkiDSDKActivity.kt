@@ -14,6 +14,8 @@ import android.view.WindowManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import vn.linkid.sdk.databinding.ActivityMainSdkBinding
+import vn.linkid.sdk.transaction.ui.TransactionFragmentDirections
+import vn.linkid.sdk.transaction.ui.TransactionListFragmentDirections
 
 class LynkiDSDKActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainSdkBinding
@@ -52,7 +54,7 @@ class LynkiDSDKActivity : AppCompatActivity() {
             val navController = navHostFragment.navController
             bottomNavigation.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment) {
+                if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment || destination.id == R.id.transactionFragment) {
                     bottomNavigation.visibility = View.VISIBLE
                 } else {
                     bottomNavigation.visibility = View.GONE
@@ -98,5 +100,16 @@ class LynkiDSDKActivity : AppCompatActivity() {
             return createConfigurationContext(config).resources
         }
         return res
+    }
+
+    fun navigateFromTransactionToTransactionDetail(transactionCode: String) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val action =
+            TransactionFragmentDirections.actionTransactionFragmentToTransactionDetailFragment(
+                transactionCode
+            )
+        navController.navigate(action)
     }
 }
