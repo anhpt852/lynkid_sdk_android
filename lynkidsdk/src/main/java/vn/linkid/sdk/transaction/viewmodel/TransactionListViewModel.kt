@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.collectLatest
-import vn.linkid.sdk.models.transaction.TransactionItem
+import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 
 class TransactionListViewModel(private val repository: TransactionRepository, private val tab: Int): ViewModel() {
@@ -26,7 +26,7 @@ class TransactionListViewModel(private val repository: TransactionRepository, pr
             value = Pair(loader.value ?: false, isEmpty)
         }
     }
-    val transactionItems: LiveData<PagingData<TransactionItem>> =
+    val transactions: LiveData<PagingData<GetTransactionDetailResponseModel>> =
         liveData {
             loader.postValue(true)
             repository.getTransactionsStream(tab)

@@ -14,6 +14,7 @@ import android.view.WindowManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import vn.linkid.sdk.databinding.ActivityMainSdkBinding
+import vn.linkid.sdk.my_reward.ui.MyRewardFragmentDirections
 import vn.linkid.sdk.transaction.ui.TransactionFragmentDirections
 import vn.linkid.sdk.transaction.ui.TransactionListFragmentDirections
 
@@ -108,6 +109,17 @@ class LynkiDSDKActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val action =
             TransactionFragmentDirections.actionTransactionFragmentToTransactionDetailFragment(
+                transactionCode
+            )
+        navController.navigate(action)
+    }
+
+    fun navigateFromMyRewardToMyRewardDetail(transactionCode: String) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val action =
+            MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardDetailFragment(
                 transactionCode
             )
         navController.navigate(action)

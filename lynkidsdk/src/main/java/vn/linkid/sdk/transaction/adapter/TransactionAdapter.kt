@@ -6,23 +6,23 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.databinding.ItemTransactionBinding
-import vn.linkid.sdk.models.transaction.TransactionItem
+import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
 
 class TransactionAdapter :
-    PagingDataAdapter<TransactionItem, TransactionAdapter.TransactionViewHolder>(DIFF_CALLBACK) {
-    var onItemClick: ((TransactionItem) -> Unit)? = null
+    PagingDataAdapter<GetTransactionDetailResponseModel, TransactionAdapter.TransactionViewHolder>(DIFF_CALLBACK) {
+    var onItemClick: ((GetTransactionDetailResponseModel) -> Unit)? = null
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TransactionItem>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GetTransactionDetailResponseModel>() {
             override fun areItemsTheSame(
-                oldItem: TransactionItem,
-                newItem: TransactionItem,
+                oldItem: GetTransactionDetailResponseModel,
+                newItem: GetTransactionDetailResponseModel,
             ): Boolean =
-                oldItem.giftTransaction?.id == newItem.giftTransaction?.id
+                oldItem.tokenTransID == newItem.tokenTransID
 
             override fun areContentsTheSame(
-                oldItem: TransactionItem,
-                newItem: TransactionItem,
+                oldItem: GetTransactionDetailResponseModel,
+                newItem: GetTransactionDetailResponseModel,
             ): Boolean =
                 oldItem == newItem
         }
@@ -45,7 +45,7 @@ class TransactionAdapter :
     inner class TransactionViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: TransactionItem) {
+        fun bind(transaction: GetTransactionDetailResponseModel) {
             binding.apply {
 //                    txtTitle.text = transaction.name
 //                    txtTime.text = transaction.date
@@ -53,6 +53,13 @@ class TransactionAdapter :
                 itemView.setOnClickListener {
                     onItemClick?.invoke(transaction)
                 }
+            }
+        }
+
+
+        private fun setUpLogo(transaction: GetTransactionDetailResponseModel){
+            when(transaction.actionType){
+
             }
         }
 

@@ -89,7 +89,7 @@ class TransactionListFragment() : Fragment() {
             adapter.onItemClick = { transactionItem ->
                 Log.d("TransactionListFragment", "Selected transaction: $transactionItem")
                 (activity as LynkiDSDKActivity).navigateFromTransactionToTransactionDetail(
-                    transactionItem.giftTransaction?.transactionCode ?: ""
+                    transactionItem.tokenTransID ?: ""
                 )
             }
             adapter.registerAdapterDataObserver(object :
@@ -111,9 +111,9 @@ class TransactionListFragment() : Fragment() {
                 layoutTransactionList.isRefreshing = false
             }
         }
-        viewModel.transactionItems.observe(viewLifecycleOwner) { transactionItems ->
-            Log.d("TransactionListFragment", "getTransactions: $transactionItems")
-            adapter.submitData(lifecycle, transactionItems)
+        viewModel.transactions.observe(viewLifecycleOwner) { transactionItem ->
+            Log.d("TransactionListFragment", "getTransactions: $transactionItem")
+            adapter.submitData(lifecycle, transactionItem)
         }
     }
 

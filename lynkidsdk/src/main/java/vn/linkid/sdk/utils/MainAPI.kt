@@ -262,7 +262,7 @@ object Endpoints {
     const val GET_GIFT_DETAILS = "api/sdk-v1/get-gift-details"
     const val CREATE_TRANSACTION = "api/sdk-v1/create-transaction"
     const val CONFIRM_TRANSACTION = "api/sdk-v1/confirm-otp-create-transaction"
-    const val GET_TRANSACTIONS = "api/sdk-v1/get-transaction"
+    const val GET_TRANSACTIONS = "api/sdk-v1/Member/TokenTrans/GetByMemberId"
     const val GET_TRANSACTION_DETAIL = "api/sdk-v1/Member/TokenTrans/GetTokenTransById"
     const val GET_LOCATIONS = "api/sdk-v1/Location/GetAll"
     const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"

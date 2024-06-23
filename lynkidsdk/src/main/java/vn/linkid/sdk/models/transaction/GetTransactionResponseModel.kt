@@ -1,7 +1,8 @@
 package vn.linkid.sdk.models.transaction
 
 data class GetTransactionResponseModel(
-    val data: GetTransaction?,
+    val result: Int?,
+    val items: List<GetTransactionDetailResponseModel>?,
     val message: String?,
-    val isSuccess: Boolean?
+    val totalCount: Int?
 )

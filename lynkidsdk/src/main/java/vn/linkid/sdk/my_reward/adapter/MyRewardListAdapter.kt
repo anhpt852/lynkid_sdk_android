@@ -5,21 +5,41 @@ import android.icu.util.TimeZone
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemMyRewardBinding
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
+import vn.linkid.sdk.transaction.adapter.TransactionAdapter
+import vn.linkid.sdk.transaction.adapter.TransactionAdapter.Companion
 import java.util.Date
 import java.util.Locale
 
 class MyRewardListAdapter(
     private var giftList: List<GiftInfoItem> = emptyList(),
-    private val tab: Int = 0
-) : RecyclerView.Adapter<MyRewardListAdapter.MyRewardListViewHolder>() {
+    private val tab: Int = 0,
+) : PagingDataAdapter<GiftInfoItem, MyRewardListAdapter.MyRewardListViewHolder>(DIFF_CALLBACK) {
 
     var onItemClicked: ((GiftInfoItem) -> Unit)? = null
+
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GiftInfoItem>() {
+            override fun areItemsTheSame(
+                oldItem: GiftInfoItem,
+                newItem: GiftInfoItem,
+            ): Boolean =
+                oldItem.giftTransaction?.code == newItem.giftTransaction?.code
+
+            override fun areContentsTheSame(
+                oldItem: GiftInfoItem,
+                newItem: GiftInfoItem,
+            ): Boolean =
+                oldItem == newItem
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRewardListViewHolder {
         val binding = ItemMyRewardBinding.inflate(
@@ -30,17 +50,13 @@ class MyRewardListAdapter(
         return MyRewardListViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyRewardListViewHolder, position: Int) =
-        holder.bind(giftList[position])
-
-    override fun getItemCount(): Int = giftList.size
-
-    fun updateGiftList(newGiftList: List<GiftInfoItem>) {
-        val diffCallback = MyRewardListDiffCallback(giftList, newGiftList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        giftList = newGiftList
-        diffResult.dispatchUpdatesTo(this)
+    override fun onBindViewHolder(holder: MyRewardListViewHolder, position: Int) {
+        val giftInfoItem = getItem(position)
+        giftInfoItem?.let {
+            holder.bind(it)
+        }
     }
+
 
     inner class MyRewardListViewHolder(private val binding: ItemMyRewardBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -107,21 +123,6 @@ class MyRewardListAdapter(
                     onItemClicked?.invoke(giftInfoItem)
                 }
             }
-        }
-    }
-
-    inner class MyRewardListDiffCallback(
-        private val oldList: List<GiftInfoItem>,
-        private val newList: List<GiftInfoItem>
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].giftTransaction?.code == newList[newItemPosition].giftTransaction?.code
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
         }
     }
 
