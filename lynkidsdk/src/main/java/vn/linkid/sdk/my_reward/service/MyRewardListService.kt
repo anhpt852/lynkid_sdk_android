@@ -6,37 +6,47 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.LynkiD_SDK
+import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
+import vn.linkid.sdk.utils.Endpoints
+import vn.linkid.sdk.utils.generateCacheKey
 
 class MyRewardListService(private val api: APIEndpoints) {
 
     suspend fun getMyRewards(
         page: Int = 0,
         filter: String,
-        myRewardFilterModel: MyRewardFilterModel = MyRewardFilterModel()
+        myRewardFilterModel: MyRewardFilterModel = MyRewardFilterModel(),
     ): Flow<Result<MyRewardListResponseModel>> = flow {
-        val queries = mutableMapOf<String, Any>(
+
+        val params: MutableMap<String, Any> = mutableMapOf(
             "OwnerCodeFilter" to LynkiD_SDK.memberCode,
             "MaxResultCount" to 10,
             "SkipCount" to page * 10,
             "Sorting" to "LastModificationTime desc"
         )
 
-        myRewardFilterModel.giftType.id?.let { queries["TypeOfGift"] = it }
-        myRewardFilterModel.giftReceiveType.id?.let { queries["TypeOfTransaction"] = it }
+        myRewardFilterModel.giftType.id?.let { params["TypeOfGift"] = it }
+        myRewardFilterModel.giftReceiveType.id?.let { params["TypeOfTransaction"] = it }
         when (myRewardFilterModel.expireType) {
             ExpireType.NEAR -> {
-                queries["EgiftStatusFilter"] = filter
-                queries["IsNearExpire"] = true
+                params["EgiftStatusFilter"] = filter
+                params["IsNearExpire"] = true
             }
-
-            ExpireType.USED -> queries["EgiftStatusFilter"] = "U"
-            ExpireType.EXPIRED -> queries["EgiftStatusFilter"] = "E"
-            else -> queries["EgiftStatusFilter"] = filter
+            ExpireType.USED -> params["EgiftStatusFilter"] = "U"
+            ExpireType.EXPIRED -> params["EgiftStatusFilter"] = "E"
+            else -> params["EgiftStatusFilter"] = filter
         }
-        val result = api.getMyRewards(queries = queries)
-        Log.d("MyRewardListService", "getMyRewards: $result")
-        emit(Result.success(result))
+        val cacheKey = generateCacheKey(Endpoints.GET_MY_REWARDS, params)
+        val cachedResponse = MainCache.get<MyRewardListResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getMyRewards(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
     }.catch {
         Log.e("MyRewardListService", "getMyRewards: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
