@@ -147,7 +147,6 @@
             android:layout_height="wrap_content"
             android:text="Tất cả ưu đãi"
             android:textColor="#FFFFFF"
-            android:textColorHint="@color/white"
             android:textSize="18sp"
             app:fontFamily="@font/bevietnampro_semibold"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"

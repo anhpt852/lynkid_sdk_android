@@ -1,0 +1,42 @@
+package vn.linkid.sdk.models.transaction
+
+import vn.linkid.sdk.models.my_reward.VendorInfo
+
+data class GetTransactionDetail(
+    val id: String?,
+    val tokenTransId: String?,
+    val title: String?,
+    val content: String?,
+    val amount: Double?,
+    val actionType: String?,
+    val actionCode: String?,
+    val orderCode: String?,
+    val contentPhoto: String?,
+    val descriptionPhoto: String?,
+    val partnerName: String?,
+    val partnerIcon: String?,
+    val memberCode: String?,
+    val walletAddress: String?,
+    val toWalletAddress: String?,
+    val fromWalletAddress: String?,
+    val creationTime: String?,
+    val expiredTime: String?,
+    val relatedTokenTransId: String?,
+    val serviceName: String?,
+    val packageName: String?,
+    val cardValue: String?,
+    val toPhoneNumber: String?,
+    val usageAddress: String?,
+    val lastModificationTime: String?,
+    val giftName: String?,
+    val giftId: String?,
+    val giftImage: String?,
+    val giftPaidCoin: Int?,
+    val eGiftExpiredDate: String?,
+    val brandName: String?,
+    val brandImage: String?,
+    val vendor: VendorInfo?,
+    val redeemQuantity: Int?,
+    val partnerPointAmount: Int?,
+    val batchNote: String?
+)

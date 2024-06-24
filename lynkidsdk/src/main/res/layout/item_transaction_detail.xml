@@ -13,17 +13,18 @@
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_regular"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
+        app:layout_constraintEnd_toStartOf="@id/layoutBody"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Đối tác tiêu điểm" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
+        android:id="@+id/layoutBody"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/txtTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guidelineVertical"
+        app:layout_constraintStart_toEndOf="@id/txtTitle"
         app:layout_constraintTop_toTopOf="@id/txtTitle">
 
 
@@ -64,16 +65,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
+            android:maxWidth="180dp"
             android:textAlignment="textEnd"
             android:textColor="#242424"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_regular"
-            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/layoutIconBehind"
-            app:layout_constraintStart_toEndOf="@id/imgMerchant"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Số 189," />
+            tools:text="Số 189, Ngõ 121, Láng Hạ, P Thành Công, Ba Đình, HN" />
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -84,18 +84,14 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/txtBody"
             app:layout_constraintEnd_toStartOf="@id/txtBody"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/txtBody"
             tools:src="@drawable/ic_coin_small" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineVertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutBody"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

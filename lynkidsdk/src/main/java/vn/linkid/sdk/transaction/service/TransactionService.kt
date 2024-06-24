@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.cache.MainCache
-import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
+import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
+import vn.linkid.sdk.models.transaction.GetTransactionItem
 import vn.linkid.sdk.models.transaction.GetTransactionResponseModel
 import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.utils.Endpoints
@@ -65,6 +66,24 @@ class TransactionService(private val api: APIEndpoints) {
             }
         }.catch {
             Log.e("TransactionService", "getTransactionDetail: ${it.message}")
+            emit(Result.failure(RuntimeException("Something went wrong")))
+        }
+
+
+
+    suspend fun getMerchant(): Flow<Result<GetMerchantResponseModel>> =
+        flow {
+            val cacheKey = Endpoints.GET_MERCHANT
+            val cachedResponse = MainCache.get<GetMerchantResponseModel>(cacheKey)
+            if (cachedResponse != null) {
+                emit(Result.success(cachedResponse))
+            } else {
+                val response = api.getMerchant()
+                MainCache.put(cacheKey, response)
+                emit(Result.success(response))
+            }
+        }.catch {
+            Log.e("TransactionService", "getTransactions: ${it.message}")
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
 

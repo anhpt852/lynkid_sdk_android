@@ -3,20 +3,20 @@ package vn.linkid.sdk.transaction.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.first
-import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
+import vn.linkid.sdk.models.transaction.GetTransactionItem
 import vn.linkid.sdk.transaction.service.TransactionService
 
 class TransactionPagingSource(private val service: TransactionService, private val tab: Int) :
-    PagingSource<Int, GetTransactionDetailResponseModel>() {
+    PagingSource<Int, GetTransactionItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, GetTransactionDetailResponseModel>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, GetTransactionItem>): Int? {
         return state.anchorPosition?.let { position ->
             val anchorPage = state.closestPageToPosition(position)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetTransactionDetailResponseModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetTransactionItem> {
         val pageIndex = params.key ?: 0
 
         return try {

@@ -28,8 +28,10 @@ import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
+import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
 import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
+import vn.linkid.sdk.models.transaction.GetTransactionItem
 import vn.linkid.sdk.models.transaction.GetTransactionResponseModel
 
 val logging: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
@@ -243,6 +245,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): AllGiftGroupResponseModel
 
+    @GET(Endpoints.GET_MERCHANT)
+    suspend fun getMerchant(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        )
+    ): GetMerchantResponseModel
+
 }
 
 object Endpoints {
@@ -263,8 +273,9 @@ object Endpoints {
     const val CREATE_TRANSACTION = "api/sdk-v1/create-transaction"
     const val CONFIRM_TRANSACTION = "api/sdk-v1/confirm-otp-create-transaction"
     const val GET_TRANSACTIONS = "api/sdk-v1/Member/TokenTrans/GetByMemberId"
-    const val GET_TRANSACTION_DETAIL = "api/sdk-v1/Member/TokenTrans/GetTokenTransById"
+    const val GET_TRANSACTION_DETAIL = "api/sdk-v1/get-tx-detail"
     const val GET_LOCATIONS = "api/sdk-v1/Location/GetAll"
     const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"
-    const val GET_GIFTS = "/api/sdk-v1/get-gift-all-infors"
+    const val GET_GIFTS = "api/sdk-v1/get-gift-all-infors"
+    const val GET_MERCHANT = "api/sdk-v1/Merchant/GetAll"
 }

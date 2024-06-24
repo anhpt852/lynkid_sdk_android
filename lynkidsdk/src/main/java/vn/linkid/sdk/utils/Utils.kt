@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.databinding.ItemScrollerBinding
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -99,4 +101,25 @@ fun formatDate(date: String?): String {
     } catch (e: Exception) {
         ""
     }
+}
+
+fun formatDateToDayMonthYear(isoDateString: String): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(parseIsoDate(isoDateString))
+}
+
+fun formatDateTimeToHourMinuteDayMonthYear(isoDateString: String): String {
+    val formatter = SimpleDateFormat("HH:mm - dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(parseIsoDate(isoDateString))
+}
+
+fun formatDateTimeToHourMinuteDayMonth(isoDateString: String): String {
+    val formatter = SimpleDateFormat("HH:mm - dd/MM", Locale.getDefault())
+    return formatter.format(parseIsoDate(isoDateString))
+}
+
+fun parseIsoDate(isoDateString: String): Date {
+    val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+    isoFormatter.timeZone = TimeZone.getTimeZone("UTC")  // Set timezone to UTC to match the 'Z' in the ISO string
+    return isoFormatter.parse(isoDateString) ?: Date()  // Return current date if parsing fails
 }

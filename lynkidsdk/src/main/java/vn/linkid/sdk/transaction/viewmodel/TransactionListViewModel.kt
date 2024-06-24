@@ -4,19 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.collectLatest
-import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
+import vn.linkid.sdk.models.transaction.GetTransactionItem
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 
 class TransactionListViewModel(private val repository: TransactionRepository, private val tab: Int): ViewModel() {
 
 
-    val loader = MutableLiveData(false)
+    fun getMerchant() = liveData { emitSource(repository.getMerchant().asLiveData()) }
+
+
+    val loader = MutableLiveData(true)
     val isEmpty = MutableLiveData(false)
     val uiState = MediatorLiveData<Pair<Boolean, Boolean>>().apply {
         addSource(loader) { loader ->
@@ -26,7 +29,7 @@ class TransactionListViewModel(private val repository: TransactionRepository, pr
             value = Pair(loader.value ?: false, isEmpty)
         }
     }
-    val transactions: LiveData<PagingData<GetTransactionDetailResponseModel>> =
+    val transactions: LiveData<PagingData<GetTransactionItem>> =
         liveData {
             loader.postValue(true)
             repository.getTransactionsStream(tab)

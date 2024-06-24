@@ -5,14 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentTransactionListBinding
 import vn.linkid.sdk.models.category.GiftFilterModel
+import vn.linkid.sdk.models.merchant.GetMerchant
 import vn.linkid.sdk.transaction.adapter.TransactionAdapter
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 import vn.linkid.sdk.transaction.service.TransactionService
@@ -50,7 +54,6 @@ class TransactionListFragment() : Fragment() {
     private lateinit var viewModelFactory: TransactionListViewModelFactory
     private lateinit var binding: FragmentTransactionListBinding
 
-    private val adapter = TransactionAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +70,15 @@ class TransactionListFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpLoader()
-        setUpTransactionList()
+        setUpMerchant()
+    }
+
+    private fun setUpMerchant(){
+        viewModel.getMerchant().observe(viewLifecycleOwner) { merchant ->
+            Log.d("TransactionListFragment", "getMerchant: $merchant")
+            val merchantList = merchant?.getOrNull()?.items ?: emptyList()
+            setUpTransactionList(merchantList)
+        }
     }
 
 
@@ -82,9 +93,16 @@ class TransactionListFragment() : Fragment() {
         }
     }
 
-    private fun setUpTransactionList() {
+    private fun setUpTransactionList(merchants: List<GetMerchant>) {
+        val adapter = TransactionAdapter(merchants)
         binding.apply {
             listTransaction.layoutManager = LinearLayoutManager(binding.root.context)
+            val divider = ContextCompat.getDrawable(listTransaction.context, R.drawable.list_divider)
+            val dividerItemDecoration = DividerItemDecoration(listTransaction.context, LinearLayoutManager.VERTICAL)
+            divider?.let {
+                dividerItemDecoration.setDrawable(it)
+            }
+            listTransaction.addItemDecoration(dividerItemDecoration)
             listTransaction.adapter = adapter
             adapter.onItemClick = { transactionItem ->
                 Log.d("TransactionListFragment", "Selected transaction: $transactionItem")
