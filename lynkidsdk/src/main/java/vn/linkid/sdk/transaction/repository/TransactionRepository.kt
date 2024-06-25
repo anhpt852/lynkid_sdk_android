@@ -31,6 +31,20 @@ class TransactionRepository(private val service: TransactionService) {
             }
         }
 
+    suspend fun getSingleTransactionByOrderCode(orderCode: String) =
+        service.getSingleTransactionByOrderCode(orderCode).map { result ->
+            if (result.isSuccess) {
+                Result.success(result.getOrNull())
+            } else {
+                Log.d(
+                    "TransactionRepository",
+                    "getSingleTransactionByOrderCode: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+
     suspend fun getMerchant() =
         service.getMerchant().map { result ->
             if (result.isSuccess) {

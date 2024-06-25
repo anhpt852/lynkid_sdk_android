@@ -1,6 +1,7 @@
 package vn.linkid.sdk.gift_detail.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.databinding.FragmentGiftExchangeSuccessBinding
+import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 
 class GiftExchangeSuccessFragment : Fragment() {
 
@@ -40,6 +44,15 @@ class GiftExchangeSuccessFragment : Fragment() {
 
     private fun setUpView() {
         binding.apply {
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+
+            val bottomLayoutParam = btnUse.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            btnUse.layoutParams = bottomLayoutParam
+
+
             btnHome.setOnClickListener { findNavController().popBackStack() }
             txtExchangeInfo.text = "Bạn vừa tiết kiệm ${coin.formatPrice()}VND cùng LynkiD"
             txtBrand.text = brandName
@@ -54,8 +67,12 @@ class GiftExchangeSuccessFragment : Fragment() {
             } else {
                 tagAmount.visibility = View.GONE
             }
-            btnDetail.setOnClickListener {
+            layoutGift.setOnClickListener {
                 val action = GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardDetailFragment(transactionCode)
+                findNavController().navigate(action)
+            }
+            btnDetail.setOnClickListener {
+                val action = GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToTransactionDetailFragment(transactionCode, false)
                 findNavController().navigate(action)
             }
         }

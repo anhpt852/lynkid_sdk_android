@@ -9,12 +9,14 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentMyRewardDetailBinding
@@ -24,6 +26,7 @@ import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import vn.linkid.sdk.models.my_reward.RewardUsedStatus
 import vn.linkid.sdk.models.my_reward.WhyHaveRewardType
+import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
 import vn.linkid.sdk.my_reward.repository.MyRewardDetailRepository
 import vn.linkid.sdk.my_reward.service.MyRewardDetailService
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModel
@@ -41,7 +44,7 @@ class MyRewardDetailFragment : Fragment() {
     private val viewModelFactory = MyRewardDetailViewModelFactory(repository)
 
     private val args: MyRewardDetailFragmentArgs by navArgs()
-    private val transactionCode = args.transactionCode
+    private val transactionCode: String by lazy { args.transactionCode }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,7 +97,12 @@ class MyRewardDetailFragment : Fragment() {
     }
 
     private fun FragmentMyRewardDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem){
-        giftInfoItem.giftUsageAddress
+        val adapter = MyRewardDetailAddressAdapter(giftInfoItem.giftUsageAddress ?: emptyList())
+        adapter.onItemClick = {
+            Log.d("TAG", "setUpAddress: $it")
+        }
+        listAddress.layoutManager = LinearLayoutManager(context)
+        listAddress.adapter = adapter
     }
 
     private fun FragmentMyRewardDetailBinding.setUpEGiftView(giftInfoItem: GiftInfoItem) {

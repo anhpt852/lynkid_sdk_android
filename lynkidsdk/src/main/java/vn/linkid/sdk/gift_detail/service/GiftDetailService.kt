@@ -58,6 +58,7 @@ class GiftDetailService(private val api: APIEndpoints) {
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
         val session = "LynkiD_SDK.session"
         val params: MutableMap<String, Any> = mutableMapOf(
+            "memberCode" to LynkiD_SDK.memberCode,
             "cifCode" to LynkiD_SDK.cif,
             "giftCode" to giftCode,
             "quantity" to quantity,

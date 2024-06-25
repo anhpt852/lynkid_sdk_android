@@ -39,6 +39,28 @@ class TransactionService(private val api: APIEndpoints) {
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
 
+    suspend fun getSingleTransactionByOrderCode(orderCode: String): Flow<Result<GetTransactionResponseModel>> =
+        flow {
+            val params = mutableMapOf<String, Any>(
+                "NationalId" to LynkiD_SDK.memberCode,
+                "SkipCount" to 0,
+                "MaxItem" to 1,
+                "OrderCodeFilter" to orderCode
+            )
+            val cacheKey = generateCacheKey(Endpoints.GET_TRANSACTIONS, params)
+            val cachedResponse = MainCache.get<GetTransactionResponseModel>(cacheKey)
+            if (cachedResponse != null) {
+                emit(Result.success(cachedResponse))
+            } else {
+                val response = api.getTransactions(queries = params)
+                MainCache.put(cacheKey, response)
+                emit(Result.success(response))
+            }
+        }.catch {
+            Log.e("TransactionService", "getTransactions: ${it.message}")
+            emit(Result.failure(RuntimeException("Something went wrong")))
+        }
+
     private fun getActionTypeFilter(tab: Int): String {
         return when (tab) {
             0 -> ""

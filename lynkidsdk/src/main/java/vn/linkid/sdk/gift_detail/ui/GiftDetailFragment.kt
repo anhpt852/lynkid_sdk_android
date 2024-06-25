@@ -84,7 +84,7 @@ class GiftDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentGiftDetailBinding.setUpScroll(){
+    private fun FragmentGiftDetailBinding.setUpScroll() {
         scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             toolbar.alpha = scrollY.toFloat() / 200
             bgBack.alpha = 1 - scrollY.toFloat() / 200
@@ -109,6 +109,7 @@ class GiftDetailFragment : Fragment() {
                     "Ưu đãi trong ${expireData.lowercase()} kể từ ngày đổi"
             }
         }
+
         val expireData = giftDetail.giftInfor?.expireDuration ?: ""
         txtExpireDate.text = formatExpireDate(expireData)
 
@@ -182,7 +183,13 @@ class GiftDetailFragment : Fragment() {
         }
 
         btnExchange.setOnClickListener {
-            val action = GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(giftId)
+            val action = if (giftDetail.giftInfor?.isEGift == true) {
+                GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(giftId)
+            } else {
+                GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
+                    giftId
+                )
+            }
             findNavController().navigate(action)
         }
     }

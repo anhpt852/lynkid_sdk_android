@@ -74,12 +74,60 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listAddress"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtSearch"
             tools:listitem="@layout/item_address_picker" />
 
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/listAddress"
+            app:layout_constraintEnd_toEndOf="@id/listAddress"
+            app:layout_constraintStart_toStartOf="@id/listAddress"
+            app:layout_constraintTop_toTopOf="@id/listAddress" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/listAddress"
+            app:layout_constraintEnd_toEndOf="@id/listAddress"
+            app:layout_constraintStart_toStartOf="@id/listAddress"
+            app:layout_constraintTop_toTopOf="@id/listAddress">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgEmpty"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/img_empty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Không tìm thấy kết quả"
+                android:textAlignment="center"
+                android:textColor="#6D6B7A"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgEmpty" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

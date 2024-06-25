@@ -202,6 +202,9 @@
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardDetailFragment"
             app:destination="@id/myRewardDetailFragment" />
+        <action
+            android:id="@+id/action_giftExchangeSuccessFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeAddressFragment"
@@ -214,6 +217,9 @@
         <action
             android:id="@+id/action_giftExchangeAddressFragment_to_addressPickerFragment"
             app:destination="@id/addressPickerFragment" />
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/transactionFragment"
@@ -235,6 +241,10 @@
         <argument
             android:name="transactionCode"
             app:argType="string" />
+        <argument
+            android:name="isTokenTransId"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -251,9 +261,10 @@
         android:label="AddressPickerFragment"
         tools:layout="@layout/fragment_address_picker">
         <argument
-            android:name="type"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="parentCode"
+            app:argType="string" />
+        <argument android:name="level"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/myRewardListFragment"

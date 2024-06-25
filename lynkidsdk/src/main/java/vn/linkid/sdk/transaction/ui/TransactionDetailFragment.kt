@@ -42,6 +42,7 @@ class TransactionDetailFragment : Fragment() {
 
     private val args: TransactionDetailFragmentArgs by navArgs()
     private val transactionCode: String by lazy { args.transactionCode }
+    private val isTokenTransId: Boolean by lazy { args.isTokenTransId }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +71,7 @@ class TransactionDetailFragment : Fragment() {
     }
 
     private fun setUpTransactionDetail() {
-        viewModel.getTransactionDetail(transactionCode).observe(viewLifecycleOwner) { result ->
+        viewModel.getTransactionDetail(transactionCode, isTokenTransId).observe(viewLifecycleOwner) { result ->
             result.onSuccess { transaction ->
                 Log.d("TransactionDetailFragment", "setUpTransactionDetail: $transaction")
                 binding.apply {
@@ -212,7 +213,7 @@ class TransactionDetailFragment : Fragment() {
 
     private fun FragmentTransactionDetailBinding.handelRelatedTransaction(transaction: GetTransactionDetail) {
         if (!transaction.relatedTokenTransId.isNullOrEmpty()) {
-            viewModel.getTransactionDetail(transaction.relatedTokenTransId)
+            viewModel.getTransactionDetail(transaction.relatedTokenTransId, true)
                 .observe(viewLifecycleOwner) { result ->
                     result.onSuccess { relatedTransaction ->
                         if (relatedTransaction?.result != null) {
@@ -259,7 +260,7 @@ class TransactionDetailFragment : Fragment() {
             txtGiftName.text = transaction.giftName
             if (!transaction.expiredTime.isNullOrEmpty()) {
                 txtExpireDate.visibility = View.VISIBLE
-                txtExpireDate.text = "HSD: ${transaction.expiredTime}"
+                txtExpireDate.text = "HSD: ${formatDateToDayMonthYear(transaction.expiredTime)}"
             } else {
                 txtExpireDate.visibility = View.GONE
             }
