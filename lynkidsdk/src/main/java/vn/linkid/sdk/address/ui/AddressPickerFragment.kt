@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.linkid.sdk.address.adapter.AddressPickerAdapter
@@ -19,9 +20,11 @@ import vn.linkid.sdk.address.viewmodel.AddressPickerViewModelFactory
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModel
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModelFactory
 import vn.linkid.sdk.databinding.FragmentAddressPickerBinding
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
 
-class AddressPickerFragment: Fragment() {
+class AddressPickerFragment : Fragment() {
 
     private lateinit var binding: FragmentAddressPickerBinding
     private lateinit var viewModel: AddressPickerViewModel
@@ -43,12 +46,21 @@ class AddressPickerFragment: Fragment() {
     ): View {
         binding = FragmentAddressPickerBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[AddressPickerViewModel::class.java]
-        pickerViewModel = ViewModelProvider(this, pickerViewModelFactory)[GiftExchangeAddressPickerViewModel::class.java]
+        pickerViewModel = ViewModelProvider(
+            this,
+            pickerViewModelFactory
+        )[GiftExchangeAddressPickerViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            btnBack.setOnClickListener { findNavController().popBackStack() }
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+        }
         setUpLoader()
         setUpAddressList()
     }
@@ -66,22 +78,46 @@ class AddressPickerFragment: Fragment() {
         }
     }
 
-    private fun setUpAddressList(){
+    private fun setUpAddressList() {
         viewModel.getAddress(parentCode, level).observe(viewLifecycleOwner) { addressList ->
             Log.d("AddressPickerFragment", "setUpAddressList: addressList: $addressList")
             binding.apply {
                 val adapter = AddressPickerAdapter(addressList.getOrNull()?.items ?: emptyList())
                 adapter.onItemClick = { address ->
                     Log.d("AddressPickerFragment", "onItemClick: address: $address")
+                    when (level) {
+                        "City" -> {
+                            pickerViewModel.setSelectedCity(address)
+                        }
+                        "District" -> {
+                            pickerViewModel.setSelectedDistrict(address)
+                        }
+                        else -> {
+                            pickerViewModel.setSelectedWard(address)
+                        }
+                    }
+                    findNavController().popBackStack()
                 }
                 val layoutManager = LinearLayoutManager(requireContext())
                 listAddress.layoutManager = layoutManager
                 listAddress.adapter = adapter
 
                 edtSearch.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
 
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
 
                     override fun afterTextChanged(s: Editable?) {
                         adapter.filter(s.toString())

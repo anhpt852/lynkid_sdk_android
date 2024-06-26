@@ -203,7 +203,7 @@ interface APIEndpoints {
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ),
         @Body body: MutableMap<String, Any>
-    )
+    ): ExchangeResponseModel
 
     @GET(Endpoints.GET_TRANSACTIONS)
     suspend fun getTransactions(

@@ -43,10 +43,32 @@ class GiftDetailRepository(private val service: GiftDetailService) {
         }
 
     suspend fun createTransaction(
+        sessionId: String,
         giftCode: String,
         quantity: Int,
-        totalAmount: Double
-    ) = service.createTransaction(giftCode, quantity, totalAmount, "").map { result ->
+        totalAmount: Double,
+        description: String
+    ) = service.createTransaction(sessionId, giftCode, quantity, totalAmount, "").map { result ->
+        if (result.isSuccess) {
+            val pairResult = result.getOrNull()
+            if (pairResult != null && pairResult.second.isSuccess == true) {
+                Result.success(pairResult.second.data!!)
+            } else {
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        } else {
+            Log.d(
+                "GiftDetailRepository",
+                "createTransaction: ${result.exceptionOrNull()?.toString()}"
+            )
+            Result.failure(result.exceptionOrNull()!!)
+        }
+    }
+
+    suspend fun confirmTransaction(
+        sessionId: String,
+        otpCode: String
+    ) = service.confirmTransaction(sessionId, otpCode).map { result ->
         if (result.isSuccess) {
             val pairResult = result.getOrNull()
             if (pairResult != null && pairResult.second.isSuccess == true) {

@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModel
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModelFactory
 import vn.linkid.sdk.databinding.FragmentGiftExchangeAddressBinding
+import vn.linkid.sdk.models.gift.GiftReceiver
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 
 class GiftExchangeAddressFragment : Fragment() {
 
@@ -17,13 +22,19 @@ class GiftExchangeAddressFragment : Fragment() {
     private lateinit var pickerViewModel: GiftExchangeAddressPickerViewModel
     private val pickerViewModelFactory = GiftExchangeAddressPickerViewModelFactory()
 
+    private val args: GiftExchangeAddressFragmentArgs by navArgs()
+    private val giftId: Int by lazy { args.giftId }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGiftExchangeAddressBinding.inflate(inflater, container, false)
-        pickerViewModel = ViewModelProvider(this, pickerViewModelFactory)[GiftExchangeAddressPickerViewModel::class.java]
+        pickerViewModel = ViewModelProvider(
+            this,
+            pickerViewModelFactory
+        )[GiftExchangeAddressPickerViewModel::class.java]
         return binding.root
     }
 
@@ -32,10 +43,63 @@ class GiftExchangeAddressFragment : Fragment() {
         setUpView()
     }
 
-    private fun setUpView(){
+    private fun setUpView() {
         binding.apply {
+            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
+            toolbar.layoutParams = layoutParams
+            val bottomLayoutParam = btnExchange.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            btnExchange.layoutParams = bottomLayoutParam
+
             edtCity.setOnClickListener {
-                val action = GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment("City", "0")
+                val action =
+                    GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
+                        "-1",
+                        "City"
+                    )
+                findNavController().navigate(action)
+            }
+            edtDistrict.setOnClickListener {
+                if (pickerViewModel.getSelectedCity().value != null) {
+                    val action =
+                        GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
+                            pickerViewModel.getSelectedCity().value?.code ?: "-1",
+                            "District"
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+            edtWard.setOnClickListener {
+                if (pickerViewModel.getSelectedDistrict().value != null) {
+                    val action =
+                        GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
+                            pickerViewModel.getSelectedDistrict().value?.code ?: "-1",
+                            "Ward"
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+
+            btnExchange.setOnClickListener {
+                val giftReceiver = GiftReceiver(
+                    edtName.text.toString(),
+                    edtPhone.text.toString(),
+                    pickerViewModel.getSelectedCity().value?.code,
+                    pickerViewModel.getSelectedCity().value?.name,
+                    pickerViewModel.getSelectedDistrict().value?.code,
+                    pickerViewModel.getSelectedDistrict().value?.name,
+                    pickerViewModel.getSelectedWard().value?.code,
+                    pickerViewModel.getSelectedWard().value?.name,
+                    edtAddress.text.toString(),
+                    edtNote.text.toString()
+                )
+                val action =
+                    GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToGiftExchangeFragment(
+                        giftId,
+                        giftReceiver
+                    )
                 findNavController().navigate(action)
             }
         }

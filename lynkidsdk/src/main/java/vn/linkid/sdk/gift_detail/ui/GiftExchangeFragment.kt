@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import vn.linkid.sdk.databinding.FragmentGiftExchangeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -21,6 +23,7 @@ import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModelFactory
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
+import vn.linkid.sdk.models.gift.GiftReceiver
 import vn.linkid.sdk.utils.formatDate
 
 class GiftExchangeFragment : Fragment() {
@@ -33,6 +36,7 @@ class GiftExchangeFragment : Fragment() {
 
     private val args: GiftExchangeFragmentArgs by navArgs()
     private val giftId: Int by lazy { args.giftId }
+    private val giftReceiver: GiftReceiver? by lazy { args.giftReceiver }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +74,7 @@ class GiftExchangeFragment : Fragment() {
             setUpGiftInfo(giftDetail)
             setUpBalance(giftDetail)
             setUpExchangeButton(giftDetail)
+            setUpReceiver()
         }
     }
 
@@ -126,14 +131,17 @@ class GiftExchangeFragment : Fragment() {
         val remainingQuantity = maxAllowedRedemptionOfUser - totalRedemptionOfUser
 
         btnExchange.setOnClickListener {
+            val sessionId = "LynkiD_SDK" + System.currentTimeMillis()
             viewModel.createTransaction(
+                sessionId,
                 giftDetail.giftInfor?.code ?: "",
-                (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1)
+                (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1),
+                if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else ""
             ).observe(viewLifecycleOwner) { result ->
                 result.getOrNull()?.let { exchangeModel ->
                     val isOtpSent = exchangeModel.isOtpSent ?: false
                     val action = if (isOtpSent) {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment()
+                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(sessionId)
                     } else {
                         val expiredString =
                             formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
@@ -160,6 +168,31 @@ class GiftExchangeFragment : Fragment() {
         val balance = viewModel.pointInfo.value?.getOrNull()?.tokenBalance ?: 0.0
         btnExchange.isEnabled = balance >= totalCost
         btnExchange.alpha = if (balance >= totalCost) 1f else 0.6f
+    }
+
+    private fun FragmentGiftExchangeBinding.setUpReceiver() {
+        if (giftReceiver != null) {
+            layoutAddress.visibility = View.VISIBLE
+            txtName.text = giftReceiver?.name
+            txtPhone.text = giftReceiver?.phone
+            txtAddress.text =
+                "${giftReceiver?.address}, ${giftReceiver?.wardName}, ${giftReceiver?.districtName}, ${giftReceiver?.cityName}"
+            txtNote.text = giftReceiver?.note
+        }
+
+    }
+
+    private fun parseReceiverInfo(receiver: GiftReceiver): String {
+        val gson = Gson()
+        val jsonObject = JsonObject()
+        receiver.name?.let { jsonObject.addProperty("fullname", it) }
+        receiver.phone?.let { jsonObject.addProperty("phone", it) }
+        receiver.cityCode?.let { jsonObject.addProperty("cityId", it) }
+        receiver.districtCode?.let { jsonObject.addProperty("districtId", it) }
+        receiver.wardCode?.let { jsonObject.addProperty("wardId", if (it == "-1") "0" else it) }
+        receiver.address?.let { jsonObject.addProperty("shipAddress", it) }
+        receiver.note?.let { jsonObject.addProperty("note", it) }
+        return gson.toJson(jsonObject)
     }
 
 

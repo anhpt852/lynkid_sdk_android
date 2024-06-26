@@ -164,6 +164,11 @@
         <action
             android:id="@+id/action_giftExchangeFragment_to_giftExchangeAddressFragment"
             app:destination="@id/giftExchangeAddressFragment" />
+        <argument
+            android:name="giftReceiver"
+            app:argType="vn.linkid.sdk.models.gift.GiftReceiver"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/giftOTPFragment"
@@ -174,6 +179,9 @@
             android:id="@+id/action_giftOTPFragment_to_giftExchangeSuccessFragment"
             app:destination="@id/giftExchangeSuccessFragment"
             app:popUpTo="@id/giftDetailFragment" />
+        <argument
+            android:name="sessionId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeSuccessFragment"
