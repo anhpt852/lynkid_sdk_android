@@ -517,6 +517,139 @@
                     android:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtShippingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Thông tin vận chuyển"
+                        android:textColor="#261F28"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/bevietnampro_semibold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/txtShippingTitle">
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progressShipping"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:progress="50"
+                            app:indicatorColor="#591C90"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:trackColor="#D8D6DD"
+                            app:trackStopIndicatorSize="0dp"
+                            app:trackThickness="4dp" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep1"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/bg_circular_purple"
+                            app:layout_constraintBottom_toBottomOf="@id/progressShipping"
+                            app:layout_constraintEnd_toEndOf="@id/guidelineStep1"
+                            app:layout_constraintStart_toStartOf="@id/guidelineStep1"
+                            app:layout_constraintTop_toTopOf="@id/progressShipping" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep1Image"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/bg_circular_purple"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep1"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep1"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgStep1Done"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_tick_white" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:maxWidth="60dp"
+                            android:text="Chờ xác nhận"
+                            android:textAlignment="center"
+                            android:textColor="#663692"
+                            android:textSize="12sp"
+                            app:fontFamily="@font/bevietnampro_regular"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep1"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep1"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image"/>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep2"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/bg_circular_purple"
+                            app:layout_constraintBottom_toBottomOf="@id/progressShipping"
+                            app:layout_constraintEnd_toEndOf="@id/guidelineStep2"
+                            app:layout_constraintStart_toStartOf="@id/guidelineStep2"
+                            app:layout_constraintTop_toTopOf="@id/progressShipping" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep3"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/bg_circular_gray"
+                            app:layout_constraintBottom_toBottomOf="@id/progressShipping"
+                            app:layout_constraintEnd_toEndOf="@id/guidelineStep3"
+                            app:layout_constraintStart_toStartOf="@id/guidelineStep3"
+                            app:layout_constraintTop_toTopOf="@id/progressShipping" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep4"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/bg_circular_gray"
+                            app:layout_constraintBottom_toBottomOf="@id/progressShipping"
+                            app:layout_constraintEnd_toEndOf="@id/guidelineStep4"
+                            app:layout_constraintStart_toStartOf="@id/guidelineStep4"
+                            app:layout_constraintTop_toTopOf="@id/progressShipping" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineStep1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.2" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineStep2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.4" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineStep3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.6" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineStep4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.8" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

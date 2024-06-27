@@ -19,11 +19,10 @@ class AddressPickerService(private val api: APIEndpoints) {
         level: String?
     ): Flow<Result<AddressResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
-            "MemberCode" to LynkiD_SDK.memberCode,
             "MaxResultCount" to 99,
             "VendorType" to "LinkID"
         )
-        if (!parentCode.isNullOrEmpty()) {
+        if (!parentCode.isNullOrEmpty() && level != "City") {
             params["ParentCodeFilter"] = parentCode
         }
         if (!level.isNullOrEmpty()) {

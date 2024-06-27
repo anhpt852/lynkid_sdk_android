@@ -69,11 +69,11 @@ class MyRewardDetailFragment : Fragment() {
     private fun setUpView(giftInfoItem: GiftInfoItem) {
         binding.apply {
             setUpCommonView(giftInfoItem)
-            if (giftInfoItem.eGift != null) {
-                setUpEGiftView(giftInfoItem)
-            } else {
+//            if (giftInfoItem.eGift != null) {
+//                setUpEGiftView(giftInfoItem)
+//            } else {
                 setUpPhysicalGiftView(giftInfoItem)
-            }
+//            }
         }
     }
 
@@ -154,7 +154,7 @@ class MyRewardDetailFragment : Fragment() {
 
 
     private fun FragmentMyRewardDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
-
+        layoutPhysicalFooter.visibility = View.VISIBLE
     }
 
     private fun FragmentMyRewardDetailBinding.setUpTopUpView(giftInfoItem: GiftInfoItem) {
