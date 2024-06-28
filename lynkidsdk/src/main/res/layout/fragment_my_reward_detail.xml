@@ -574,9 +574,21 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/ic_tick_white" />
 
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStep1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="1"
+                                android:textAlignment="center"
+                                android:textColor="#A7A7B3"
+                                android:textSize="14sp"
+                                android:visibility="gone"
+                                app:fontFamily="@font/bevietnampro_regular" />
+
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtStep1Description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -588,7 +600,7 @@
                             app:fontFamily="@font/bevietnampro_regular"
                             app:layout_constraintEnd_toEndOf="@id/layoutStep1"
                             app:layout_constraintStart_toStartOf="@id/layoutStep1"
-                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image"/>
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutStep2"
@@ -601,6 +613,51 @@
                             app:layout_constraintTop_toTopOf="@id/progressShipping" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep2Image"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/bg_circular_purple"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep2"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep2"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep2">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgStep2Done"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_tick_white" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStep2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="2"
+                                android:textAlignment="center"
+                                android:textColor="#A7A7B3"
+                                android:textSize="14sp"
+                                android:visibility="gone"
+                                app:fontFamily="@font/bevietnampro_regular" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtStep2Description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:maxWidth="60dp"
+                            android:text="Chờ xác nhận"
+                            android:textAlignment="center"
+                            android:textColor="#663692"
+                            android:textSize="12sp"
+                            app:fontFamily="@font/bevietnampro_regular"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep2"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep2"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutStep3"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
@@ -611,6 +668,51 @@
                             app:layout_constraintTop_toTopOf="@id/progressShipping" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep3Image"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/bg_circular_outlined_gray"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep3"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep3"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep3">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgStep3Done"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_tick_white"
+                                android:visibility="gone" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStep3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="3"
+                                android:textAlignment="center"
+                                android:textColor="#A7A7B3"
+                                android:textSize="14sp"
+                                app:fontFamily="@font/bevietnampro_regular" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtStep3Description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:maxWidth="60dp"
+                            android:text="Chờ xác nhận"
+                            android:textAlignment="center"
+                            android:textColor="#A7A7B3"
+                            android:textSize="12sp"
+                            app:fontFamily="@font/bevietnampro_regular"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep3"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep3"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutStep4"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
@@ -619,6 +721,51 @@
                             app:layout_constraintEnd_toEndOf="@id/guidelineStep4"
                             app:layout_constraintStart_toStartOf="@id/guidelineStep4"
                             app:layout_constraintTop_toTopOf="@id/progressShipping" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/layoutStep4Image"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/bg_circular_outlined_gray"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep4"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep4"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep4">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgStep4Done"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_tick_white"
+                                android:visibility="gone" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStep4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="4"
+                                android:textAlignment="center"
+                                android:textColor="#A7A7B3"
+                                android:textSize="14sp"
+                                app:fontFamily="@font/bevietnampro_regular" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtStep4Description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:maxWidth="60dp"
+                            android:text="Chờ xác nhận"
+                            android:textAlignment="center"
+                            android:textColor="#A7A7B3"
+                            android:textSize="12sp"
+                            app:fontFamily="@font/bevietnampro_regular"
+                            app:layout_constraintEnd_toEndOf="@id/layoutStep4"
+                            app:layout_constraintStart_toStartOf="@id/layoutStep4"
+                            app:layout_constraintTop_toBottomOf="@id/layoutStep1Image" />
 
                         <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/guidelineStep1"

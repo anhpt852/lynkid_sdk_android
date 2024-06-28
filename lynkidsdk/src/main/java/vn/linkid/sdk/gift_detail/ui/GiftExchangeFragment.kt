@@ -189,7 +189,7 @@ class GiftExchangeFragment : Fragment() {
         receiver.phone?.let { jsonObject.addProperty("phone", it) }
         receiver.cityCode?.let { jsonObject.addProperty("cityId", it) }
         receiver.districtCode?.let { jsonObject.addProperty("districtId", it) }
-        receiver.wardCode?.let { jsonObject.addProperty("wardId", if (it == "-1") "0" else it) }
+        receiver.wardCode?.let { jsonObject.addProperty("wardId", it.ifEmpty { "0" }) }
         receiver.address?.let { jsonObject.addProperty("shipAddress", it) }
         receiver.note?.let { jsonObject.addProperty("note", it) }
         return gson.toJson(jsonObject)

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import vn.linkid.sdk.models.address.Address
 
 class GiftExchangeAddressPickerViewModel: ViewModel() {
-    private val selectedCity = MutableLiveData<Address?>()
-    private val selectedDistrict = MutableLiveData<Address?>()
-    private val selectedWard = MutableLiveData<Address?>()
+    val selectedCity = MutableLiveData<Address?>()
+    val selectedDistrict = MutableLiveData<Address?>()
+    val selectedWard = MutableLiveData<Address?>()
 
     fun getSelectedCity(): LiveData<Address?> = selectedCity
     fun getSelectedDistrict(): LiveData<Address?> = selectedDistrict

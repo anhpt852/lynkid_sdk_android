@@ -86,15 +86,9 @@ class AddressPickerFragment : Fragment() {
                 adapter.onItemClick = { address ->
                     Log.d("AddressPickerFragment", "onItemClick: address: $address")
                     when (level) {
-                        "City" -> {
-                            pickerViewModel.setSelectedCity(address)
-                        }
-                        "District" -> {
-                            pickerViewModel.setSelectedDistrict(address)
-                        }
-                        else -> {
-                            pickerViewModel.setSelectedWard(address)
-                        }
+                        "City" -> pickerViewModel.setSelectedCity(address)
+                        "District" -> pickerViewModel.setSelectedDistrict(address)
+                        else -> pickerViewModel.setSelectedWard(address)
                     }
                     findNavController().popBackStack()
                 }

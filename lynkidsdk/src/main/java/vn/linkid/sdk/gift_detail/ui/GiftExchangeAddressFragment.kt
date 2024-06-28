@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.R
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModel
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModelFactory
 import vn.linkid.sdk.databinding.FragmentGiftExchangeAddressBinding
@@ -53,29 +54,44 @@ class GiftExchangeAddressFragment : Fragment() {
                 getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             btnExchange.layoutParams = bottomLayoutParam
 
+            pickerViewModel.selectedCity.observe(viewLifecycleOwner) {
+                edtCity.setText(it?.name)
+                if (it?.name != null) {
+                    edtDistrict.setBackgroundResource(R.drawable.bg_outlined_button)
+                }
+            }
             edtCity.setOnClickListener {
                 val action =
                     GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
-                        "-1",
+                        "",
                         "City"
                     )
                 findNavController().navigate(action)
+            }
+
+            pickerViewModel.selectedDistrict.observe(viewLifecycleOwner) {
+                edtDistrict.setText(it?.name)
+                if (it?.name != null) {
+                    edtWard.setBackgroundResource(R.drawable.bg_outlined_button)
+                }
             }
             edtDistrict.setOnClickListener {
                 if (pickerViewModel.getSelectedCity().value != null) {
                     val action =
                         GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
-                            pickerViewModel.getSelectedCity().value?.code ?: "-1",
+                            pickerViewModel.getSelectedCity().value?.code ?: "",
                             "District"
                         )
                     findNavController().navigate(action)
                 }
             }
+
+            pickerViewModel.selectedWard.observe(viewLifecycleOwner) { edtWard.setText(it?.name) }
             edtWard.setOnClickListener {
                 if (pickerViewModel.getSelectedDistrict().value != null) {
                     val action =
                         GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
-                            pickerViewModel.getSelectedDistrict().value?.code ?: "-1",
+                            pickerViewModel.getSelectedDistrict().value?.code ?: "",
                             "Ward"
                         )
                     findNavController().navigate(action)
