@@ -1,6 +1,7 @@
 package vn.linkid.sdk.gift_detail.ui
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class GiftExchangeAddressFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentGiftExchangeAddressBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,12 +53,14 @@ class GiftExchangeAddressFragment : Fragment() {
             btnExchange.layoutParams = bottomLayoutParam
 
             pickerViewModel.selectedCity.observe(viewLifecycleOwner) {
-                edtCity.setText(it?.name)
+                txtCityTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                txtCity.visibility = View.VISIBLE
+                txtCity.text = it?.name
                 if (it?.name != null) {
-                    edtDistrict.setBackgroundResource(R.drawable.bg_outlined_button)
+                    layoutDistrict.setBackgroundResource(R.drawable.bg_outlined_button)
                 }
             }
-            edtCity.setOnClickListener {
+            layoutCity.setOnClickListener {
                 val action =
                     GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
                         "",
@@ -67,12 +70,14 @@ class GiftExchangeAddressFragment : Fragment() {
             }
 
             pickerViewModel.selectedDistrict.observe(viewLifecycleOwner) {
-                edtDistrict.setText(it?.name)
+                txtDistrictTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                txtDistrict.visibility = View.VISIBLE
+                txtDistrict.text = it?.name
                 if (it?.name != null) {
-                    edtWard.setBackgroundResource(R.drawable.bg_outlined_button)
+                    layoutWard.setBackgroundResource(R.drawable.bg_outlined_button)
                 }
             }
-            edtDistrict.setOnClickListener {
+            layoutDistrict.setOnClickListener {
                 if (pickerViewModel.getSelectedCity().value != null) {
                     val action =
                         GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(
@@ -83,8 +88,12 @@ class GiftExchangeAddressFragment : Fragment() {
                 }
             }
 
-            pickerViewModel.selectedWard.observe(viewLifecycleOwner) { edtWard.setText(it?.name) }
-            edtWard.setOnClickListener {
+            pickerViewModel.selectedWard.observe(viewLifecycleOwner) {
+                txtWardTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                txtWard.visibility = View.VISIBLE
+                txtWard.text = it?.name
+            }
+            layoutWard.setOnClickListener {
                 if (pickerViewModel.getSelectedDistrict().value != null) {
                     val action =
                         GiftExchangeAddressFragmentDirections.actionGiftExchangeAddressFragmentToAddressPickerFragment(

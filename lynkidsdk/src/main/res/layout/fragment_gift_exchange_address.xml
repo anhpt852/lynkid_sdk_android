@@ -109,53 +109,143 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtPhone" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtCity"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_outlined_button"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:hint="Tỉnh/ Thành Phố"
-                android:inputType="none"
-                android:padding="16dp"
-                android:textColor="#242424"
-                android:textColorHint="#6D6B7A"
-                android:textSize="14sp"
-                app:fontFamily="@font/bevietnampro_regular"
-                app:layout_constraintTop_toBottomOf="@id/txtAddressTitle" />
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/txtAddressTitle">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtDistrict"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtCityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tỉnh/Thành Phố"
+                    android:textColor="#A7A7B3"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toTopOf="@id/txtCity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtCityTitle"
+                    tools:text="Quận/Huyện" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutDistrict"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_outlined_disable_button"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:hint="Quận/Huyện"
-                android:inputType="none"
-                android:padding="16dp"
-                android:textColor="#242424"
-                android:textColorHint="#6D6B7A"
-                android:textSize="14sp"
-                app:fontFamily="@font/bevietnampro_regular"
-                app:layout_constraintTop_toBottomOf="@id/edtCity" />
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutCity">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtWard"
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDistrictTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quận/Huyện"
+                    android:textColor="#A7A7B3"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toTopOf="@id/txtDistrict"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDistrict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtDistrictTitle"
+                    tools:text="Quận/Huyện" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutWard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_outlined_disable_button"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:hint="Phường/Xã"
-                android:inputType="none"
-                android:padding="16dp"
-                android:textColor="#242424"
-                android:textColorHint="#6D6B7A"
-                android:textSize="14sp"
-                app:fontFamily="@font/bevietnampro_regular"
-                app:layout_constraintTop_toBottomOf="@id/edtDistrict" />
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutDistrict">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtWardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phường/Xã"
+                    android:textColor="#A7A7B3"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toTopOf="@id/txtWard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtWard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtWardTitle"
+                    tools:text="Quận/Huyện" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtAddress"
@@ -170,7 +260,7 @@
                 android:textColorHint="#6D6B7A"
                 android:textSize="14sp"
                 app:fontFamily="@font/bevietnampro_regular"
-                app:layout_constraintTop_toBottomOf="@id/edtWard" />
+                app:layout_constraintTop_toBottomOf="@id/layoutWard" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtNoteTitle"

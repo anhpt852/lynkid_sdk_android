@@ -189,10 +189,10 @@ class GiftDetailFragment : Fragment() {
                         giftId
                     )
                 } else {
-                GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
-                    giftId
-                )
-            }
+                    GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
+                        giftId
+                    )
+                }
             findNavController().navigate(action)
         }
     }
