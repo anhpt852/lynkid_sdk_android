@@ -26,6 +26,7 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
+import vn.linkid.sdk.models.category.DiamondCategoriesResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
@@ -253,6 +254,13 @@ interface APIEndpoints {
         )
     ): GetMerchantResponseModel
 
+    @GET(Endpoints.GET_LIST_DIAMOND_CATE)
+    suspend fun getListDiamondCate(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        )
+    ): DiamondCategoriesResponseModel
 }
 
 object Endpoints {
@@ -278,4 +286,5 @@ object Endpoints {
     const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"
     const val GET_GIFTS = "api/sdk-v1/get-gift-all-infors"
     const val GET_MERCHANT = "api/sdk-v1/Merchant/GetAll"
+    const val GET_LIST_DIAMOND_CATE = "api/sdk-v1/GetAllGiftCategoriesAndInfo"
 }

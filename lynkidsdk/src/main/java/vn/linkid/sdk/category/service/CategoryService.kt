@@ -51,4 +51,28 @@ class CategoryService(private val api: APIEndpoints) {
         Log.e("CategoryService", "getGiftsByCategoryCode: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
+
+    suspend fun getDiamondCategoryCode(
+        categoryCode: String,
+        index: Int,
+    ): Flow<Result<GiftsByCategoryResponseModel>> = flow {
+        val params: MutableMap<String, Any> = mutableMapOf(
+            "MemberCode" to LynkiD_SDK.memberCode,
+            "GiftCategoryCodeFilter" to categoryCode,
+            "SkipCount" to index * 10,
+            "MaxItem" to 10
+        )
+        val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_CATEGORY, params)
+        val cachedResponse = MainCache.get<GiftsByCategoryResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getGiftsByCategory(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
+    }.catch {
+        Log.e("CategoryService", "getGiftsByCategoryCode: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
 }
