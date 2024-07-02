@@ -55,20 +55,21 @@ class GiftDetailService(private val api: APIEndpoints) {
         giftCode: String,
         quantity: Int,
         totalAmount: Double,
-        description: String
+        description: String,
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
-        val session = "LynkiD_SDK.session"
         val params: MutableMap<String, Any> = mutableMapOf(
             "memberCode" to LynkiD_SDK.memberCode,
             "cifCode" to LynkiD_SDK.cif,
             "sessionId" to sessionId,
             "giftCode" to giftCode,
             "quantity" to quantity,
-            "totalAmount" to totalAmount,
-            "description" to description
+            "totalAmount" to totalAmount
         )
+        if (description.isNotEmpty()) {
+            params["description"] = description
+        }
         val response = api.createTransaction(body = params)
-        emit(Result.success(Pair(session, response)))
+        emit(Result.success(Pair(sessionId, response)))
     }.catch {
         Log.e("GiftDetailService", "createTransaction: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
@@ -76,9 +77,8 @@ class GiftDetailService(private val api: APIEndpoints) {
 
     suspend fun confirmTransaction(
         sessionId: String,
-        otpCode: String
+        otpCode: String,
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
-        val session = "LynkiD_SDK.session"
         val params: MutableMap<String, Any> = mutableMapOf(
             "memberCode" to LynkiD_SDK.memberCode,
             "cifCode" to LynkiD_SDK.cif,
@@ -86,7 +86,7 @@ class GiftDetailService(private val api: APIEndpoints) {
             "otpCode" to otpCode
         )
         val response = api.confirmTransaction(body = params)
-        emit(Result.success(Pair(session, response)))
+        emit(Result.success(Pair(sessionId, response)))
     }.catch {
         Log.e("GiftDetailService", "confirmTransaction: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))

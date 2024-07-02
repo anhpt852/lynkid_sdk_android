@@ -184,13 +184,15 @@ class GiftDetailFragment : Fragment() {
 
         btnExchange.setOnClickListener {
             val action =
-//                if (giftDetail.giftInfor?.isEGift == true) {
-//                GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(giftId)
-//            } else {
+                if (giftDetail.giftInfor?.isEGift == true) {
+                    GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(
+                        giftId
+                    )
+                } else {
                 GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
                     giftId
                 )
-//            }
+            }
             findNavController().navigate(action)
         }
     }

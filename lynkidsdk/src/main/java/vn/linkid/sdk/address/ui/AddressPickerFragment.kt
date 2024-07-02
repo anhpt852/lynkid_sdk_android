@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -28,11 +29,10 @@ class AddressPickerFragment : Fragment() {
 
     private lateinit var binding: FragmentAddressPickerBinding
     private lateinit var viewModel: AddressPickerViewModel
-    private lateinit var pickerViewModel: GiftExchangeAddressPickerViewModel
+    private val pickerViewModel: GiftExchangeAddressPickerViewModel by activityViewModels { GiftExchangeAddressPickerViewModelFactory() }
     private val service = AddressPickerService(mainAPI)
     private val repository = AddressPickerRepository(service)
     private val viewModelFactory = AddressPickerViewModelFactory(repository)
-    private val pickerViewModelFactory = GiftExchangeAddressPickerViewModelFactory()
 
     private val args: AddressPickerFragmentArgs by navArgs()
     private val parentCode: String by lazy { args.parentCode }
@@ -46,10 +46,6 @@ class AddressPickerFragment : Fragment() {
     ): View {
         binding = FragmentAddressPickerBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[AddressPickerViewModel::class.java]
-        pickerViewModel = ViewModelProvider(
-            this,
-            pickerViewModelFactory
-        )[GiftExchangeAddressPickerViewModel::class.java]
         return binding.root
     }
 

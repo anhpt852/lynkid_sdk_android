@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -43,6 +44,10 @@ class TransactionFragment : Fragment() {
             val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
+
+            val backgroundLayoutParams = imgHeaderBackground.layoutParams
+            backgroundLayoutParams.height = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0) + (context?.dpToPx(56) ?: 0) + (context?.dpToPx(40) ?: 0)
+            imgHeaderBackground.layoutParams = backgroundLayoutParams
         }
         setUpPager()
     }

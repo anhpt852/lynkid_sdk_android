@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,8 +21,8 @@ import vn.linkid.sdk.utils.getStatusBarHeight
 class GiftExchangeAddressFragment : Fragment() {
 
     private lateinit var binding: FragmentGiftExchangeAddressBinding
-    private lateinit var pickerViewModel: GiftExchangeAddressPickerViewModel
-    private val pickerViewModelFactory = GiftExchangeAddressPickerViewModelFactory()
+    private val pickerViewModel: GiftExchangeAddressPickerViewModel by activityViewModels { GiftExchangeAddressPickerViewModelFactory() }
+
 
     private val args: GiftExchangeAddressFragmentArgs by navArgs()
     private val giftId: Int by lazy { args.giftId }
@@ -32,10 +33,6 @@ class GiftExchangeAddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGiftExchangeAddressBinding.inflate(inflater, container, false)
-        pickerViewModel = ViewModelProvider(
-            this,
-            pickerViewModelFactory
-        )[GiftExchangeAddressPickerViewModel::class.java]
         return binding.root
     }
 

@@ -32,14 +32,8 @@ data class GiftInfoItem(
     val feeInfor: String?,
     val giftCategoryTypeCode: String?,
     val balanceAbleToCashout: Int?,
-    val giftUsageAddress: List<GiftAddressItem>?
-) {
-    companion object {
-//        fun fromJson(json: Map<String, Any>): GiftInfoItem {
-//            // Implement the parsing here
-//        }
-    }
-}
+    val giftUsageAddress: List<GiftAddressItem>?,
+)
 
 data class GiftTransaction(
     val code: String?,
@@ -59,7 +53,7 @@ data class GiftTransaction(
     val date: String?,
     val status: String?,
     val whyHaveIt: WhyHaveRewardType?,
-    val rewardStatus: RewardUsedStatus?,
+    var rewardStatus: RewardStatus?,
     val memberId: Int?,
     val giftId: Int?,
     val reason: String?,
@@ -79,8 +73,29 @@ data class GiftTransaction(
     val condition: String?,
     val giftDescription: String?,
     val eGiftUsedAt: String?,
-    val rejectReason: String?
-)
+    val rejectReason: String?,
+) {
+    init {
+        rewardStatus = status?.let { status ->
+            RewardStatus.entries.find { it.value == status }
+        }
+    }
+}
+
+enum class RewardStatus(val value: String) {
+    PENDING("pending"),       // 1-1
+    WAITING("waiting"),       // 1-1
+    DELIVERING("delivering"), // 1-2
+    DELIVERED("delivered"),   // 1-3
+    RETURNING("returning"),   // 3-3
+    RETURNED("returned"),     // 3-4
+    CANCELLING("cancelling"), // 3-4
+    CANCELED("canceled"),     // 3-4
+    CONFIRM_FAILED("confirmFailed"), // 1-1
+    CONFIRMED("confirmed"),   // 1-1
+    REJECTED("rejected"),     // 2-2
+    APPROVED("approved");     // 1-1
+}
 
 data class EGift(
     val type: String?,
@@ -93,7 +108,7 @@ data class EGift(
     val giftId: Int?,
     val lastModificationTime: String?,
     val creationTime: String?,
-    val usageCheck: Boolean?
+    val usageCheck: Boolean?,
 )
 
 data class VendorInfo(
@@ -101,21 +116,21 @@ data class VendorInfo(
     val hotLine: String?,
     val id: Int?,
     val type: String?,
-    val vendorName: String?
+    val vendorName: String?,
 )
 
 data class BrandInfo(
     val brandId: Int?,
     val brandName: String?,
     val brandImage: String?,
-    val isBrandFavourite: Boolean?
+    val isBrandFavourite: Boolean?,
 )
 
 data class MerchantInfo(
     val merchantId: Int?,
     val merchantName: String?,
     val merchantAvatar: String?,
-    val merchantDescription: String?
+    val merchantDescription: String?,
 )
 
 data class GiftUsageAddress(
@@ -124,7 +139,7 @@ data class GiftUsageAddress(
     val address: String?,
     val phone: String?,
     val latitude: String?,
-    val longitude: String?
+    val longitude: String?,
 )
 
 data class ImageLink(
@@ -134,7 +149,7 @@ data class ImageLink(
     val isActive: Boolean?,
     val ordinal: Int?,
     val fullLink: String?,
-    val id: Int?
+    val id: Int?,
 )
 
 data class GiftDiscountInfor(
@@ -145,7 +160,7 @@ data class GiftDiscountInfor(
     val status: String?,
     val redeemGiftQuantity: Int?,
     val redeemFlashSaleQuantity: Int?,
-    val maxAmountRedeem: Int?
+    val maxAmountRedeem: Int?,
 )
 
 data class GiftAddressItem(
@@ -154,7 +169,7 @@ data class GiftAddressItem(
     val address: String?,
     val phone: String?,
     val latitude: String?,
-    val longitude: String?
+    val longitude: String?,
 )
 
 

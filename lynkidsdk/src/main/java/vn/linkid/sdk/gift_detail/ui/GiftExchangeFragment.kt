@@ -185,6 +185,7 @@ class GiftExchangeFragment : Fragment() {
     private fun parseReceiverInfo(receiver: GiftReceiver): String {
         val gson = Gson()
         val jsonObject = JsonObject()
+        Log.d("GiftExchangeFragment", "parseReceiverInfo 1: $receiver")
         receiver.name?.let { jsonObject.addProperty("fullname", it) }
         receiver.phone?.let { jsonObject.addProperty("phone", it) }
         receiver.cityCode?.let { jsonObject.addProperty("cityId", it) }
@@ -192,7 +193,9 @@ class GiftExchangeFragment : Fragment() {
         receiver.wardCode?.let { jsonObject.addProperty("wardId", it.ifEmpty { "0" }) }
         receiver.address?.let { jsonObject.addProperty("shipAddress", it) }
         receiver.note?.let { jsonObject.addProperty("note", it) }
-        return gson.toJson(jsonObject)
+        val result = gson.toJson(jsonObject)
+        Log.d("GiftExchangeFragment", "parseReceiverInfo 2: $result")
+        return result
     }
 
 

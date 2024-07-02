@@ -13,8 +13,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -24,6 +26,7 @@ import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
+import vn.linkid.sdk.models.my_reward.RewardStatus
 import vn.linkid.sdk.models.my_reward.RewardUsedStatus
 import vn.linkid.sdk.models.my_reward.WhyHaveRewardType
 import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
@@ -49,7 +52,7 @@ class MyRewardDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMyRewardDetailBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[MyRewardDetailViewModel::class.java]
@@ -68,12 +71,13 @@ class MyRewardDetailFragment : Fragment() {
 
     private fun setUpView(giftInfoItem: GiftInfoItem) {
         binding.apply {
+            btnBack.setOnClickListener { findNavController().popBackStack() }
             setUpCommonView(giftInfoItem)
-//            if (giftInfoItem.eGift != null) {
-//                setUpEGiftView(giftInfoItem)
-//            } else {
+            if (giftInfoItem.eGift != null) {
+                setUpEGiftView(giftInfoItem)
+            } else {
                 setUpPhysicalGiftView(giftInfoItem)
-//            }
+            }
         }
     }
 
@@ -81,6 +85,10 @@ class MyRewardDetailFragment : Fragment() {
         val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
         toolbar.layoutParams = layoutParams
+
+        val backgroundLayoutParams = imgHeaderBackground.layoutParams
+        backgroundLayoutParams.height = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0) + (context?.dpToPx(56) ?: 0) + (context?.dpToPx(40) ?: 0)
+        imgHeaderBackground.layoutParams = backgroundLayoutParams
 
         txtGiftName.text = giftInfoItem.giftTransaction?.giftName
 
@@ -96,7 +104,7 @@ class MyRewardDetailFragment : Fragment() {
         txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem){
+    private fun FragmentMyRewardDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem) {
         val adapter = MyRewardDetailAddressAdapter(giftInfoItem.giftUsageAddress ?: emptyList())
         adapter.onItemClick = {
             Log.d("TAG", "setUpAddress: $it")
@@ -146,7 +154,12 @@ class MyRewardDetailFragment : Fragment() {
 
         val fullText = "Lưu ý: Không cung cấp ảnh chụp màn hình cho nhân viên để thanh toán."
         val spannable = SpannableString(fullText)
-        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F5574E")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)  // Adjust index based on actual text
+        spannable.setSpan(
+            ForegroundColorSpan(Color.parseColor("#F5574E")),
+            0,
+            7,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )  // Adjust index based on actual text
         spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         txtWarning.text = spannable
 
@@ -155,6 +168,165 @@ class MyRewardDetailFragment : Fragment() {
 
     private fun FragmentMyRewardDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
         layoutPhysicalFooter.visibility = View.VISIBLE
+        when (giftInfoItem.giftTransaction?.rewardStatus) {
+            RewardStatus.PENDING -> setUpPhysicalTypeOne(1)
+            RewardStatus.WAITING -> setUpPhysicalTypeOne(1)
+            RewardStatus.DELIVERING -> setUpPhysicalTypeOne(2)
+            RewardStatus.DELIVERED -> setUpPhysicalTypeOne(3)
+            RewardStatus.RETURNING -> setUpPhysicalTypeOne(3)
+            RewardStatus.RETURNED -> setUpPhysicalTypeThree(4)
+            RewardStatus.CANCELLING -> setUpPhysicalTypeThree(4)
+            RewardStatus.CANCELED -> setUpPhysicalTypeThree(4)
+            RewardStatus.CONFIRM_FAILED -> setUpPhysicalTypeOne(1)
+            RewardStatus.CONFIRMED -> setUpPhysicalTypeOne(1)
+            RewardStatus.REJECTED -> setUpPhysicalTypeTwo(2)
+            RewardStatus.APPROVED -> setUpPhysicalTypeOne(1)
+            null -> layoutPhysicalFooter.visibility = View.GONE
+        }
+    }
+
+    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeOne(step: Int) {
+        layoutStep2.visibility = View.GONE
+        layoutStep2Image.visibility = View.GONE
+        txtStep2Description.visibility = View.GONE
+        layoutStep4.visibility = View.GONE
+        layoutStep4Image.visibility = View.GONE
+        txtStep4Description.visibility = View.GONE
+
+        txtStep1Description.text = "Đang xử lý"
+        txtStep3Description.text = "Đang giao hàng"
+        txtStep3.text = "2"
+        txtStep5Description.text = "Đã giao hàng"
+        txtStep5.text = "3"
+        if (step >= 1) {
+            progressShipping.progress = 20
+            layoutStep1.visibility = View.VISIBLE
+            layoutStep1Image.visibility = View.VISIBLE
+            txtStep1Description.visibility = View.VISIBLE
+            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep1Description.setTextColor(Color.parseColor("#663692"))
+            txtStep1.visibility = View.GONE
+            imgStep1Done.visibility = View.VISIBLE
+            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 2) {
+            progressShipping.progress = 50
+            layoutStep3.visibility = View.VISIBLE
+            layoutStep3Image.visibility = View.VISIBLE
+            txtStep3Description.visibility = View.VISIBLE
+            layoutStep3Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep3Description.setTextColor(Color.parseColor("#663692"))
+            txtStep3.visibility = View.GONE
+            imgStep3Done.visibility = View.VISIBLE
+            layoutStep3.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 3) {
+            progressShipping.progress = 100
+            layoutStep5.visibility = View.VISIBLE
+            layoutStep5Image.visibility = View.VISIBLE
+            txtStep5Description.visibility = View.VISIBLE
+            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep5Description.setTextColor(Color.parseColor("#663692"))
+            txtStep5.visibility = View.GONE
+            imgStep5Done.visibility = View.VISIBLE
+            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+    }
+
+    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeTwo(step: Int) {
+        layoutStep2.visibility = View.GONE
+        layoutStep2Image.visibility = View.GONE
+        txtStep2Description.visibility = View.GONE
+        layoutStep3.visibility = View.GONE
+        layoutStep3Image.visibility = View.GONE
+        txtStep3Description.visibility = View.GONE
+        layoutStep4.visibility = View.GONE
+        layoutStep4Image.visibility = View.GONE
+        txtStep4Description.visibility = View.GONE
+
+        txtStep1Description.text = "Đang xử lý"
+        txtStep5Description.text = "Đã hủy"
+        txtStep5.text = "2"
+        if (step >= 1) {
+            progressShipping.progress = 20
+            layoutStep1.visibility = View.VISIBLE
+            layoutStep1Image.visibility = View.VISIBLE
+            txtStep1Description.visibility = View.VISIBLE
+            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep1Description.setTextColor(Color.parseColor("#663692"))
+            txtStep1.visibility = View.GONE
+            imgStep1Done.visibility = View.VISIBLE
+            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 2) {
+            progressShipping.progress = 100
+            layoutStep5.visibility = View.VISIBLE
+            layoutStep5Image.visibility = View.VISIBLE
+            txtStep5Description.visibility = View.VISIBLE
+            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep5Description.setTextColor(Color.parseColor("#663692"))
+            txtStep5.visibility = View.GONE
+            imgStep5Done.visibility = View.VISIBLE
+            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+    }
+
+    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeThree(step: Int) {
+        layoutStep3.visibility = View.GONE
+        layoutStep3Image.visibility = View.GONE
+        txtStep3Description.visibility = View.GONE
+
+        txtStep1Description.text = "Đang xử lý"
+        txtStep2Description.text = "Đang giao hàng"
+        txtStep2.text = "2"
+        txtStep4Description.text = "Vận chuyển trả hàng"
+        txtStep4.text = "3"
+        txtStep5Description.text = "Đã huỷ"
+        txtStep5.text = "4"
+        if (step >= 1) {
+            progressShipping.progress = 20
+            layoutStep1.visibility = View.VISIBLE
+            layoutStep1Image.visibility = View.VISIBLE
+            txtStep1Description.visibility = View.VISIBLE
+            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep1Description.setTextColor(Color.parseColor("#663692"))
+            txtStep1.visibility = View.GONE
+            imgStep1Done.visibility = View.VISIBLE
+            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 2) {
+            progressShipping.progress = 40
+            layoutStep2.visibility = View.VISIBLE
+            layoutStep2Image.visibility = View.VISIBLE
+            txtStep2Description.visibility = View.VISIBLE
+            layoutStep2Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep2Description.setTextColor(Color.parseColor("#663692"))
+            txtStep2.visibility = View.GONE
+            imgStep2Done.visibility = View.VISIBLE
+            layoutStep2.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 3) {
+            progressShipping.progress = 60
+            layoutStep4.visibility = View.VISIBLE
+            layoutStep4Image.visibility = View.VISIBLE
+            txtStep4Description.visibility = View.VISIBLE
+            layoutStep4Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep4Description.setTextColor(Color.parseColor("#663692"))
+            txtStep4.visibility = View.GONE
+            imgStep4Done.visibility = View.VISIBLE
+            layoutStep4.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
+        if (step >= 4) {
+            progressShipping.progress = 100
+            layoutStep5.visibility = View.VISIBLE
+            layoutStep5Image.visibility = View.VISIBLE
+            txtStep5Description.visibility = View.VISIBLE
+            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
+            txtStep5Description.setTextColor(Color.parseColor("#663692"))
+            txtStep5.visibility = View.GONE
+            imgStep5Done.visibility = View.VISIBLE
+            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
+        }
     }
 
     private fun FragmentMyRewardDetailBinding.setUpTopUpView(giftInfoItem: GiftInfoItem) {
