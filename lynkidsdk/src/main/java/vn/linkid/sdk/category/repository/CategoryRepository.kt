@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.linkid.sdk.category.paging.CategoryPagingSource
 import vn.linkid.sdk.models.category.Gift
+import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 
 class CategoryRepository(private val service: CategoryService) {
@@ -42,9 +43,9 @@ class CategoryRepository(private val service: CategoryService) {
             }
         }
 
-    fun getGiftsStream(categoryCode: String): Flow<PagingData<Gift>> = Pager(
+    fun getGiftsStream(categoryCode: String, filter: GiftFilterModel): Flow<PagingData<Gift>> = Pager(
         PagingConfig(pageSize = 10, enablePlaceholders = false)
     ) {
-        CategoryPagingSource(service, categoryCode)
+        CategoryPagingSource(service, categoryCode, filter)
     }.flow
 }

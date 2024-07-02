@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 import vn.linkid.sdk.utils.Endpoints
 import vn.linkid.sdk.utils.generateCacheKey
@@ -31,6 +32,7 @@ class CategoryService(private val api: APIEndpoints) {
     suspend fun getGiftsByCategoryCode(
         categoryCode: String,
         index: Int,
+        filter: GiftFilterModel
     ): Flow<Result<GiftsByCategoryResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,

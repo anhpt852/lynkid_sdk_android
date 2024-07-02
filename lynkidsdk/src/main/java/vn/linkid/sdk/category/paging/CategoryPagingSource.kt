@@ -7,16 +7,17 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.fold
 import vn.linkid.sdk.category.service.CategoryService
 import vn.linkid.sdk.models.category.Gift
+import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 
-class CategoryPagingSource(private val service: CategoryService, private val categoryCode: String) :
+class CategoryPagingSource(private val service: CategoryService, private val categoryCode: String, private val filter: GiftFilterModel) :
     PagingSource<Int, Gift>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Gift> {
         val pageIndex = params.key ?: 0
 
         return try {
-            val result = service.getGiftsByCategoryCode(categoryCode, pageIndex).first()
+            val result = service.getGiftsByCategoryCode(categoryCode, pageIndex, filter).first()
             result.fold(
                 onSuccess = { response ->
                     val totalCount = response.data?.totalCount ?: 0

@@ -54,7 +54,7 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     val giftsByCategory: LiveData<PagingData<Gift>> = categoryCode.switchMap { categoryCode ->
         liveData {
             loader.postValue(true)
-            repository.getGiftsStream(categoryCode)
+            repository.getGiftsStream(categoryCode, giftFilter.value ?: GiftFilterModel())
                 .cachedIn(viewModelScope)
                 .collectLatest { pagingData ->
                     emit(pagingData)
