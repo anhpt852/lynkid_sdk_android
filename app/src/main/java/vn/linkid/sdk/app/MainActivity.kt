@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
             LynkiD_SDK.start(
                 this,
                 "218",
-                "+84868218516",
+                "+84866400192",
                 "111111",
                 "PT"
             )

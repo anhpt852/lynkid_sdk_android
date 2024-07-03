@@ -13,7 +13,10 @@ import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
 import vn.linkid.sdk.gift_detail.viewmodel.GiftOTPViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftOTPViewModelFactory
+import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatDate
+import vn.linkid.sdk.utils.getNavigationBarHeight
+import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
 
 class GiftOTPFragment : Fragment() {
@@ -45,12 +48,20 @@ class GiftOTPFragment : Fragment() {
     private fun setUpView() {
         viewModel.sessionId.value = sessionId
         binding.apply {
+            val statusHeight = getStatusBarHeight(root)
+            fun updateTopMargin(view: View, additionalDp: Int) {
+                val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.topMargin = statusHeight + (context?.dpToPx(additionalDp) ?: 0)
+                view.layoutParams = layoutParams
+            }
+            updateTopMargin(toolbar, 12)
+            val bottomLayoutParam = btnVerify.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+            btnVerify.layoutParams = bottomLayoutParam
+            btnBack.setOnClickListener { findNavController().popBackStack() }
+            txtTitle.text = "Vui lòng nhập mã xác thực (OTP) được gửi về số điện thoại 0968257600"
             viewModel.isLoading.observe(viewLifecycleOwner) {
-                if (it) {
-                    // Show loading
-                } else {
-                    // Hide loading
-                }
+                layoutLoading.visibility = if (it) View.VISIBLE else View.GONE
             }
 
             btnRetry.setOnClickListener {
