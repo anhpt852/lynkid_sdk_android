@@ -34,7 +34,24 @@ class GiftExchangeViewModel(private val repository: GiftDetailRepository) : View
         quantity.value = quantity.value?.minus(1)
     }
 
-    fun createTransaction(sessionId: String, giftCode: String, totalAmount: Double, description: String) = liveData {
-        emitSource(repository.createTransaction(sessionId, giftCode, quantity.value ?: 1, totalAmount, description).asLiveData())
+    val transactionLoading = MutableLiveData<Boolean>(false)
+    fun createTransaction(
+        sessionId: String,
+        giftCode: String,
+        totalAmount: Double,
+        description: String,
+    ) = liveData {
+        transactionLoading.postValue(true)
+        emitSource(repository.createTransaction(
+            sessionId,
+            giftCode,
+            quantity.value ?: 1,
+            totalAmount,
+            description
+        )
+            .onEach {
+                transactionLoading.postValue(false)
+            }
+            .asLiveData())
     }
 }

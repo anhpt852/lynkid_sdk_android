@@ -130,6 +130,10 @@ class GiftExchangeFragment : Fragment() {
         val totalRedemptionOfUser = giftDetail.giftInfor?.totalRedeemedOfUser ?: 0
         val remainingQuantity = maxAllowedRedemptionOfUser - totalRedemptionOfUser
 
+        viewModel.transactionLoading.observe(viewLifecycleOwner) { isLoading ->
+            layoutLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
         btnExchange.setOnClickListener {
             val sessionId = "LynkiD_SDK" + System.currentTimeMillis()
             viewModel.createTransaction(
