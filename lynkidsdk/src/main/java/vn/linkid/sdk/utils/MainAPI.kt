@@ -1,6 +1,7 @@
 package vn.linkid.sdk.utils
 
 import android.util.Log
+import kotlinx.coroutines.runBlocking
 import vn.linkid.sdk.models.auth.AuthToken
 import vn.linkid.sdk.models.auth.ConnectedMemberAuthToken
 import vn.linkid.sdk.models.auth.MemberAuthToken
@@ -26,6 +27,7 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
+import vn.linkid.sdk.models.auth.RefreshToken
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
@@ -48,6 +50,17 @@ val client: OkHttpClient = OkHttpClient.Builder()
         } catch (e: Exception) {
             Log.e("Response Body", e.message ?: "empty")
         }
+        if (response.code == 401) {
+            synchronized(Any()) {
+                val newToken = runBlocking { refreshAccessToken() }
+                if (newToken != null) {
+                    val newRequest = request.newBuilder()
+                        .header("Authorization", "Bearer $newToken")
+                        .build()
+                    return@Interceptor chain.proceed(newRequest)
+                }
+            }
+        }
         response
     })
     .build()
@@ -58,6 +71,22 @@ val retrofit: Retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 val mainAPI: APIEndpoints = retrofit.create(APIEndpoints::class.java)
+
+suspend fun refreshAccessToken(): String? {
+    return try {
+        val headers = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessRefreshToken}"
+        )
+        val response = mainAPI.refreshToken(headers)
+        LynkiD_SDK.accessToken = response.accessToken ?: ""
+        LynkiD_SDK.accessRefreshToken = response.refreshToken ?: ""
+        response.accessToken
+    } catch (e: Exception) {
+        Log.e("Token Refresh Error", e.message ?: "Unknown error")
+        null
+    }
+}
 
 interface APIEndpoints {
 
@@ -211,7 +240,7 @@ interface APIEndpoints {
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
-    ) : GetTransactionResponseModel
+    ): GetTransactionResponseModel
 
     @GET(Endpoints.GET_TRANSACTION_DETAIL)
     suspend fun getTransactionDetail(
@@ -253,6 +282,14 @@ interface APIEndpoints {
         )
     ): GetMerchantResponseModel
 
+    @GET(Endpoints.REFRESH_TOKEN)
+    suspend fun refreshToken(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        )
+    ): RefreshToken
+
 }
 
 object Endpoints {
@@ -278,4 +315,5 @@ object Endpoints {
     const val GET_GIFT_USAGE_ADDRESS = "api/sdk-v1/GetGiftUsageAddress"
     const val GET_GIFTS = "api/sdk-v1/get-gift-all-infors"
     const val GET_MERCHANT = "api/sdk-v1/Merchant/GetAll"
+    const val REFRESH_TOKEN = "api/sdk-v1/refresh-token"
 }
