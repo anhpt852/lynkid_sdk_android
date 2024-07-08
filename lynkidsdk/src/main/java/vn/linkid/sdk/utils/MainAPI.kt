@@ -28,6 +28,7 @@ import retrofit2.http.QueryMap
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.auth.RefreshToken
+import vn.linkid.sdk.models.diamond.GetDiamondCategoryResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
@@ -290,6 +291,14 @@ interface APIEndpoints {
         )
     ): RefreshToken
 
+    @GET(Endpoints.GET_DIAMOND_CATEGORIES)
+    suspend fun getDiamondCategories(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        )
+    ): GetDiamondCategoryResponseModel
+
 }
 
 object Endpoints {
@@ -316,4 +325,5 @@ object Endpoints {
     const val GET_GIFTS = "api/sdk-v1/get-gift-all-infors"
     const val GET_MERCHANT = "api/sdk-v1/Merchant/GetAll"
     const val REFRESH_TOKEN = "api/sdk-v1/refresh-token"
+    const val GET_DIAMOND_CATEGORIES = "api/sdk-v1/GetAllGiftCategoriesAndInfo"
 }

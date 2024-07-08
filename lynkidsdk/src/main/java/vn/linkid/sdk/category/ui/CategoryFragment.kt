@@ -41,8 +41,6 @@ class CategoryFragment : Fragment() {
     private val args: CategoryFragmentArgs by navArgs()
     private val categoryCode: String by lazy { args.categoryCode }
 
-    private var currentPage = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
