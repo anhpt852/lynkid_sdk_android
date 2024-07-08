@@ -1,7 +1,6 @@
 package vn.linkid.sdk.gift_detail.ui
 
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,8 +24,10 @@ import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModelFactory
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
 import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class GiftDetailFragment : Fragment() {
 
@@ -85,9 +86,11 @@ class GiftDetailFragment : Fragment() {
     }
 
     private fun FragmentGiftDetailBinding.setUpScroll() {
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            toolbar.alpha = scrollY.toFloat() / 200
-            bgBack.alpha = 1 - scrollY.toFloat() / 200
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                toolbar.alpha = scrollY.toFloat() / 200
+                bgBack.alpha = 1 - scrollY.toFloat() / 200
+            }
         }
     }
 

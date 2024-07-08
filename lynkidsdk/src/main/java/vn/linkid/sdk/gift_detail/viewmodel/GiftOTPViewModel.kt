@@ -15,8 +15,30 @@ class GiftOTPViewModel(private val repository: GiftDetailRepository) : ViewModel
     fun confirmTransaction(otpCode: String) = liveData {
         isLoading.postValue(true)
         emitSource(
-            repository.confirmTransaction(sessionId.value!!, otpCode).onEach { isLoading.postValue(false) }
+            repository.confirmTransaction(sessionId.value!!, otpCode)
+                .onEach { isLoading.postValue(false) }
                 .asLiveData()
         )
+    }
+
+    fun createTransaction(
+        newSessionId: String,
+        giftCode: String,
+        quantity: Int?,
+        totalAmount: Double,
+        description: String,
+    ) = liveData {
+        isLoading.postValue(true)
+        emitSource(repository.createTransaction(
+            newSessionId,
+            giftCode,
+            quantity ?: 1,
+            totalAmount,
+            description
+        )
+            .onEach {
+                isLoading.postValue(false)
+            }
+            .asLiveData())
     }
 }

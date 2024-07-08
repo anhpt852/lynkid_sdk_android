@@ -23,6 +23,7 @@ import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModelFactory
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
+import vn.linkid.sdk.models.gift.GiftExchange
 import vn.linkid.sdk.models.gift.GiftReceiver
 import vn.linkid.sdk.utils.formatDate
 
@@ -144,20 +145,28 @@ class GiftExchangeFragment : Fragment() {
             ).observe(viewLifecycleOwner) { result ->
                 result.getOrNull()?.let { exchangeModel ->
                     val isOtpSent = exchangeModel.isOtpSent ?: false
+                    val expiredString =
+                        formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
+                    val giftExchange = GiftExchange(
+                        sessionId = sessionId,
+                        giftCode = giftDetail.giftInfor?.code ?: "",
+                        totalAmount = (giftDetail.giftInfor?.requiredCoin
+                            ?: 0.0) * (viewModel.quantity.value ?: 1),
+                        description = if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
+                        amount = viewModel.quantity.value,
+                        brandImage = giftDetail.giftInfor?.brandLinkLogo,
+                        brandName = giftDetail.giftInfor?.brandName,
+                        giftName = giftDetail.giftInfor?.name,
+                        expiredString = expiredString,
+                        transactionCode = exchangeModel.items?.firstOrNull()?.code
+                    )
                     val action = if (isOtpSent) {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(sessionId)
+                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(
+                            giftExchange
+                        )
                     } else {
-                        val expiredString =
-                            formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
                         GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
-                            amount = viewModel.quantity.value ?: 1,
-                            coin = ((giftDetail.giftInfor?.requiredCoin
-                                ?: 0.0) * (viewModel.quantity.value ?: 1)).toLong(),
-                            brandImage = giftDetail.giftInfor?.brandLinkLogo ?: "",
-                            brandName = giftDetail.giftInfor?.brandName ?: "",
-                            giftName = giftDetail.giftInfor?.name ?: "",
-                            expiredString = expiredString,
-                            transactionCode = exchangeModel.items?.firstOrNull()?.code ?: ""
+                            giftExchange
                         )
                     }
                     findNavController().navigate(action)

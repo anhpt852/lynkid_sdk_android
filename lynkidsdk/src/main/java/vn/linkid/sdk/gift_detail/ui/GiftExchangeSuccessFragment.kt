@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.databinding.FragmentGiftExchangeSuccessBinding
+import vn.linkid.sdk.models.gift.GiftExchange
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
 import vn.linkid.sdk.utils.getNavigationBarHeight
@@ -20,13 +21,7 @@ class GiftExchangeSuccessFragment : Fragment() {
     private lateinit var binding: FragmentGiftExchangeSuccessBinding
 
     private val args: GiftExchangeSuccessFragmentArgs by navArgs()
-    private val amount: Int by lazy { args.amount }
-    private val coin: Long by lazy { args.coin }
-    private val brandImage: String by lazy { args.brandImage }
-    private val brandName: String by lazy { args.brandName }
-    private val giftName: String by lazy { args.giftName }
-    private val expiredString: String by lazy { args.expiredString }
-    private val transactionCode: String by lazy { args.transactionCode }
+    private val giftExchange: GiftExchange by lazy { args.giftExchange }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,31 +44,42 @@ class GiftExchangeSuccessFragment : Fragment() {
             toolbar.layoutParams = layoutParams
 
             val bottomLayoutParam = btnUse.layoutParams as ViewGroup.MarginLayoutParams
-            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            bottomLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             btnUse.layoutParams = bottomLayoutParam
 
-
-            btnHome.setOnClickListener { findNavController().popBackStack() }
-            txtExchangeInfo.text = "Bạn vừa tiết kiệm ${coin.formatPrice()}VND cùng LynkiD"
-            txtBrand.text = brandName
-            Glide.with(root.context)
-                .load(brandImage)
-                .into(imgBrand)
-            txtGiftName.text = giftName
-            txtExpireDate.text = if (expiredString.isNotEmpty()) "HSD: $expiredString" else ""
-            if (amount > 1) {
-                tagAmount.visibility = View.VISIBLE
-                txtAmount.text = "X${amount.formatPrice()}"
-            } else {
-                tagAmount.visibility = View.GONE
-            }
-            layoutGift.setOnClickListener {
-                val action = GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardDetailFragment(transactionCode)
-                findNavController().navigate(action)
-            }
-            btnDetail.setOnClickListener {
-                val action = GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToTransactionDetailFragment(transactionCode, false)
-                findNavController().navigate(action)
+            giftExchange.apply {
+                btnHome.setOnClickListener { findNavController().popBackStack() }
+                txtExchangeInfo.text =
+                    "Bạn vừa tiết kiệm ${totalAmount.formatPrice()}VND cùng LynkiD"
+                txtBrand.text = brandName
+                Glide.with(root.context)
+                    .load(brandImage)
+                    .into(imgBrand)
+                txtGiftName.text = giftName
+                txtExpireDate.text =
+                    if (!expiredString.isNullOrEmpty()) "HSD: ${expiredString}" else ""
+                if ((amount ?: 1) > 1) {
+                    tagAmount.visibility = View.VISIBLE
+                    txtAmount.text = "X${(amount ?: 1).formatPrice()}"
+                } else {
+                    tagAmount.visibility = View.GONE
+                }
+                layoutGift.setOnClickListener {
+                    val action =
+                        GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardDetailFragment(
+                            transactionCode ?: ""
+                        )
+                    findNavController().navigate(action)
+                }
+                btnDetail.setOnClickListener {
+                    val action =
+                        GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToTransactionDetailFragment(
+                            transactionCode ?: "",
+                            false
+                        )
+                    findNavController().navigate(action)
+                }
             }
         }
     }

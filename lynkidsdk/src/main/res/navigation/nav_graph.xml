@@ -180,39 +180,23 @@
             app:destination="@id/giftExchangeSuccessFragment"
             app:popUpTo="@id/giftDetailFragment" />
         <argument
-            android:name="sessionId"
-            app:argType="string" />
+            android:name="giftExchange"
+            app:argType="vn.linkid.sdk.models.gift.GiftExchange" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeSuccessFragment"
         android:name="vn.linkid.sdk.gift_detail.ui.GiftExchangeSuccessFragment"
         android:label="GiftExchangeSuccessFragment"
         tools:layout="@layout/fragment_gift_exchange_success">
-        <argument
-            android:name="amount"
-            app:argType="integer" />
-        <argument
-            android:name="brandName"
-            app:argType="string" />
-        <argument
-            android:name="brandImage"
-            app:argType="string" />
-        <argument android:name="giftName" />
-        <argument
-            android:name="expiredString"
-            app:argType="string" />
-        <argument
-            android:name="transactionCode"
-            app:argType="string" />
-        <argument
-            android:name="coin"
-            app:argType="long" />
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardDetailFragment"
             app:destination="@id/myRewardDetailFragment" />
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_transactionDetailFragment"
             app:destination="@id/transactionDetailFragment" />
+        <argument
+            android:name="giftExchange"
+            app:argType="vn.linkid.sdk.models.gift.GiftExchange" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeAddressFragment"

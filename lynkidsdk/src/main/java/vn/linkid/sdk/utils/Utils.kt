@@ -1,19 +1,21 @@
 package vn.linkid.sdk.utils
 
 import android.content.Context
-import android.icu.text.NumberFormat
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
+import android.graphics.Rect
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.databinding.ItemScrollerBinding
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 
 fun getStatusBarHeight(view: View): Int = ViewCompat.getRootWindowInsets(view)?.getInsets(
@@ -97,7 +99,11 @@ fun formatDate(date: String?): String {
         }
 
         val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        outputFormat.format(expireDate)
+        if (expireDate != null) {
+            outputFormat.format(expireDate)
+        } else {
+            ""
+        }
     } catch (e: Exception) {
         ""
     }
@@ -122,4 +128,21 @@ fun parseIsoDate(isoDateString: String): Date {
     val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
     isoFormatter.timeZone = TimeZone.getTimeZone("UTC")  // Set timezone to UTC to match the 'Z' in the ISO string
     return isoFormatter.parse(isoDateString) ?: Date()  // Return current date if parsing fails
+}
+
+fun View.adjustWhenKeyboardShown(bottomButton: View) {
+    viewTreeObserver.addOnGlobalLayoutListener {
+        val rect = Rect()
+        getWindowVisibleDisplayFrame(rect)
+        val screenHeight = rootView.height
+        val keypadHeight = screenHeight - rect.bottom
+
+        if (keypadHeight > screenHeight * 0.15) {
+            // Keyboard is shown
+            bottomButton.translationY = -keypadHeight.toFloat()
+        } else {
+            // Keyboard is hidden
+            bottomButton.translationY = 0f
+        }
+    }
 }

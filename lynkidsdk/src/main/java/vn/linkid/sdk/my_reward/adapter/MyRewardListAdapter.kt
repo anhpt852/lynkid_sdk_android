@@ -1,7 +1,5 @@
 package vn.linkid.sdk.my_reward.adapter
 
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +12,10 @@ import vn.linkid.sdk.databinding.ItemMyRewardBinding
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import vn.linkid.sdk.transaction.adapter.TransactionAdapter
 import vn.linkid.sdk.transaction.adapter.TransactionAdapter.Companion
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class MyRewardListAdapter(
     private var giftList: List<GiftInfoItem> = emptyList(),
@@ -75,7 +75,7 @@ class MyRewardListAdapter(
                 }
 
                 val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                expireDateString = outputFormat.format(expireDate)
+                expireDateString = if (expireDate != null) outputFormat.format(expireDate) else ""
 
                 val currentDate = Date()
 
