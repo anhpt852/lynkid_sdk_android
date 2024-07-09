@@ -11,6 +11,7 @@ import vn.linkid.sdk.models.point.Point
 import vn.linkid.sdk.home.repository.HomeRepository
 import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.onEach
+import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
@@ -60,6 +61,16 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         emitSource(repository.getHomeGiftGroup()
             .onEach {
                 homeGiftGroupLoader.postValue(false)
+            }
+            .asLiveData())
+    }
+
+    val homeFlashSaleLoader = MutableLiveData<Boolean>(true)
+    val homeFlashSale = liveData<Result<GetAllFlashSaleProgramResponseModel>> {
+        homeFlashSaleLoader.postValue(true)
+        emitSource(repository.getAllFlashSaleProgram()
+            .onEach {
+                homeFlashSaleLoader.postValue(false)
             }
             .asLiveData())
     }

@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
         setUpCategories()
         setUpBannersAndNews()
         setUpGift()
+        setUpFlashSale()
     }
 
     private fun setUpView() {
@@ -170,6 +171,32 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                     listGift.adapter = adapter
+
+                }
+            }
+        }
+
+    }
+
+    private fun setUpFlashSale() {
+        viewModel.homeFlashSaleLoader.observe(viewLifecycleOwner) { loader ->
+            if (loader) {
+                Log.d("HomeFragment", "setUpFlashSale: $loader")
+            }
+        }
+        viewModel.homeFlashSale.observe(viewLifecycleOwner) { homeFlashSale ->
+            if (homeFlashSale.getOrNull() != null) {
+                binding.apply {
+//                    listGift.layoutManager = GridLayoutManager(requireContext(), 2)
+//                    val adapter =
+//                        HomeGiftAdapter(homeFlashSale.getOrNull()!!.data?.gifts ?: listOf())
+//                    adapter.onItemClickListener = { gift ->
+//                        val action = HomeFragmentDirections.actionHomeFragmentToGiftDetailFragment(
+//                            gift.giftInfo?.id ?: 0
+//                        )
+//                        findNavController().navigate(action)
+//                    }
+//                    listGift.adapter = adapter
 
                 }
             }

@@ -30,6 +30,7 @@ import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.auth.RefreshToken
 import vn.linkid.sdk.models.diamond.GetDiamondCategoryResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
+import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
@@ -299,6 +300,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GetDiamondCategoryResponseModel
 
+    @GET(Endpoints.GET_ALL_FLASH_SALE_PROGRAM)
+    suspend fun getAllFlashSaleProgram(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GetAllFlashSaleProgramResponseModel
+
 }
 
 object Endpoints {
@@ -326,4 +335,5 @@ object Endpoints {
     const val GET_MERCHANT = "api/sdk-v1/Merchant/GetAll"
     const val REFRESH_TOKEN = "api/sdk-v1/refresh-token"
     const val GET_DIAMOND_CATEGORIES = "api/sdk-v1/GetAllGiftCategoriesAndInfo"
+    const val GET_ALL_FLASH_SALE_PROGRAM = "api/sdk-v1/GiftFlashSaleProgram/GetAllFlashSaleProgram"
 }

@@ -10,8 +10,10 @@ import vn.linkid.sdk.models.point.PointResponseModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.Flow
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.utils.Endpoints
 import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.utils.generateCacheKey
 
 class HomeService(private val api: APIEndpoints) {
@@ -93,6 +95,26 @@ class HomeService(private val api: APIEndpoints) {
         }
     }.catch {
         Log.e("HomeService", "getHomeGiftGroup: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
+
+    suspend fun getAllFlashSaleProgram(): Flow<Result<GetAllFlashSaleProgramResponseModel>> = flow {
+        val params: MutableMap<String, Any> = mutableMapOf(
+            "MemberCode" to LynkiD_SDK.memberCode,
+            "MaxItemFlashSaleProgram" to 1,
+            "MaxItemGiftFlashSale" to 5
+        )
+        val cacheKey = generateCacheKey(Endpoints.GET_ALL_FLASH_SALE_PROGRAM, params)
+        val cachedResponse = MainCache.get<GetAllFlashSaleProgramResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getAllFlashSaleProgram(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
+    }.catch {
+        Log.e("HomeService", "getAllFlashSaleProgram: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 }

@@ -12,6 +12,7 @@ import vn.linkid.sdk.home.service.HomeService
 import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 
 class HomeRepository(private val service: HomeService) {
 
@@ -86,6 +87,25 @@ class HomeRepository(private val service: HomeService) {
                 Log.d(
                     "HomeRepository",
                     "getHomeGiftGroup: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+    suspend fun getAllFlashSaleProgram(): Flow<Result<GetAllFlashSaleProgramResponseModel>> =
+        service.getAllFlashSaleProgram().map { result ->
+            if (result.isSuccess) {
+                val getAllFlashSaleProgramResponseModel: GetAllFlashSaleProgramResponseModel? =
+                    result.getOrNull()
+                if (getAllFlashSaleProgramResponseModel != null) {
+                    Result.success(getAllFlashSaleProgramResponseModel)
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
+            } else {
+                Log.d(
+                    "HomeRepository",
+                    "getAllFlashSaleProgram: ${result.exceptionOrNull()?.toString()}"
                 )
                 Result.failure(result.exceptionOrNull()!!)
             }
