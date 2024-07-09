@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_diamondCategoryFragment"
+            app:destination="@id/diamondCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_allGiftFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_allGiftFragment_to_diamondCategoryFragment"
+            app:destination="@id/diamondCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -112,6 +118,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_giftDetailFragment"
             app:destination="@id/giftDetailFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_diamondCategoryFragment"
+            app:destination="@id/diamondCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/myRewardFragment"
@@ -275,5 +284,14 @@
         <action
             android:id="@+id/action_transactionListFragment_to_transactionDetailFragment"
             app:destination="@id/transactionDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondCategoryFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondCategoryFragment"
+        android:label="DiamondCategoryFragment"
+        tools:layout="@layout/fragment_diamond_category">
+        <argument
+            android:name="diamondCateCode"
+            app:argType="string" />
     </fragment>
 </navigation>

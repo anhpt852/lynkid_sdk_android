@@ -35,9 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
@@ -79,10 +77,7 @@ class HomeFragment : Fragment() {
             if (memberInfo.getOrNull() != null) {
                 val member = memberInfo.getOrNull()!!
                 binding.apply {
-                    Glide.with(imgAvatar)
-                        .load(member.avatar)
-                        .circleCrop()
-                        .into(imgAvatar)
+                    Glide.with(imgAvatar).load(member.avatar).circleCrop().into(imgAvatar)
                     txtMemberName.text = member.name
                 }
             }
@@ -121,7 +116,7 @@ class HomeFragment : Fragment() {
                     listCategory.handleScroll(binding.indicatorCategory)
                     categoryAdapter.onItemClick = { category ->
                         val action =
-                            HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
+                            if (category.categoryTypeCode == "Diamond") HomeFragmentDirections.actionHomeFragmentToDiamondCategoryFragment(category.code ?: "") else HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
                                 category.code ?: ""
                             )
                         findNavController().navigate(action)
@@ -169,8 +164,9 @@ class HomeFragment : Fragment() {
                     val adapter =
                         HomeGiftAdapter(homeGiftGroup.getOrNull()!!.data?.gifts ?: listOf())
                     adapter.onItemClickListener = { gift ->
-                        val action =
-                            HomeFragmentDirections.actionHomeFragmentToGiftDetailFragment(gift.giftInfo?.id ?: 0)
+                        val action = HomeFragmentDirections.actionHomeFragmentToGiftDetailFragment(
+                            gift.giftInfo?.id ?: 0
+                        )
                         findNavController().navigate(action)
                     }
                     listGift.adapter = adapter

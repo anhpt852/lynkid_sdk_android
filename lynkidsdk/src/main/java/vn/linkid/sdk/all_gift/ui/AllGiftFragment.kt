@@ -17,6 +17,7 @@ import vn.linkid.sdk.all_gift.service.AllGiftService
 import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModel
 import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModelFactory
 import vn.linkid.sdk.databinding.FragmentAllGiftBinding
+import vn.linkid.sdk.home.ui.HomeFragmentDirections
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.handleScroll
@@ -79,9 +80,10 @@ class AllGiftFragment : Fragment() {
                     listCategory.adapter = categoryAdapter
                     categoryAdapter.onItemClick = { category ->
                         val action =
-                            AllGiftFragmentDirections.actionAllGiftFragmentToCategoryFragment(
-                                category.code ?: ""
-                            )
+                            if (category.categoryTypeCode == "Diamond") AllGiftFragmentDirections.actionAllGiftFragmentToDiamondCategoryFragment(category.code ?: "") else
+                                AllGiftFragmentDirections.actionAllGiftFragmentToCategoryFragment(
+                                    category.code ?: ""
+                                )
                         findNavController().navigate(action)
                     }
                     listCategory.handleScroll(binding.indicatorCategory)

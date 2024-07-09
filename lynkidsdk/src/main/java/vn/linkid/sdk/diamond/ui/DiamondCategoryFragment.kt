@@ -1,4 +1,4 @@
-package vn.linkid.sdk.category.ui
+package vn.linkid.sdk.diamond.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -7,49 +7,49 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.launch
-import vn.linkid.sdk.all_gift.ui.AllGiftFragmentDirections
-import vn.linkid.sdk.category.adapter.CategoryAdapter
-import vn.linkid.sdk.category.adapter.GiftsByCategoryAdapter
-import vn.linkid.sdk.category.repository.CategoryRepository
-import vn.linkid.sdk.category.service.CategoryService
-import vn.linkid.sdk.category.viewmodel.CategoryViewModel
-import vn.linkid.sdk.category.viewmodel.CategoryViewModelFactory
-import vn.linkid.sdk.databinding.FragmentCategoryBinding
-import vn.linkid.sdk.home.ui.HomeFragmentDirections
+import vn.linkid.sdk.auth.ui.LoginFragmentArgs
+import vn.linkid.sdk.category.ui.CategoryFilterBottomSheet
+import vn.linkid.sdk.category.ui.CategoryFragmentDirections
+import vn.linkid.sdk.databinding.FragmentDiamondCategoryBinding
+import vn.linkid.sdk.diamond.adapter.DiamondCategoryAdapter
+import vn.linkid.sdk.diamond.adapter.DiamondGiftsAdapter
+import vn.linkid.sdk.diamond.repository.DiamondRepository
+import vn.linkid.sdk.diamond.service.DiamondService
+import vn.linkid.sdk.diamond.viewmodel.DiamondCategoryViewModel
+import vn.linkid.sdk.diamond.viewmodel.DiamondCategoryViewModelFactory
+import vn.linkid.sdk.models.auth.ConnectedMember
+import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
-import vn.linkid.sdk.models.category.GiftFilterModel
 
-class CategoryFragment : Fragment() {
+class DiamondCategoryFragment: Fragment() {
 
-    private lateinit var viewModel: CategoryViewModel
-    private val service = CategoryService(mainAPI)
-    private val repository = CategoryRepository(service)
-    private val viewModelFactory = CategoryViewModelFactory(repository)
-    private lateinit var binding: FragmentCategoryBinding
+    private lateinit var binding: FragmentDiamondCategoryBinding
+    private lateinit var viewModel: DiamondCategoryViewModel
+    private val service: DiamondService = DiamondService(mainAPI)
+    private val repository = DiamondRepository(service)
 
-    private val categoryAdapter = CategoryAdapter(emptyList())
-    private val giftsByCategoryAdapter = GiftsByCategoryAdapter()
+    private val args: DiamondCategoryFragmentArgs by navArgs()
+    private val diamondCateCode: String by lazy { args.diamondCateCode }
 
-    private val args: CategoryFragmentArgs by navArgs()
-    private val categoryCode: String by lazy { args.categoryCode }
+    private val categoryAdapter = DiamondCategoryAdapter(emptyList())
+    private val giftAdapter = DiamondGiftsAdapter()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, viewModelFactory)[CategoryViewModel::class.java]
+        binding = FragmentDiamondCategoryBinding.inflate(inflater, container, false)
+        val viewModelFactory = DiamondCategoryViewModelFactory(repository, diamondCateCode)
+        viewModel = ViewModelProvider(this, viewModelFactory)[DiamondCategoryViewModel::class.java]
         return binding.root
     }
 
@@ -81,28 +81,23 @@ class CategoryFragment : Fragment() {
         }
     }
 
+
+
     private fun setUpCategoryList() {
-        viewModel.initCateCode(categoryCode)
         binding.apply {
             listCategory.layoutManager =
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             listCategory.adapter = categoryAdapter
             categoryAdapter.onItemClick = { category ->
-                if (category.categoryTypeCode == "Diamond") {
-                    val action =
-                        AllGiftFragmentDirections.actionAllGiftFragmentToDiamondCategoryFragment(category.code ?: "")
-                    findNavController().navigate(action)
-                } else {
-                    Log.d("CategoryFragment", "Selected category: ${category.code}")
-                    viewModel.setCateCode(category.code ?: "")
-                    viewModel.giftFilter.postValue(GiftFilterModel())
-                }
+                Log.d("DiamondCategoryFragment", "Selected category: ${category.giftCategory?.code}")
+                viewModel.setCateCode(category.giftCategory?.code ?: "")
+                viewModel.giftFilter.postValue(GiftFilterModel())
             }
         }
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             categoryAdapter.updateCategories(categories.getOrNull() ?: emptyList())
             categoryAdapter.selectedPosition = (categories.getOrNull()
-                ?: emptyList()).indexOfFirst { it.code == viewModel.categoryCode.value }
+                ?: emptyList()).indexOfFirst { it.giftCategory?.code == viewModel.categoryCode.value }
             binding.listCategory.scrollToPosition(categoryAdapter.selectedPosition)
         }
     }
@@ -110,8 +105,8 @@ class CategoryFragment : Fragment() {
     private fun setUpGiftList() {
         binding.apply {
             listGift.layoutManager = LinearLayoutManager(binding.root.context)
-            listGift.adapter = giftsByCategoryAdapter
-            giftsByCategoryAdapter.onItemClick = { gift ->
+            listGift.adapter = giftAdapter
+            giftAdapter.onItemClick = { gift ->
                 val action = CategoryFragmentDirections.actionCategoryFragmentToGiftDetailFragment(
                     gift.giftInfor?.id ?: 0
                 )
@@ -132,28 +127,28 @@ class CategoryFragment : Fragment() {
                     previousScrollPosition = dy
                 }
             })
-            giftsByCategoryAdapter.registerAdapterDataObserver(object :
+            giftAdapter.registerAdapterDataObserver(object :
                 RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    viewModel.isEmpty.postValue(giftsByCategoryAdapter.itemCount == 0)
+                    viewModel.isEmpty.postValue(giftAdapter.itemCount == 0)
                 }
 
                 override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                    viewModel.isEmpty.postValue(giftsByCategoryAdapter.itemCount == 0)
+                    viewModel.isEmpty.postValue(giftAdapter.itemCount == 0)
                 }
 
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                    viewModel.isEmpty.postValue(giftsByCategoryAdapter.itemCount == 0)
+                    viewModel.isEmpty.postValue(giftAdapter.itemCount == 0)
                 }
             })
             layoutListGift.setOnRefreshListener {
-                giftsByCategoryAdapter.refresh()
+                giftAdapter.refresh()
                 layoutListGift.isRefreshing = false
             }
         }
         viewModel.giftsByCategory.observe(viewLifecycleOwner) { giftsByCategory ->
             Log.d("CategoryFragment", "getGiftsByCategory: $giftsByCategory")
-            giftsByCategoryAdapter.submitData(lifecycle, giftsByCategory)
+            giftAdapter.submitData(lifecycle, giftsByCategory)
         }
     }
 
@@ -173,5 +168,8 @@ class CategoryFragment : Fragment() {
             binding.layoutFilter.visibility = if (isShowFilter) View.VISIBLE else View.GONE
         }
     }
+
+
+
 
 }

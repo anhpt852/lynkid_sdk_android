@@ -24,10 +24,16 @@ class CategoryRepository(private val service: CategoryService) {
                     Result.success(
                         listOf(
                             Category(
-                                "all",
-                                "Tất cả",
-                                "",
-                                ""
+                                code = "all",
+                                name = "Tất cả",
+                                description = "",
+                                status = "",
+                                categoryTypeCode = null,
+                                fullLink = null,
+                                imageLink = null,
+                                level = null,
+                                parentCode = null,
+                                parentId = null
                             )
                         ).plus(homeCategoryResponseModel.data.row2)
                     )
@@ -43,9 +49,10 @@ class CategoryRepository(private val service: CategoryService) {
             }
         }
 
-    fun getGiftsStream(categoryCode: String, filter: GiftFilterModel): Flow<PagingData<Gift>> = Pager(
-        PagingConfig(pageSize = 10, enablePlaceholders = false)
-    ) {
-        CategoryPagingSource(service, categoryCode, filter)
-    }.flow
+    fun getGiftsStream(categoryCode: String, filter: GiftFilterModel): Flow<PagingData<Gift>> =
+        Pager(
+            PagingConfig(pageSize = 10, enablePlaceholders = false)
+        ) {
+            CategoryPagingSource(service, categoryCode, filter)
+        }.flow
 }

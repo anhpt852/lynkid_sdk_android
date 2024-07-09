@@ -1,6 +1,5 @@
-package vn.linkid.sdk.category.viewmodel
+package vn.linkid.sdk.diamond.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,31 +10,23 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
-import vn.linkid.sdk.category.repository.CategoryRepository
-import vn.linkid.sdk.models.category.Gift
-import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import kotlinx.coroutines.flow.onEach
+import vn.linkid.sdk.diamond.repository.DiamondRepository
+import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.category.GiftFilterModel
 
-class CategoryViewModel(private val repository: CategoryRepository) : ViewModel() {
+class DiamondCategoryViewModel(private val repository: DiamondRepository, private val diamondCateCode: String): ViewModel() {
 
     val categoriesLoader = MutableLiveData(true)
     val categoryCode = MutableLiveData<String>("")
     val categories = liveData {
         categoriesLoader.postValue(true)
-        emitSource(repository.getGiftCategories()
+        emitSource(repository.getDiamondCategories(diamondCateCode)
             .onEach {
                 categoriesLoader.postValue(false)
             }
             .asLiveData())
-    }
-    fun initCateCode(code: String) {
-        if (categoryCode.value.isNullOrEmpty()) {
-            categoryCode.postValue(code)
-        }
     }
     fun setCateCode(code: String) {
         categoryCode.postValue(code)
@@ -73,5 +64,6 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     fun setGiftFilter(giftFilter: GiftFilterModel) {
         this.giftFilter.postValue(giftFilter)
     }
+
 
 }
