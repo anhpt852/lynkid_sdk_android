@@ -11,14 +11,20 @@ import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 
-class DiamondCategoryPagingSource(private val service: DiamondService, private val categoryCode: String, private val filter: GiftFilterModel) :
+class DiamondCategoryPagingSource(
+    private val service: DiamondService,
+    private val categoryCode: String,
+    private val parentCode: String?,
+    private val filter: GiftFilterModel
+) :
     PagingSource<Int, Gift>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Gift> {
         val pageIndex = params.key ?: 0
 
         return try {
-            val result = service.getGiftsByCategoryCode(categoryCode, pageIndex, filter).first()
+            val result =
+                service.getGiftsByCategoryCode(categoryCode, parentCode, pageIndex, filter).first()
             result.fold(
                 onSuccess = { response ->
                     val totalCount = response.data?.totalCount ?: 0

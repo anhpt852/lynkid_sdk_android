@@ -45,7 +45,7 @@ class DiamondCategoryViewModel(private val repository: DiamondRepository, privat
     val giftsByCategory: LiveData<PagingData<Gift>> = categoryCode.switchMap { categoryCode ->
         liveData {
             loader.postValue(true)
-            repository.getGiftsStream(categoryCode, giftFilter.value ?: GiftFilterModel())
+            repository.getGiftsStream(categoryCode, null, giftFilter.value ?: GiftFilterModel())
                 .cachedIn(viewModelScope)
                 .collectLatest { pagingData ->
                     emit(pagingData)

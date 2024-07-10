@@ -6,13 +6,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import vn.linkid.sdk.category.paging.CategoryPagingSource
 import vn.linkid.sdk.diamond.paging.DiamondCategoryPagingSource
 import vn.linkid.sdk.diamond.service.DiamondService
 import vn.linkid.sdk.models.category.Category
 import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.category.GiftFilterModel
-import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 import vn.linkid.sdk.models.diamond.DiamondCategory
 import vn.linkid.sdk.models.diamond.GetDiamondCategoryResponseModel
 
@@ -56,10 +54,10 @@ class DiamondRepository(private val service: DiamondService) {
             }
         }
 
-    fun getGiftsStream(categoryCode: String, filter: GiftFilterModel): Flow<PagingData<Gift>> =
+    fun getGiftsStream(categoryCode: String, parentCode: String?, filter: GiftFilterModel): Flow<PagingData<Gift>> =
         Pager(
             PagingConfig(pageSize = 10, enablePlaceholders = false)
         ) {
-            DiamondCategoryPagingSource(service, categoryCode, filter)
+            DiamondCategoryPagingSource(service, categoryCode, parentCode, filter)
         }.flow
 }
