@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
+import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.point.Point
 import vn.linkid.sdk.models.point.PointResponseModel
 
@@ -84,4 +85,23 @@ class GiftDetailRepository(private val service: GiftDetailService) {
             Result.failure(result.exceptionOrNull()!!)
         }
     }
+
+    suspend fun getAllFlashSaleProgram(): Flow<Result<GetAllFlashSaleProgramResponseModel>> =
+        service.getAllFlashSaleProgram().map { result ->
+            if (result.isSuccess) {
+                val getAllFlashSaleProgramResponseModel: GetAllFlashSaleProgramResponseModel? =
+                    result.getOrNull()
+                if (getAllFlashSaleProgramResponseModel != null) {
+                    Result.success(getAllFlashSaleProgramResponseModel)
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
+            } else {
+                Log.d(
+                    "GiftDetailRepository",
+                    "getAllFlashSaleProgram: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
 }

@@ -102,7 +102,7 @@ class HomeService(private val api: APIEndpoints) {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,
             "MaxItemFlashSaleProgram" to 1,
-            "MaxItemGiftFlashSale" to 5
+            "MaxItemGiftFlashSale" to 0
         )
         val cacheKey = generateCacheKey(Endpoints.GET_ALL_FLASH_SALE_PROGRAM, params)
         val cachedResponse = MainCache.get<GetAllFlashSaleProgramResponseModel>(cacheKey)
