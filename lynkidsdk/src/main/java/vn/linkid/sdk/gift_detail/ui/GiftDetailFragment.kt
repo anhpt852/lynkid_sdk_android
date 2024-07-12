@@ -147,41 +147,50 @@ class GiftDetailFragment : Fragment() {
     }
 
     private fun FragmentGiftDetailBinding.setUpFlashSale(giftDetail: GiftDetail) {
-        viewModel.flashSale.observe(viewLifecycleOwner) { flashSale ->
-            val flashSaleItem = flashSale?.getOrNull()?.result?.items?.firstOrNull()
-            if (flashSaleItem != null) {
-                layoutFlashSale.visibility = View.VISIBLE
-                val currentTime = Calendar.getInstance().apply {
-                    timeZone = TimeZone.getTimeZone("UTC")
-                    add(Calendar.HOUR_OF_DAY, 7)
-                }
-                val dateFormat =
-                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()).apply {
+        if ((giftDetail.giftDiscountInfor?.remainingQuantityFlashSale ?: 0) > 0) {
+            viewModel.flashSale.observe(viewLifecycleOwner) { flashSale ->
+                val flashSaleItem = flashSale?.getOrNull()?.result?.items?.firstOrNull()
+                if (flashSaleItem != null) {
+                    layoutFlashSale.visibility = View.VISIBLE
+                    val currentTime = Calendar.getInstance().apply {
                         timeZone = TimeZone.getTimeZone("UTC")
+                        add(Calendar.HOUR_OF_DAY, 7)
                     }
-                val startTime = flashSaleItem.startTime?.let { dateFormat.parse(it) }
-                val endTime = flashSaleItem.endTime?.let { dateFormat.parse(it) }
+                    val dateFormat =
+                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()).apply {
+                            timeZone = TimeZone.getTimeZone("UTC")
+                        }
+                    val startTime = flashSaleItem.startTime?.let { dateFormat.parse(it) }
+                    val endTime = flashSaleItem.endTime?.let { dateFormat.parse(it) }
 
-                val diffEndCurrent = endTime?.time?.minus(currentTime.timeInMillis)?.div(1000) ?: 0
-                val diffStartCurrent =
-                    startTime?.time?.minus(currentTime.timeInMillis)?.div(1000) ?: 0
+                    val diffEndCurrent =
+                        endTime?.time?.minus(currentTime.timeInMillis)?.div(1000) ?: 0
+                    val diffStartCurrent =
+                        startTime?.time?.minus(currentTime.timeInMillis)?.div(1000) ?: 0
 
-                if (diffStartCurrent > 0) {
-                    txtFlashSaleEnd.text = "Diễn ra sau"
-                    imgCoin.visibility = View.GONE
-                    txtPrice.visibility = View.GONE
-                    txtPriceSale.visibility = View.GONE
-                    layoutSale.visibility = View.GONE
-                    viewModel.countdownFlashSaleTime.value = diffStartCurrent
-                    viewModel.startCountdownFlashSaleTime()
-                } else if (diffEndCurrent > 0) {
-                    txtFlashSaleEnd.text = "Kết thúc sau"
-                    imgCoin.visibility = View.GONE
-                    txtPrice.visibility = View.GONE
-                    txtPriceSale.visibility = View.GONE
-                    layoutSale.visibility = View.GONE
-                    viewModel.countdownFlashSaleTime.value = diffEndCurrent
-                    viewModel.startCountdownFlashSaleTime()
+                    if (diffStartCurrent > 0) {
+                        txtFlashSaleEnd.text = "Diễn ra sau"
+                        imgCoin.visibility = View.GONE
+                        txtPrice.visibility = View.GONE
+                        txtPriceSale.visibility = View.GONE
+                        layoutSale.visibility = View.GONE
+                        viewModel.countdownFlashSaleTime.value = diffStartCurrent
+                        viewModel.startCountdownFlashSaleTime()
+                    } else if (diffEndCurrent > 0) {
+                        txtFlashSaleEnd.text = "Kết thúc sau"
+                        imgCoin.visibility = View.GONE
+                        txtPrice.visibility = View.GONE
+                        txtPriceSale.visibility = View.GONE
+                        layoutSale.visibility = View.GONE
+                        viewModel.countdownFlashSaleTime.value = diffEndCurrent
+                        viewModel.startCountdownFlashSaleTime()
+                    } else {
+                        layoutFlashSale.visibility = View.GONE
+                        imgCoin.visibility = View.VISIBLE
+                        txtPrice.visibility = View.VISIBLE
+                        txtPriceSale.visibility = View.VISIBLE
+                        layoutSale.visibility = View.VISIBLE
+                    }
                 } else {
                     layoutFlashSale.visibility = View.GONE
                     imgCoin.visibility = View.VISIBLE
@@ -189,22 +198,21 @@ class GiftDetailFragment : Fragment() {
                     txtPriceSale.visibility = View.VISIBLE
                     layoutSale.visibility = View.VISIBLE
                 }
-            } else {
-                layoutFlashSale.visibility = View.GONE
-                imgCoin.visibility = View.VISIBLE
-                txtPrice.visibility = View.VISIBLE
-                txtPriceSale.visibility = View.VISIBLE
-                layoutSale.visibility = View.VISIBLE
             }
-        }
-
-        viewModel.countdownFlashSaleTime.observe(viewLifecycleOwner) { time ->
-            val hours = time / 3600
-            val minutes = (time % 3600) / 60
-            val seconds = time % 60
-            txtFlashSaleHour.text = hours.toString()
-            txtFlashSaleMinute.text = minutes.toString()
-            txtFlashSaleSecond.text = seconds.toString()
+            viewModel.countdownFlashSaleTime.observe(viewLifecycleOwner) { time ->
+                val hours = time / 3600
+                val minutes = (time % 3600) / 60
+                val seconds = time % 60
+                txtFlashSaleHour.text = hours.toString()
+                txtFlashSaleMinute.text = minutes.toString()
+                txtFlashSaleSecond.text = seconds.toString()
+            }
+        } else {
+            layoutFlashSale.visibility = View.GONE
+            imgCoin.visibility = View.VISIBLE
+            txtPrice.visibility = View.VISIBLE
+            txtPriceSale.visibility = View.VISIBLE
+            layoutSale.visibility = View.VISIBLE
         }
     }
 

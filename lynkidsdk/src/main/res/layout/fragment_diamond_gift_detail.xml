@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3">
+    android:background="@drawable/bg_gradient_diamond">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/imgHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="296dp"
-        android:background="@drawable/home_gradient"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
@@ -29,7 +28,6 @@
                 android:id="@+id/pagerImage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/white"
                 app:layout_constraintDimensionRatio="H,375:185"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +36,6 @@
                 android:id="@+id/layoutInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/pagerImage">
 
@@ -47,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="textStart"
-                    android:textColor="#261F28"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +125,7 @@
                     android:layout_marginTop="14dp"
                     android:includeFontPadding="false"
                     android:textAlignment="center"
-                    android:textColor="#6D6B7A"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintStart_toStartOf="@id/txtGiftName"
@@ -152,7 +149,6 @@
                 android:id="@+id/layoutInstallApp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#F3F3F3"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +169,6 @@
                 android:id="@+id/layoutDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutInstallApp">
 
@@ -182,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mô tả chung"
-                    android:textColor="#261F28"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -194,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Giới thiệu"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Hướng dẫn sử dụng"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -248,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Liên hệ"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -260,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Nếu bạn có thắc mắc nào xin vui lòng liên hệ"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintStart_toStartOf="parent"
@@ -271,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email:"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textColor="#007AFF"
+                    android:textColor="#E9B161"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintBottom_toBottomOf="@id/txtContactEmailTitle"
@@ -295,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hotline:"
-                    android:textColor="#242424"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintStart_toStartOf="parent"
@@ -306,7 +301,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textColor="#007AFF"
+                    android:textColor="#E9B161"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintBottom_toBottomOf="@id/txtContactHotlineTitle"
@@ -322,7 +317,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/white"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutDescription">
 
@@ -332,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Điều kiện áp dụng"
-                    android:textColor="#261F28"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -351,9 +345,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/white"
                 android:padding="16dp"
-                app:layout_constraintTop_toBottomOf="@id/layoutDescription">
+                app:layout_constraintTop_toBottomOf="@id/layoutCondition">
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -361,7 +354,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Địa điểm áp dụng"
-                    android:textColor="#261F28"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -374,7 +367,7 @@
                     android:layout_marginTop="4dp"
                     app:layout_constraintTop_toBottomOf="@id/txtUsageAddressTitle"
                     tools:itemCount="5"
-                    tools:listitem="@layout/item_gift_address" />
+                    tools:listitem="@layout/item_diamond_gift_address" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/btnAddressMore"
@@ -388,13 +381,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Xem thêm"
-                        android:textColor="#663692"
+                        android:textColor="#E9B161"
                         android:textSize="14sp"
+                        android:includeFontPadding="false"
                         app:fontFamily="@font/bevietnampro_semibold" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
+                        android:tint="#E9B161"
                         android:src="@drawable/ic_arrow_right_colored" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -402,7 +397,6 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/layoutUsageAddress" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -413,8 +407,8 @@
         android:id="@+id/layoutExchange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp"
+        app:cardBackgroundColor="#1F1F1F"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -430,7 +424,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:textAlignment="center"
-                android:textColor="#242424"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:fontFamily="@font/bevietnampro_regular"
                 app:layout_constraintBottom_toTopOf="@id/btnExchange"
@@ -444,7 +438,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_gradient_button"
+                android:background="@drawable/bg_gradient_diamond_button"
                 android:gravity="center"
                 android:text="Đổi ngay"
                 android:textColor="@color/white"
