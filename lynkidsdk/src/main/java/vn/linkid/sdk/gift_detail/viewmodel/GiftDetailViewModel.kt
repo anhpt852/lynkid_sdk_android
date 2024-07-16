@@ -40,4 +40,11 @@ class GiftDetailViewModel(private val repository: GiftDetailRepository) : ViewMo
         }
     }
 
+    val isUserDiamond = MutableLiveData<Boolean>(false)
+    fun checkUserDiamond() = liveData {
+        emitSource(repository.isUserDiamond().onEach {
+            isUserDiamond.postValue(it.getOrNull() ?: false)
+        }.asLiveData())
+    }
+
 }

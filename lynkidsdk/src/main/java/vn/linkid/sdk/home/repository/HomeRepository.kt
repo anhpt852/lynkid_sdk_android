@@ -12,6 +12,7 @@ import vn.linkid.sdk.home.service.HomeService
 import vn.linkid.sdk.models.gift.HomeGiftGroupResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 
 class HomeRepository(private val service: HomeService) {
@@ -20,8 +21,9 @@ class HomeRepository(private val service: HomeService) {
         service.getMemberInfo().map { result ->
             if (result.isSuccess) {
                 val memberResponseModel: MemberResponseModel? = result.getOrNull()
-                if (memberResponseModel != null && memberResponseModel.isSuccess == true) {
-                    Result.success(memberResponseModel.data!!)
+                if (memberResponseModel?.data != null && memberResponseModel.isSuccess == true) {
+                    LynkiD_SDK.memberId = memberResponseModel.data.id ?: 0
+                    Result.success(memberResponseModel.data)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

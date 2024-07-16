@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
+import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.point.Point
 import vn.linkid.sdk.models.point.PointResponseModel
@@ -49,22 +50,23 @@ class GiftDetailRepository(private val service: GiftDetailService) {
         quantity: Int,
         totalAmount: Double,
         description: String
-    ) = service.createTransaction(sessionId, giftCode, quantity, totalAmount, description).map { result ->
-        if (result.isSuccess) {
-            val pairResult = result.getOrNull()
-            if (pairResult != null && pairResult.second.isSuccess == true) {
-                Result.success(pairResult.second.data!!)
+    ) = service.createTransaction(sessionId, giftCode, quantity, totalAmount, description)
+        .map { result ->
+            if (result.isSuccess) {
+                val pairResult = result.getOrNull()
+                if (pairResult != null && pairResult.second.isSuccess == true) {
+                    Result.success(pairResult.second.data!!)
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
             } else {
+                Log.d(
+                    "GiftDetailRepository",
+                    "createTransaction: ${result.exceptionOrNull()?.toString()}"
+                )
                 Result.failure(result.exceptionOrNull()!!)
             }
-        } else {
-            Log.d(
-                "GiftDetailRepository",
-                "createTransaction: ${result.exceptionOrNull()?.toString()}"
-            )
-            Result.failure(result.exceptionOrNull()!!)
         }
-    }
 
     suspend fun confirmTransaction(
         sessionId: String,
@@ -100,6 +102,26 @@ class GiftDetailRepository(private val service: GiftDetailService) {
                 Log.d(
                     "GiftDetailRepository",
                     "getAllFlashSaleProgram: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+
+    suspend fun isUserDiamond(): Flow<Result<Boolean>> =
+        service.getDiamondMemberInfo().map { result ->
+            if (result.isSuccess) {
+                val getDiamondMemberInfoResponseModel: GetDiamondMemberInfoResponseModel? =
+                    result.getOrNull()
+                if (getDiamondMemberInfoResponseModel != null && getDiamondMemberInfoResponseModel.success == true) {
+                    Result.success(getDiamondMemberInfoResponseModel.memberInfor.segment.equals("af"))
+                } else {
+                    Result.failure(result.exceptionOrNull()!!)
+                }
+            } else {
+                Log.d(
+                    "GiftDetailRepository",
+                    "isUserDiamond: ${result.exceptionOrNull()?.toString()}"
                 )
                 Result.failure(result.exceptionOrNull()!!)
             }

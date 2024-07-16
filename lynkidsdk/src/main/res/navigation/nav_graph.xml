@@ -39,7 +39,7 @@
         android:id="@+id/allGiftFragment"
         android:name="vn.linkid.sdk.all_gift.ui.AllGiftFragment"
         android:label="AllGiftFragment"
-        tools:layout="@layout/fragment_all_gift" >
+        tools:layout="@layout/fragment_all_gift">
         <action
             android:id="@+id/action_allGiftFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
@@ -126,7 +126,7 @@
         android:id="@+id/myRewardFragment"
         android:name="vn.linkid.sdk.my_reward.ui.MyRewardFragment"
         android:label="MyRewardFragment"
-        tools:layout="@layout/fragment_my_reward" >
+        tools:layout="@layout/fragment_my_reward">
         <action
             android:id="@+id/action_myRewardFragment_to_myRewardDetailFragment"
             app:destination="@id/myRewardDetailFragment" />
@@ -163,6 +163,11 @@
         <argument
             android:name="giftId"
             app:argType="integer" />
+        <argument
+            android:name="giftReceiver"
+            android:defaultValue="@null"
+            app:argType="vn.linkid.sdk.models.gift.GiftReceiver"
+            app:nullable="true" />
         <action
             android:id="@+id/action_giftExchangeFragment_to_giftOTPFragment"
             app:destination="@id/giftOTPFragment" />
@@ -173,11 +178,6 @@
         <action
             android:id="@+id/action_giftExchangeFragment_to_giftExchangeAddressFragment"
             app:destination="@id/giftExchangeAddressFragment" />
-        <argument
-            android:name="giftReceiver"
-            app:argType="vn.linkid.sdk.models.gift.GiftReceiver"
-            app:nullable="true"
-            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/giftOTPFragment"
@@ -244,8 +244,8 @@
             app:argType="string" />
         <argument
             android:name="isTokenTransId"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -264,7 +264,8 @@
         <argument
             android:name="parentCode"
             app:argType="string" />
-        <argument android:name="level"
+        <argument
+            android:name="level"
             app:argType="string" />
     </fragment>
     <fragment
@@ -292,6 +293,98 @@
         tools:layout="@layout/fragment_diamond_category">
         <argument
             android:name="diamondCateCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_diamondCategoryFragment_to_diamondGiftDetailFragment"
+            app:destination="@id/diamondGiftDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondGiftDetailFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondGiftDetailFragment"
+        android:label="DiamondGiftDetailFragment"
+        tools:layout="@layout/fragment_diamond_gift_detail">
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_diamondGiftDetailFragment_to_diamondGiftExchangeFragment"
+            app:destination="@id/diamondGiftExchangeFragment" />
+        <action
+            android:id="@+id/action_diamondGiftDetailFragment_to_diamondGiftExchangeAddressFragment"
+            app:destination="@id/diamondGiftExchangeAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondGiftExchangeFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondGiftExchangeFragment"
+        android:label="DiamondGiftExchangeFragment"
+        tools:layout="@layout/fragment_diamond_gift_exchange">
+        <action
+            android:id="@+id/action_diamondGiftExchangeFragment_to_diamondGiftOTPFragment"
+            app:destination="@id/diamondGiftOTPFragment" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeFragment_to_diamondGiftExchangeSuccessFragment"
+            app:destination="@id/diamondGiftExchangeSuccessFragment" />
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
+        <argument
+            android:name="giftReceiver"
+            android:defaultValue="@null"
+            app:argType="vn.linkid.sdk.models.gift.GiftReceiver"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondGiftOTPFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondGiftOTPFragment"
+        android:label="DiamondGiftOTPFragment"
+        tools:layout="@layout/fragment_diamond_gift_otp">
+        <action
+            android:id="@+id/action_diamondGiftOTPFragment_to_diamondGiftExchangeSuccessFragment"
+            app:destination="@id/diamondGiftExchangeSuccessFragment" />
+        <argument
+            android:name="giftExchange"
+            app:argType="vn.linkid.sdk.models.gift.GiftExchange" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondGiftExchangeSuccessFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondGiftExchangeSuccessFragment"
+        android:label="DiamondGiftExchangeSuccessFragment"
+        tools:layout="@layout/fragment_diamond_gift_exchange_success">
+        <argument
+            android:name="giftExchange"
+            app:argType="vn.linkid.sdk.models.gift.GiftExchange" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_myRewardDetailFragment"
+            app:destination="@id/myRewardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondGiftExchangeAddressFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondGiftExchangeAddressFragment"
+        android:label="DiamondGiftExchangeAddressFragment"
+        tools:layout="@layout/fragment_diamond_gift_exchange_address">
+        <action
+            android:id="@+id/action_diamondGiftExchangeAddressFragment_to_diamondGiftExchangeFragment"
+            app:destination="@id/diamondGiftExchangeFragment" />
+        <argument
+            android:name="giftId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeAddressFragment_to_diamondAddressPickerFragment"
+            app:destination="@id/diamondAddressPickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diamondAddressPickerFragment"
+        android:name="vn.linkid.sdk.diamond.ui.DiamondAddressPickerFragment"
+        android:label="DiamondAddressPickerFragment"
+        tools:layout="@layout/fragment_diamond_address_picker">
+        <argument
+            android:name="parentCode"
+            app:argType="string" />
+        <argument
+            android:name="level"
             app:argType="string" />
     </fragment>
 </navigation>

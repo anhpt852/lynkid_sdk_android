@@ -11,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import vn.linkid.sdk.auth.ui.LoginFragmentArgs
 import vn.linkid.sdk.category.ui.CategoryFilterBottomSheet
-import vn.linkid.sdk.category.ui.CategoryFragmentDirections
 import vn.linkid.sdk.databinding.FragmentDiamondCategoryBinding
 import vn.linkid.sdk.diamond.adapter.DiamondCategoryAdapter
 import vn.linkid.sdk.diamond.adapter.DiamondGiftsAdapter
@@ -21,7 +19,6 @@ import vn.linkid.sdk.diamond.repository.DiamondRepository
 import vn.linkid.sdk.diamond.service.DiamondService
 import vn.linkid.sdk.diamond.viewmodel.DiamondCategoryViewModel
 import vn.linkid.sdk.diamond.viewmodel.DiamondCategoryViewModelFactory
-import vn.linkid.sdk.models.auth.ConnectedMember
 import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
@@ -107,7 +104,7 @@ class DiamondCategoryFragment: Fragment() {
             listGift.layoutManager = LinearLayoutManager(binding.root.context)
             listGift.adapter = giftAdapter
             giftAdapter.onItemClick = { gift ->
-                val action = CategoryFragmentDirections.actionCategoryFragmentToGiftDetailFragment(
+                val action = DiamondCategoryFragmentDirections.actionDiamondCategoryFragmentToDiamondGiftDetailFragment(
                     gift.giftInfor?.id ?: 0
                 )
                 findNavController().navigate(action)

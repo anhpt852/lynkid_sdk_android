@@ -29,6 +29,7 @@ import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.auth.RefreshToken
 import vn.linkid.sdk.models.diamond.GetDiamondCategoryResponseModel
+import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
@@ -308,6 +309,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GetAllFlashSaleProgramResponseModel
 
+    @GET(Endpoints.GET_DIAMOND_MEMBER_INFO)
+    suspend fun getDiamondMemberInfo(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GetDiamondMemberInfoResponseModel
+
 }
 
 object Endpoints {
@@ -336,4 +345,5 @@ object Endpoints {
     const val REFRESH_TOKEN = "api/sdk-v1/refresh-token"
     const val GET_DIAMOND_CATEGORIES = "api/sdk-v1/GetAllGiftCategoriesAndInfo"
     const val GET_ALL_FLASH_SALE_PROGRAM = "api/sdk-v1/GiftFlashSaleProgram/GetAllFlashSaleProgram"
+    const val GET_DIAMOND_MEMBER_INFO = "api/sdk-v1/Member/GetMemberVpbankInfor"
 }

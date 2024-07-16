@@ -15,8 +15,6 @@ import vn.linkid.sdk.databinding.FragmentDiamondGiftDetailBinding
 import vn.linkid.sdk.gift_detail.adapter.ImagePagerAdapter
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
-import vn.linkid.sdk.gift_detail.ui.GiftDetailFragmentArgs
-import vn.linkid.sdk.gift_detail.ui.GiftDetailFragmentDirections
 import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModelFactory
 import vn.linkid.sdk.models.gift.GiftDetail
@@ -32,7 +30,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class DiamondGiftDetailFragment: Fragment() {
+class DiamondGiftDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDiamondGiftDetailBinding
     private lateinit var viewModel: GiftDetailViewModel
@@ -40,7 +38,7 @@ class DiamondGiftDetailFragment: Fragment() {
     private val repository = GiftDetailRepository(service)
     private val viewModelFactory = GiftDetailViewModelFactory(repository)
 
-    private val args: GiftDetailFragmentArgs by navArgs()
+    private val args: DiamondGiftDetailFragmentArgs by navArgs()
     private val giftId: Int by lazy { args.giftId }
 
     override fun onCreateView(
@@ -73,6 +71,11 @@ class DiamondGiftDetailFragment: Fragment() {
         viewModel.getGiftDetail(giftId).observe(viewLifecycleOwner) { result ->
             result.getOrNull()?.let { giftDetail ->
                 setUpView(giftDetail)
+            }
+        }
+        viewModel.checkUserDiamond().observe(viewLifecycleOwner) { result ->
+            result.getOrNull()?.let { isUserDiamond ->
+                Log.d("TAG", "onViewCreated: $isUserDiamond")
             }
         }
     }
@@ -191,19 +194,26 @@ class DiamondGiftDetailFragment: Fragment() {
         }
 
         btnExchange.setOnClickListener {
+            if (viewModel.isUserDiamond.value == true) {
                 val action =
                     if (giftDetail.giftInfor?.isEGift == true) {
-                        GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(
+                        DiamondGiftDetailFragmentDirections.actionDiamondGiftDetailFragmentToDiamondGiftExchangeFragment(
                             giftId
                         )
                     } else {
-                        GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
+                        DiamondGiftDetailFragmentDirections.actionDiamondGiftDetailFragmentToDiamondGiftExchangeAddressFragment(
                             giftId
                         )
                     }
                 findNavController().navigate(action)
-
+            } else {
+                showNotDiamondDialog()
+            }
         }
+    }
+
+    private fun showNotDiamondDialog() {
+
     }
 
 

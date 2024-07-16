@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_diamond">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/imgHeaderBackground"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@drawable/home_gradient"
+        android:layout_height="0dp"
+        android:background="#1F1F1F"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +28,7 @@
             android:layout_marginBottom="4dp"
             android:padding="8dp"
             android:src="@drawable/ic_back"
+            android:tint="#E9B161"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xác thực"
-            android:textColor="#FFFFFF"
+            android:textColor="#E9B161"
             android:textSize="18sp"
             app:fontFamily="@font/bevietnampro_semibold"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
@@ -46,7 +49,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -57,7 +59,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:textAlignment="center"
-        android:textColor="#261F28"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_regular"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -71,8 +73,8 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:cursorVisible="true"
-        android:inputType="text"
-        android:textColor="#261F28"
+        android:inputType="number"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:cursorColor="@color/black"
         app:cursorWidth="2dp"
@@ -92,15 +94,16 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtCountdown"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="20dp"
         android:textAlignment="center"
-        android:textColor="#261F28"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_regular"
-        app:layout_constraintTop_toBottomOf="@id/edtPin"
+        app:layout_constraintBottom_toTopOf="@id/btnVerify"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="Hết hạn trong (3:00)" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -111,12 +114,11 @@
         android:layout_marginBottom="20dp"
         android:text="Gửi lại OTP"
         android:textAlignment="center"
-        android:textColor="#4A2498"
+        android:textColor="#E9B161"
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_semibold"
         app:layout_constraintBottom_toTopOf="@id/btnVerify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -126,10 +128,10 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_gradient_button"
+        android:background="@drawable/bg_gradient_diamond_button"
+        android:elevation="0dp"
         android:gravity="center"
         android:text="Tiếp tục"
-        android:elevation="0dp"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:fontFamily="@font/bevietnampro_semibold"
@@ -147,12 +149,12 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminate="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:indeterminate="true"
-            app:trackColor="#971ACC"/>
+            app:trackColor="#971ACC" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

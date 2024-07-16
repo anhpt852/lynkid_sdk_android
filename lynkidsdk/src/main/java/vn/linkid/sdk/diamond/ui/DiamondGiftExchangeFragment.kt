@@ -15,8 +15,6 @@ import com.google.gson.JsonObject
 import vn.linkid.sdk.databinding.FragmentDiamondGiftExchangeBinding
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
-import vn.linkid.sdk.gift_detail.ui.GiftExchangeFragmentArgs
-import vn.linkid.sdk.gift_detail.ui.GiftExchangeFragmentDirections
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModel
 import vn.linkid.sdk.gift_detail.viewmodel.GiftExchangeViewModelFactory
 import vn.linkid.sdk.models.gift.GiftDetail
@@ -37,7 +35,7 @@ class DiamondGiftExchangeFragment : Fragment() {
     private val repository = GiftDetailRepository(service)
     private val viewModelFactory = GiftExchangeViewModelFactory(repository)
 
-    private val args: GiftExchangeFragmentArgs by navArgs()
+    private val args: DiamondGiftExchangeFragmentArgs by navArgs()
     private val giftId: Int by lazy { args.giftId }
     private val giftReceiver: GiftReceiver? by lazy { args.giftReceiver }
 
@@ -163,11 +161,11 @@ class DiamondGiftExchangeFragment : Fragment() {
                         transactionCode = exchangeModel.items?.firstOrNull()?.code
                     )
                     val action = if (isOtpSent) {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(
+                        DiamondGiftExchangeFragmentDirections.actionDiamondGiftExchangeFragmentToDiamondGiftOTPFragment(
                             giftExchange
                         )
                     } else {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
+                        DiamondGiftExchangeFragmentDirections.actionDiamondGiftExchangeFragmentToDiamondGiftExchangeSuccessFragment(
                             giftExchange
                         )
                     }

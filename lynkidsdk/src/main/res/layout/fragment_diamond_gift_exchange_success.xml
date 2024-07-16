@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F4">
+    android:background="@drawable/bg_gradient_diamond">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +32,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/img_my_reward_header"
+        android:backgroundTint="#1F1F1F"
         app:layout_constraintDimensionRatio="H,343:220"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -53,7 +54,7 @@
             android:layout_marginTop="8dp"
             android:text="Đổi ưu đãi thành công"
             android:textAlignment="center"
-            android:textColor="#261F28"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:fontFamily="@font/bevietnampro_semibold"
             app:layout_constraintTop_toBottomOf="@id/imgExchangeDone" />
@@ -65,7 +66,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
             android:textAlignment="center"
-            android:textColor="#6D6B7A"
+            android:textColor="#A7A7B3"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_regular"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/bg_my_reward_footer"
+        android:backgroundTint="#1F1F1F"
         android:paddingBottom="24dp"
         app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
@@ -90,20 +92,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            app:cardBackgroundColor="#1F1F1F"
             app:cardElevation="0dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_item_my_reward">
+                android:background="@drawable/bg_diamond_item_my_reward">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelineVertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.256" />
+                    app:layout_constraintGuide_percent="0.282" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="64dp"
@@ -129,7 +132,7 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="4dp"
                     android:maxLines="1"
-                    android:textColor="#837E85"
+                    android:textColor="#A7A7B3"
                     android:textSize="10sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintEnd_toStartOf="@id/tagAmount"
@@ -143,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:lines="2"
-                    android:textColor="#333333"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_semibold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:textColor="#837E85"
+                    android:textColor="#A7A7B3"
                     android:textSize="14sp"
                     app:fontFamily="@font/bevietnampro_regular"
                     app:layout_constraintStart_toStartOf="@id/txtBrand"
@@ -168,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
-                    android:textColor="#663692"
+                    android:textColor="#E9B161"
                     android:textSize="12sp"
                     android:visibility="invisible"
                     app:fontFamily="@font/bevietnampro_semibold"
@@ -187,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
-                    android:background="@drawable/bg_my_reward_tag"
+                    android:background="@drawable/bg_diamond_my_reward_tag"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -221,7 +224,7 @@
             android:layout_marginTop="24dp"
             android:text="Chi tiết giao dịch"
             android:textAlignment="center"
-            android:textColor="#663692"
+            android:textColor="#E9B161"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_semibold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -241,6 +244,91 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutFooter" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layoutSupport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/bg_diamond_gift"
+        app:cardBackgroundColor="#1F1F1F"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/btnInstallAppSmall"
+        app:strokeColor="#EFEFF6"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSupportTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Quý khách cần hỗ trợ, liên hệ ngay:"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtBankHotlineTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="VPBank"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtSupportTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtBankHotline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="1900 545415"
+                android:textColor="#E9B161"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintBottom_toBottomOf="@id/txtBankHotlineTitle"
+                app:layout_constraintStart_toEndOf="@id/txtBankHotlineTitle"
+                app:layout_constraintTop_toTopOf="@id/txtBankHotlineTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDiamondHotlineTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="VPBank Diamond"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtBankHotlineTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDiamondHotline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="1800 545415"
+                android:textColor="#E9B161"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_semibold"
+                app:layout_constraintBottom_toBottomOf="@id/txtDiamondHotlineTitle"
+                app:layout_constraintStart_toEndOf="@id/txtDiamondHotlineTitle"
+                app:layout_constraintTop_toTopOf="@id/txtDiamondHotlineTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGiveFriend"
@@ -267,7 +355,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_gradient_button"
+        android:background="@drawable/bg_gradient_diamond_button"
         android:gravity="center"
         android:text="Sử dụng ngay"
         android:textColor="@color/white"

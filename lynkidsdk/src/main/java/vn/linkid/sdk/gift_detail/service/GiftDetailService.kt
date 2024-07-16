@@ -8,6 +8,7 @@ import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.utils.Endpoints
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.utils.generateCacheKey
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
@@ -110,6 +111,25 @@ class GiftDetailService(private val api: APIEndpoints) {
         }
     }.catch {
         Log.e("GiftDetailService", "getAllFlashSaleProgram: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
+
+    suspend fun getDiamondMemberInfo(): Flow<Result<GetDiamondMemberInfoResponseModel>> = flow {
+        val params: MutableMap<String, Any> = mutableMapOf(
+            "MemberCode" to LynkiD_SDK.memberCode,
+            "MemberId" to LynkiD_SDK.memberId
+        )
+        val cacheKey = generateCacheKey(Endpoints.GET_DIAMOND_MEMBER_INFO, params)
+        val cachedResponse = MainCache.get<GetDiamondMemberInfoResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getDiamondMemberInfo(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
+    }.catch {
+        Log.e("GiftDetailService", "getDiamondMemberInfo: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 

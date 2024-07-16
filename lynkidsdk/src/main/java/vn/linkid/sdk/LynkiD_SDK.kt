@@ -9,6 +9,7 @@ object LynkiD_SDK {
     var accessToken: String = ""
     var accessRefreshToken: String = ""
     var memberCode: String = ""
+    var memberId: Int = 0
     var partnerCode: String = ""
     var phoneNumber: String = ""
     var connectedPhoneNumber: String = ""
