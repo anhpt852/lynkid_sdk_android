@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemCategoryBinding
+import vn.linkid.sdk.databinding.ItemDiamondCategoryBinding
 import vn.linkid.sdk.models.category.Category
 import vn.linkid.sdk.models.diamond.DiamondCategory
 
@@ -38,7 +39,7 @@ class DiamondCategoryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiamondCategoryViewHolder {
         val binding =
-            ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemDiamondCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DiamondCategoryViewHolder(binding)
     }
 
@@ -54,7 +55,7 @@ class DiamondCategoryAdapter(
 
 
     inner class DiamondCategoryViewHolder(
-        private val binding: ItemCategoryBinding
+        private val binding: ItemDiamondCategoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category, isSelected: Boolean) {
             binding.apply {

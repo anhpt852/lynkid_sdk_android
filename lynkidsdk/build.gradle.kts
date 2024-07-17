@@ -96,6 +96,7 @@ dependencies {
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     implementation("androidx.paging:paging-runtime-ktx:3.3.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(kotlin("reflect"))
 }
 
 tasks.register("prepareKotlinBuildScriptModel") {}

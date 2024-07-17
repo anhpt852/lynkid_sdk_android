@@ -94,6 +94,7 @@ class DiamondGiftDetailFragment : Fragment() {
     private fun FragmentDiamondGiftDetailBinding.setUpScroll() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                imgHeaderBackground.alpha = scrollY.toFloat() / 200
                 toolbar.alpha = scrollY.toFloat() / 200
                 bgBack.alpha = 1 - scrollY.toFloat() / 200
             }

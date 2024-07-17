@@ -37,8 +37,9 @@ class HomeRepository(private val service: HomeService) {
         service.getPointInfo().map { result ->
             if (result.isSuccess) {
                 val pointResponseModel: PointResponseModel? = result.getOrNull()
-                if (pointResponseModel != null && pointResponseModel.isSuccess == true) {
-                    Result.success(pointResponseModel.data!!.items!!)
+                if (pointResponseModel?.data != null && pointResponseModel.isSuccess == true) {
+                    LynkiD_SDK.memberId = pointResponseModel.data.items?.id ?: 0
+                    Result.success(pointResponseModel.data.items!!)
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

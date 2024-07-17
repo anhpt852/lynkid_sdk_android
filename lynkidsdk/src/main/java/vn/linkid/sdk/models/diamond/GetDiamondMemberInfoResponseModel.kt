@@ -4,5 +4,5 @@ data class GetDiamondMemberInfoResponseModel(
     val success: Boolean?,
     val error: String?,
     val errorCode: String?,
-    val memberInfor: DiamondMemberInfo
+    val memberInfor: DiamondMemberInfo?
 )

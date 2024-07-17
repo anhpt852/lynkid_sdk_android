@@ -114,7 +114,7 @@ class GiftDetailRepository(private val service: GiftDetailService) {
                 val getDiamondMemberInfoResponseModel: GetDiamondMemberInfoResponseModel? =
                     result.getOrNull()
                 if (getDiamondMemberInfoResponseModel != null && getDiamondMemberInfoResponseModel.success == true) {
-                    Result.success(getDiamondMemberInfoResponseModel.memberInfor.segment.equals("af"))
+                    Result.success(getDiamondMemberInfoResponseModel.memberInfor?.segment.equals("af"))
                 } else {
                     Result.failure(result.exceptionOrNull()!!)
                 }

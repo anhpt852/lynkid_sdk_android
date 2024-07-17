@@ -9,7 +9,10 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/imgHeaderBackground"
         android:layout_width="match_parent"
-        android:layout_height="296dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:background="#1F1F1F"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
@@ -200,6 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:background="@android:color/transparent"
                     app:layout_constraintTop_toBottomOf="@id/txtIntroduceTitle" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -227,6 +231,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:background="@android:color/transparent"
                     app:layout_constraintTop_toBottomOf="@id/txtInstructionTitle" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -337,6 +342,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:background="@android:color/transparent"
                     app:layout_constraintTop_toBottomOf="@id/txtConditionTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -455,7 +461,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:alpha="0"
-        android:background="@drawable/home_gradient"
+        android:background="#1F1F1F"
         app:layout_constraintTop_toTopOf="parent">
 
 
