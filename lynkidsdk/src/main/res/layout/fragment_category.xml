@@ -8,8 +8,9 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/imgHeaderBackground"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="0dp"
         android:background="@drawable/home_gradient"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +59,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listCategory"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="100dp"
         android:background="@color/white"
         android:paddingVertical="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
