@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.InstallAppDialog
 import vn.linkid.sdk.databinding.FragmentHomeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -64,6 +65,11 @@ class HomeFragment : Fragment() {
             btnFindDark.setOnClickListener {
                 val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
                 findNavController().navigate(action)
+            }
+
+            btnInstallAppBig.setOnClickListener {
+                val dialog = InstallAppDialog()
+                dialog.show(childFragmentManager, "InstallAppDialog")
             }
         }
     }

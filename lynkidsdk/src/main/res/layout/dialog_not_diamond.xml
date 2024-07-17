@@ -1,6 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1F1F1F"
+        android:padding="8dp">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnExit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_exit"
+            android:tint="#E9B161"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNotDiamond"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:padding="8dp"
+            android:src="@drawable/img_not_diamond"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnExit" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="8dp"
+            android:text="Chưa đủ điều kiện đổi quà"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgNotDiamond" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="Đây là chương trình quà tặng dành riêng cho đặc quyền VPBank Diamond."
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="#26FFFFFF"
+            android:paddingHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSupportTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="8dp"
+            android:text="Quý khách cần hỗ trợ, liên hệ ngay:"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtBankHotlineTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="VPBank"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintEnd_toStartOf="@id/txtBankHotline"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtSupportTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtBankHotline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="1900 545415"
+            android:textColor="#E9B161"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintBottom_toBottomOf="@id/txtBankHotlineTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtBankHotlineTitle"
+            app:layout_constraintTop_toTopOf="@id/txtBankHotlineTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDiamondHotlineTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="VPBank Diamond"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintEnd_toStartOf="@id/txtDiamondHotline"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtBankHotlineTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDiamondHotline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="1800 545415"
+            android:textColor="#E9B161"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_semibold"
+            app:layout_constraintBottom_toBottomOf="@id/txtDiamondHotlineTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtDiamondHotlineTitle"
+            app:layout_constraintTop_toTopOf="@id/txtDiamondHotlineTitle" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDiamondHotline" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

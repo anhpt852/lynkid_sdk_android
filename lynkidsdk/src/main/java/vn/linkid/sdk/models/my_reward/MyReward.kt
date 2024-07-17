@@ -74,6 +74,7 @@ data class GiftTransaction(
     val giftDescription: String?,
     val eGiftUsedAt: String?,
     val rejectReason: String?,
+    val isExperienceGift: Boolean?
 ) {
     init {
         rewardStatus = status?.let { status ->

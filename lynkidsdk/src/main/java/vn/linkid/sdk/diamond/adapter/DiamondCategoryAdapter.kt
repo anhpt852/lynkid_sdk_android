@@ -46,7 +46,8 @@ class DiamondCategoryAdapter(
     override fun getItemCount(): Int = categories.size
 
     override fun onBindViewHolder(holder: DiamondCategoryViewHolder, position: Int) {
-        val isSelected = position == selectedPosition
+        val isSelected =
+            position == (if (selectedPosition == RecyclerView.NO_POSITION) 0 else selectedPosition)
         if (categories[position].giftCategory != null) {
             Log.d("DiamondCategoryAdapter", "onBindViewHolder: $isSelected")
             holder.bind(categories[position].giftCategory!!, isSelected)
@@ -60,19 +61,14 @@ class DiamondCategoryAdapter(
         fun bind(category: Category, isSelected: Boolean) {
             binding.apply {
                 Glide.with(root.context)
-                    .load(if (category.code == "all") R.drawable.ic_category_all else category.fullLink)
+                    .load(if (category.code == "all") R.drawable.ic_category_all_diamond else category.fullLink)
+                    .placeholder(R.drawable.ic_category_all_diamond)
                     .into(imgCategory)
                 txtCategory.text = category.name
-                if (itemView.isSelected != isSelected) {
-                    val backgroundColor = ColorStateList.valueOf(Color.parseColor("#F0F0F4"))
-                    backgroundCategory.setCardBackgroundColor(backgroundColor)
-                    val imageBackgroundColor = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                    cardCategory.setCardBackgroundColor(imageBackgroundColor)
+                if (isSelected) {
+                    backgroundCategory.setBackgroundResource(R.drawable.bg_gradient_diamond_category)
                 } else {
-                    val backgroundColor = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                    backgroundCategory.setCardBackgroundColor(backgroundColor)
-                    val imageBackgroundColor = ColorStateList.valueOf(Color.parseColor("#F3F3F3"))
-                    cardCategory.setCardBackgroundColor(imageBackgroundColor)
+                    backgroundCategory.setBackgroundResource(R.drawable.bg_gradient_diamond_category_none)
                 }
                 itemView.setOnClickListener {
                     if (selectedPosition != layoutPosition) {

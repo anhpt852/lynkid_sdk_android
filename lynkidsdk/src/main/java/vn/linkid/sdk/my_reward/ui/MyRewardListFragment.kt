@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.databinding.FragmentMyRewardListBinding
+import vn.linkid.sdk.diamond.ui.NotDiamondDialog
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.my_reward.adapter.MyRewardListAdapter
 import vn.linkid.sdk.my_reward.repository.MyRewardListRepository
@@ -83,9 +84,14 @@ class MyRewardListFragment : Fragment() {
             listMyReward.adapter = adapter
             adapter.onItemClicked = { myReward ->
                 Log.d("MyRewardListFragment", "Selected reward: $myReward")
-                (activity as LynkiDSDKActivity).navigateFromMyRewardToMyRewardDetail(
-                    myReward.giftTransaction?.transactionCode ?: ""
-                )
+                if(myReward.giftTransaction?.isExperienceGift == true){
+                    val dialog = TrialGiftDialog()
+                    dialog.show(childFragmentManager, "TrialGiftDialog")
+                } else {
+                    (activity as LynkiDSDKActivity).navigateFromMyRewardToMyRewardDetail(
+                        myReward.giftTransaction?.transactionCode ?: ""
+                    )
+                }
             }
             adapter.registerAdapterDataObserver(object :
                 RecyclerView.AdapterDataObserver() {

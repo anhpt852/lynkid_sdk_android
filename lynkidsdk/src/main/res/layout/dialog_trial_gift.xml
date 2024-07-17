@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Đổi ưu đãi với số điểm cực hời chỉ có trên app LynkiD"
+        android:text="Đây là ưu đãi chỉ có trên app LynkiD"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Tải app LynkiD để trải nghiệm nhiều tính năng và ưu đãi độc quyền ngay bạn nhé !"
+        android:text="Vui lòng tải app LynkiD để xem và đổi ngay các ưu đãi độc quyền nhé."
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -48,7 +48,7 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/txtPromoDescription"
         app:layout_constraintBottom_toTopOf="@id/btnInstallApp"
-        android:src="@drawable/img_install_app"/>
+        android:src="@drawable/img_trial_gift"/>
 
 
 

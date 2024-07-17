@@ -22,7 +22,7 @@ data class GiftInfo(
     val isInWishlist: Boolean?,
     val id: Int?,
     val regionCode: String?,
-    val office: String?,
+//    val office: String?,
     val expireDuration: String?,
     val totalWish: Int?,
     val doubleProduce: String?,  // Assuming "doubleroduce" was a typo in your Dart code

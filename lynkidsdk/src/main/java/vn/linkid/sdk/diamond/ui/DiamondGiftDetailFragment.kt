@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import vn.linkid.sdk.InstallAppDialog
 import vn.linkid.sdk.databinding.FragmentDiamondGiftDetailBinding
 import vn.linkid.sdk.gift_detail.adapter.ImagePagerAdapter
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
@@ -208,13 +209,10 @@ class DiamondGiftDetailFragment : Fragment() {
                     }
                 findNavController().navigate(action)
             } else {
-                showNotDiamondDialog()
+                val dialog = NotDiamondDialog()
+                dialog.show(childFragmentManager, "NotDiamondDialog")
             }
         }
-    }
-
-    private fun showNotDiamondDialog() {
-
     }
 
 

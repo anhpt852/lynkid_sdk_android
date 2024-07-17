@@ -50,11 +50,13 @@ class DiamondService(private val api: APIEndpoints) {
     ): Flow<Result<GiftsByCategoryResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,
-            "GiftCategoryCodeFilter" to categoryCode,
             "SkipCount" to index * 10,
             "Sorting" to filter.sorting.id,
             "MaxItem" to 10
         )
+        if(categoryCode.isNotEmpty() && categoryCode != "all") {
+            params["GiftCategoryCodeFilter"] = categoryCode
+        }
         if (filter.giftType != GiftType.NONE) {
             params["IsEGiftFilter"] = filter.giftType == GiftType.EGIFT
         }

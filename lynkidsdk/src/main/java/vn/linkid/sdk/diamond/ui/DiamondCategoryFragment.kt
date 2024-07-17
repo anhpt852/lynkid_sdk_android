@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.category.ui.CategoryFilterBottomSheet
@@ -101,7 +102,7 @@ class DiamondCategoryFragment: Fragment() {
 
     private fun setUpGiftList() {
         binding.apply {
-            listGift.layoutManager = LinearLayoutManager(binding.root.context)
+            listGift.layoutManager = GridLayoutManager(binding.root.context, 2)
             listGift.adapter = giftAdapter
             giftAdapter.onItemClick = { gift ->
                 val action = DiamondCategoryFragmentDirections.actionDiamondCategoryFragmentToDiamondGiftDetailFragment(
