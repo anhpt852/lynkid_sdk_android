@@ -156,11 +156,11 @@ class DiamondCategoryFragment: Fragment() {
         binding.layoutFilter.layoutParams = layoutParams
         binding.layoutFilter.setOnClickListener {
             val bottomSheet =
-                CategoryFilterBottomSheet(viewModel.giftFilter.value ?: GiftFilterModel())
+                DiamondCategoryFilterBottomSheet(viewModel.giftFilter.value ?: GiftFilterModel())
             bottomSheet.onApplyFilter = { filter ->
                 viewModel.giftFilter.postValue(filter)
             }
-            bottomSheet.show(childFragmentManager, "CategoryFilterBottomSheet")
+            bottomSheet.show(childFragmentManager, "DiamondCategoryFilterBottomSheet")
         }
         viewModel.isShowFilter.observe(viewLifecycleOwner) { isShowFilter ->
             binding.layoutFilter.visibility = if (isShowFilter) View.VISIBLE else View.GONE

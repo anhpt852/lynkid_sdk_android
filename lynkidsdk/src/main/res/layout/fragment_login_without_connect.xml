@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Xác nhận sử dụng thông tin số điện thoại để đăng nhập"
+            android:text="Đăng nhập bằng [app chủ]"
             android:textAlignment="center"
             android:textColor="#242424"
             android:textSize="18sp"
@@ -113,21 +113,56 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/txtTitle">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtPhoneVerify"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutProfile"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:textAlignment="center"
-                android:textColor="#6D6B7A"
-                android:textSize="14sp"
-                app:fontFamily="@font/bevietnampro_regular"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Số điện thoại 096 833 733 có phải là số điện thoại của bạn" />
+                android:background="@drawable/bg_outlined_button"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent">
 
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/img_lynkid" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_semibold"
+                    app:layout_constraintBottom_toTopOf="@id/txtPhone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nguyễn Văn A" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textColor="#6D6B7A"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgAvatar"
+                    app:layout_constraintTop_toBottomOf="@id/txtName"
+                    tools:text="0123456789" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -138,7 +173,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_gradient_button"
             android:gravity="center"
-            android:text="Xác nhận"
+            android:text="Tiếp tục"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_semibold"

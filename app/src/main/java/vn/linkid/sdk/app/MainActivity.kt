@@ -3,6 +3,8 @@ package vn.linkid.sdk.app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import vn.linkid.sdk.LynkiD_SDK
 
 class MainActivity : AppCompatActivity() {
@@ -10,13 +12,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.btnOpenSDK).setOnClickListener {
+        findViewById<AppCompatButton>(R.id.btnOpen).setOnClickListener {
             LynkiD_SDK.start(
                 this,
-                "218",
-                "+84868218516",
-                "111111",
-                "PT"
+                findViewById<AppCompatEditText>(R.id.edtPartnerCode).text.toString(),
+                findViewById<AppCompatEditText>(R.id.edtPhoneNumber).text.toString(),
+                findViewById<AppCompatEditText>(R.id.edtCIF).text.toString(),
+                findViewById<AppCompatEditText>(R.id.edtName).text.toString()
             )
         }
     }

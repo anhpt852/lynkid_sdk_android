@@ -4,16 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
     tools:context="vn.linkid.sdk.app.MainActivity">
 
-    <TextView
-        android:id="@+id/btnOpenSDK"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtPartnerCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Partner Code"
+        android:text="218"
+        app:layout_constraintBottom_toTopOf="@id/edtPhoneNumber"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:text="+84868218516"
+        app:layout_constraintBottom_toTopOf="@id/edtCIF"
+        app:layout_constraintTop_toBottomOf="@id/edtPartnerCode" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtCIF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CIF"
+        android:text="111111"
+        app:layout_constraintBottom_toTopOf="@id/edtName"
+        app:layout_constraintTop_toBottomOf="@id/edtPhoneNumber" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:text="ABC"
+        app:layout_constraintBottom_toTopOf="@id/btnOpen"
+        app:layout_constraintTop_toBottomOf="@id/edtCIF" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnOpen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Open"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

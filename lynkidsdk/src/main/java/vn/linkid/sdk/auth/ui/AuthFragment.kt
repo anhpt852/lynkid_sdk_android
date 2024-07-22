@@ -53,7 +53,8 @@ class AuthFragment : Fragment() {
             btnExit.layoutParams = layoutParams
 
             val bottomLayoutParam = layoutAuth.layoutParams as ViewGroup.MarginLayoutParams
-            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            bottomLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
 
             txtName.text = connectedMember.basicInfo?.name
@@ -61,11 +62,15 @@ class AuthFragment : Fragment() {
             btnAllow.setOnClickListener {
                 val isAccountExist = connectedMember.isExisting ?: false
                 val isAccountConnected = connectedMember.connectionInfo?.isExisting ?: false
+                val isDifferentPhone =
+                    connectedMember.phoneNumber != connectedMember.connectionInfo?.connectedToPhone
                 val action =
-                    if (isAccountExist) AuthFragmentDirections.actionAuthFragmentToLoginFragment(
+                    if (isAccountExist && isAccountConnected && !isDifferentPhone) AuthFragmentDirections.actionAuthFragmentToLoginFragment(
                         connectedMember
                     )
-                    else if (isAccountConnected) AuthFragmentDirections.actionAuthFragmentToSwitchAccountFragment(
+                    else if (isAccountExist && isAccountConnected) AuthFragmentDirections.actionAuthFragmentToSwitchAccountFragment(
+                        connectedMember
+                    ) else if (isAccountExist) AuthFragmentDirections.actionAuthFragmentToLoginWithoutConnectFragment(
                         connectedMember
                     )
                     else AuthFragmentDirections.actionAuthFragmentToRegisterFragment(connectedMember)

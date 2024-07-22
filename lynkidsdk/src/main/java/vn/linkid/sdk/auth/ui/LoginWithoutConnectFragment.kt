@@ -7,27 +7,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import vn.linkid.sdk.auth.repository.LoginRepository
 import vn.linkid.sdk.auth.service.LoginService
 import vn.linkid.sdk.auth.viewmodel.LoginViewModel
 import vn.linkid.sdk.auth.viewmodel.LoginViewModelFactory
-import vn.linkid.sdk.databinding.FragmentLoginBinding
-import vn.linkid.sdk.utils.mainAPI
-import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.databinding.FragmentLoginWithoutConnectBinding
+import vn.linkid.sdk.models.auth.ConnectedMember
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.getStatusBarHeight
-import vn.linkid.sdk.models.auth.ConnectedMember
+import vn.linkid.sdk.utils.mainAPI
 
-class LoginFragment : Fragment() {
+class LoginWithoutConnectFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private val service = LoginService(mainAPI)
     private val repository = LoginRepository(service)
     private val viewModelFactory = LoginViewModelFactory(repository)
-    private lateinit var binding: FragmentLoginBinding
+    private lateinit var binding: FragmentLoginWithoutConnectBinding
 
-    private val args: LoginFragmentArgs by navArgs()
+    private val args: LoginWithoutConnectFragmentArgs by navArgs()
     private val connectedMember: ConnectedMember by lazy { args.connectedMember }
 
     override fun onCreateView(
@@ -35,7 +35,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentLoginWithoutConnectBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         return binding.root
     }
@@ -55,8 +55,11 @@ class LoginFragment : Fragment() {
             bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
 
+            txtName.text = connectedMember.basicInfo?.name
+            txtPhone.text = connectedMember.phoneNumber
+
             btnLogin.setOnClickListener {
-                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                val action = LoginWithoutConnectFragmentDirections.actionLoginWithoutConnectFragmentToHomeFragment()
                 findNavController().navigate(action)
             }
         }
