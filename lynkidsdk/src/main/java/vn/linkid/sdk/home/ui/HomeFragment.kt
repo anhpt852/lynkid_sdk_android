@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.InstallAppDialog
+import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentHomeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -61,6 +63,21 @@ class HomeFragment : Fragment() {
             val layoutParams = imgAvatar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             imgAvatar.layoutParams = layoutParams
+
+            if (LynkiD_SDK.isAnonymous) {
+                cardAnonymous.visibility = View.VISIBLE
+                cardBalance.visibility = View.GONE
+            } else {
+                cardAnonymous.visibility = View.GONE
+                cardBalance.visibility = View.VISIBLE
+            }
+            btnLogin.setOnClickListener {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToAuthFragment(LynkiD_SDK.connectedMember!!)
+                findNavController().navigate(action)
+            }
+
+            btnExitDark.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
 
             btnFindDark.setOnClickListener {
                 val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
@@ -123,7 +140,9 @@ class HomeFragment : Fragment() {
                     listCategory.handleScroll(binding.indicatorCategory)
                     categoryAdapter.onItemClick = { category ->
                         val action =
-                            if (category.categoryTypeCode == "Diamond") HomeFragmentDirections.actionHomeFragmentToDiamondCategoryFragment(category.code ?: "") else HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
+                            if (category.categoryTypeCode == "Diamond") HomeFragmentDirections.actionHomeFragmentToDiamondCategoryFragment(
+                                category.code ?: ""
+                            ) else HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
                                 category.code ?: ""
                             )
                         findNavController().navigate(action)
@@ -167,6 +186,9 @@ class HomeFragment : Fragment() {
         viewModel.homeGiftGroup.observe(viewLifecycleOwner) { homeGiftGroup ->
             if (homeGiftGroup.getOrNull() != null) {
                 binding.apply {
+                    if (!homeGiftGroup.getOrNull()!!.data?.giftGroup?.name.isNullOrEmpty()) {
+                        txtGiftTitle.text = homeGiftGroup.getOrNull()!!.data?.giftGroup?.name
+                    }
                     listGift.layoutManager = GridLayoutManager(requireContext(), 2)
                     val adapter =
                         HomeGiftAdapter(homeGiftGroup.getOrNull()!!.data?.gifts ?: listOf())
@@ -177,7 +199,10 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                     listGift.adapter = adapter
-
+                    btnGiftSeeMore.setOnClickListener {
+                        val action = HomeFragmentDirections.actionHomeFragmentToAllGiftFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }

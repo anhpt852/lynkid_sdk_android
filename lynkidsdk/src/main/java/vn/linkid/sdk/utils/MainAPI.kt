@@ -1,6 +1,7 @@
 package vn.linkid.sdk.utils
 
 import android.util.Log
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import kotlinx.coroutines.runBlocking
 import vn.linkid.sdk.models.auth.AuthToken
 import vn.linkid.sdk.models.auth.ConnectedMemberAuthToken
@@ -25,6 +26,7 @@ import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
+import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.models.address.AddressResponseModel
 import vn.linkid.sdk.models.auth.RefreshToken
@@ -44,6 +46,7 @@ val logging: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
 }
 val client: OkHttpClient = OkHttpClient.Builder()
     .addInterceptor(logging)
+    .addInterceptor(ChuckerInterceptor(LynkiDSDKActivity.mainContext))
     .addInterceptor(Interceptor { chain ->
         val request = chain.request()
         val response = chain.proceed(request)

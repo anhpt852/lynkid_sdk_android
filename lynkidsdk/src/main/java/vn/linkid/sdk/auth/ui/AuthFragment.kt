@@ -15,6 +15,8 @@ import vn.linkid.sdk.databinding.FragmentAuthBinding
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.auth.ConnectedMember
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.getStatusBarHeight
@@ -57,9 +59,19 @@ class AuthFragment : Fragment() {
                 getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
 
+            btnExit.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
+
             txtName.text = connectedMember.basicInfo?.name
             txtPhone.text = connectedMember.phoneNumber
+
+            btnDecline.setOnClickListener {
+                LynkiD_SDK.isAnonymous = true
+                val action = AuthFragmentDirections.actionAuthFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+
             btnAllow.setOnClickListener {
+                LynkiD_SDK.isAnonymous = false
                 val isAccountExist = connectedMember.isExisting ?: false
                 val isAccountConnected = connectedMember.connectionInfo?.isExisting ?: false
                 val isDifferentPhone =

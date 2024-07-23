@@ -1,5 +1,6 @@
 package vn.linkid.sdk
 
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
@@ -22,6 +23,7 @@ class LynkiDSDKActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainSdkBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainContext = this
         binding = ActivityMainSdkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -123,5 +125,13 @@ class LynkiDSDKActivity : AppCompatActivity() {
                 transactionCode
             )
         navController.navigate(action)
+    }
+
+    fun exitSDK(){
+        finish()
+    }
+
+    companion object {
+        lateinit var mainContext: Context
     }
 }

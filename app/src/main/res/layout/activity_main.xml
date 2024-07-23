@@ -41,8 +41,17 @@
         android:layout_height="wrap_content"
         android:hint="Name"
         android:text="ABC"
-        app:layout_constraintBottom_toTopOf="@id/btnOpen"
+        app:layout_constraintBottom_toTopOf="@id/edtAppName"
         app:layout_constraintTop_toBottomOf="@id/edtCIF" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtAppName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="App Name"
+        android:text="VPBank NEO"
+        app:layout_constraintBottom_toTopOf="@id/btnOpen"
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnOpen"
@@ -52,6 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtName" />
+        app:layout_constraintTop_toBottomOf="@id/edtAppName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

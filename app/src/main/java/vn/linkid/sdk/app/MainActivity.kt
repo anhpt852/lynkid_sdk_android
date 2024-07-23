@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
                 findViewById<AppCompatEditText>(R.id.edtPartnerCode).text.toString(),
                 findViewById<AppCompatEditText>(R.id.edtPhoneNumber).text.toString(),
                 findViewById<AppCompatEditText>(R.id.edtCIF).text.toString(),
-                findViewById<AppCompatEditText>(R.id.edtName).text.toString()
+                findViewById<AppCompatEditText>(R.id.edtName).text.toString(),
+                findViewById<AppCompatEditText>(R.id.edtAppName).text.toString(),
             )
         }
     }

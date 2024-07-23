@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.auth.repository.LoginRepository
 import vn.linkid.sdk.auth.service.LoginService
 import vn.linkid.sdk.auth.viewmodel.LoginViewModel
@@ -55,6 +57,15 @@ class LoginWithoutConnectFragment : Fragment() {
             bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
 
+            btnExit.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
+
+            txtSkip.setOnClickListener {
+                LynkiD_SDK.isAnonymous = true
+                val action = LoginWithoutConnectFragmentDirections.actionLoginWithoutConnectFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+
+            txtTitle.text = "Đăng nhập bằng ${LynkiD_SDK.appName}"
             txtName.text = connectedMember.basicInfo?.name
             txtPhone.text = connectedMember.phoneNumber
 

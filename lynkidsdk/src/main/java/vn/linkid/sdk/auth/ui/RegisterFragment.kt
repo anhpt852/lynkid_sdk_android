@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.auth.repository.RegisterRepository
 import vn.linkid.sdk.auth.service.RegisterService
 import vn.linkid.sdk.auth.viewmodel.RegisterViewModel
@@ -49,6 +51,14 @@ class RegisterFragment: Fragment() {
             val bottomLayoutParam = layoutAuth.layoutParams as ViewGroup.MarginLayoutParams
             bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
+
+            btnExit.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
+
+            txtSkip.setOnClickListener {
+                LynkiD_SDK.isAnonymous = true
+                val action = RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
 
             btnRegister.setOnClickListener {
                 viewModel.createMember().observe(viewLifecycleOwner) {

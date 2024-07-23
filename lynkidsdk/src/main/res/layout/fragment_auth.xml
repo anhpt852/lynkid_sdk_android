@@ -108,7 +108,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/img_lynkid" />
+                android:src="@drawable/ic_avatar_placeholder" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtName"
@@ -146,7 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="LynkiD cần truy cập các thông tin về tên, số điện thoại để đảm bảo trải nghiệm của bạn trong quan trình sử dụng."
+            android:text="LynkiD cần truy cập các thông tin về tên, số điện thoại để đảm bảo trải nghiệm của bạn trong quá trình sử dụng."
             android:textAlignment="center"
             android:textColor="#6D6B7A"
             android:textSize="14sp"

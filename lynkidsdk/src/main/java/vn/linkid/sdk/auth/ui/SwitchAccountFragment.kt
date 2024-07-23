@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.auth.repository.SwitchAccountRepository
 import vn.linkid.sdk.auth.service.SwitchAccountService
@@ -53,6 +54,8 @@ class SwitchAccountFragment : Fragment() {
                 getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
 
+            btnExit.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
+
             txtFirstPhone.text = LynkiD_SDK.connectedPhoneNumber
             txtSecondPhone.text = LynkiD_SDK.phoneNumber
 
@@ -65,6 +68,12 @@ class SwitchAccountFragment : Fragment() {
 
             layoutFirstProfile.setOnClickListener { viewModel.currentOption.value = 0 }
             layoutSecondProfile.setOnClickListener { viewModel.currentOption.value = 1 }
+
+            txtSkip.setOnClickListener {
+                LynkiD_SDK.isAnonymous = true
+                val action = SwitchAccountFragmentDirections.actionSwitchAccountFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
 
             btnLogin.setOnClickListener {
                 if (viewModel.currentOption.value == 0) {

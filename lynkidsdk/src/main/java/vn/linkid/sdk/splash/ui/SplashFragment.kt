@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentSplashBinding
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.splash.repository.SplashRepository
@@ -38,6 +39,7 @@ class SplashFragment : Fragment() {
     private fun setUpToken() {
         viewModel.generateToken().observe(viewLifecycleOwner) { connectedMember ->
             if (connectedMember != null) {
+                LynkiD_SDK.connectedMember = connectedMember
                 val action =
                     SplashFragmentDirections.actionSplashFragmentToAuthFragment(connectedMember)
                 findNavController().navigate(action)

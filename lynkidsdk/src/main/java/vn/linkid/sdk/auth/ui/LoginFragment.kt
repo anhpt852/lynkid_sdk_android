@@ -14,6 +14,8 @@ import vn.linkid.sdk.auth.viewmodel.LoginViewModelFactory
 import vn.linkid.sdk.databinding.FragmentLoginBinding
 import vn.linkid.sdk.utils.mainAPI
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.getStatusBarHeight
@@ -54,6 +56,15 @@ class LoginFragment : Fragment() {
             val bottomLayoutParam = layoutAuth.layoutParams as ViewGroup.MarginLayoutParams
             bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             layoutAuth.layoutParams = bottomLayoutParam
+
+            txtPhoneVerify.text = "Số điện thoại ${connectedMember.phoneNumber} có phải là số điện thoại của bạn"
+
+            btnExit.setOnClickListener { (activity as LynkiDSDKActivity).exitSDK() }
+            txtSkip.setOnClickListener {
+                LynkiD_SDK.isAnonymous = true
+                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
 
             btnLogin.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
