@@ -69,6 +69,16 @@ class GiftDetailFragment : Fragment() {
             updateTopMargin(scrollView, 12)
 
             btnBack.setOnClickListener { findNavController().popBackStack() }
+
+
+            val bottomLayoutParam = btnExchange.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+            btnExchange.layoutParams = bottomLayoutParam
+
+            val bottomPromoLayoutParam = btnInstallApp.layoutParams as ViewGroup.MarginLayoutParams
+            bottomPromoLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+            btnInstallApp.layoutParams = bottomPromoLayoutParam
         }
 
         viewModel.getGiftDetail(giftId).observe(viewLifecycleOwner) { result ->
@@ -234,14 +244,6 @@ class GiftDetailFragment : Fragment() {
     }
 
     private fun FragmentGiftDetailBinding.setUpExchangeButton(giftDetail: GiftDetail) {
-        val bottomLayoutParam = btnExchange.layoutParams as ViewGroup.MarginLayoutParams
-        bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
-        btnExchange.layoutParams = bottomLayoutParam
-
-        val bottomPromoLayoutParam = btnInstallApp.layoutParams as ViewGroup.MarginLayoutParams
-        bottomPromoLayoutParam.bottomMargin =
-            getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
-        btnInstallApp.layoutParams = bottomPromoLayoutParam
 
 
         val maxAllowedRedemptionOfUser = giftDetail.giftInfor?.maxAllowedRedemptionOfUser ?: 0

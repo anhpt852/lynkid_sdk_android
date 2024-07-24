@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_homeFragment_to_authFragment"
             app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_giftGroupFragment"
+            app:destination="@id/giftGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
@@ -56,6 +59,9 @@
         <action
             android:id="@+id/action_allGiftFragment_to_diamondCategoryFragment"
             app:destination="@id/diamondCategoryFragment" />
+        <action
+            android:id="@+id/action_allGiftFragment_to_giftGroupFragment"
+            app:destination="@id/giftGroupFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -426,5 +432,20 @@
             android:name="type"
             app:argType="integer"
             android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftGroupFragment"
+        android:name="vn.linkid.sdk.all_gift.ui.GiftGroupFragment"
+        android:label="GiftGroupFragment"
+        tools:layout="@layout/fragment_gift_group">
+        <argument
+            android:name="groupCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_giftGroupFragment_to_giftDetailFragment"
+            app:destination="@id/giftDetailFragment" />
+        <argument
+            android:name="groupName"
+            app:argType="string" />
     </fragment>
 </navigation>

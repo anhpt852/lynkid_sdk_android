@@ -200,7 +200,10 @@ class HomeFragment : Fragment() {
                     }
                     listGift.adapter = adapter
                     btnGiftSeeMore.setOnClickListener {
-                        val action = HomeFragmentDirections.actionHomeFragmentToAllGiftFragment()
+                        val action = HomeFragmentDirections.actionHomeFragmentToGiftGroupFragment(
+                            homeGiftGroup.getOrNull()!!.data?.giftGroup?.code ?: "",
+                            homeGiftGroup.getOrNull()!!.data?.giftGroup?.name ?: ""
+                        )
                         findNavController().navigate(action)
                     }
                 }

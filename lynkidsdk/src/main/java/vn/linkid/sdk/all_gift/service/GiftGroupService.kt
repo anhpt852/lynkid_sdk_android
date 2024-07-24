@@ -8,46 +8,39 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.category.GiftFilterModel
+import vn.linkid.sdk.models.category.GiftType
 import vn.linkid.sdk.models.category.GiftsByCategoryResponseModel
 import vn.linkid.sdk.models.category.HomeCategoryResponseModel
 import vn.linkid.sdk.utils.Endpoints
 import vn.linkid.sdk.utils.generateCacheKey
 
 class GiftGroupService(private val api: APIEndpoints) {
-    suspend fun getGiftCategories(): Flow<Result<HomeCategoryResponseModel>> = flow {
-        val cacheKey = Endpoints.GET_HOME_CATEGORIES
-        val cachedResponse = MainCache.get<HomeCategoryResponseModel>(cacheKey)
-        if (cachedResponse != null) {
-            emit(Result.success(cachedResponse))
-        } else {
-            val response = api.getHomeCategories()
-            MainCache.put(cacheKey, response)
-            emit(Result.success(response))
-        }
-    }.catch {
-        Log.e("AllGiftService", "getGiftCategories: ${it.message}")
-        emit(Result.failure(RuntimeException("Something went wrong")))
-    }
 
-    suspend fun getAllGiftGroups(): Flow<Result<AllGiftGroupResponseModel>> = flow {
+    suspend fun getGiftsByGroupCode(
+        groupCode: String,
+        index: Int
+    ): Flow<Result<GiftsByCategoryResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,
-            "MaxItem" to 5,
+            "SkipCount" to index * 10,
+            "Sorting" to "LastModificationTime desc",
             "MaxResultCount" to 10,
-            "GiftGroupTypeFilter" to 0,
-            "SimplifiedResponse" to true
+            "StatusFilter" to "A",
+            "MaxRequiredCoinFilter" to 1000000000,
+            "GiftGroupCodeFilter" to groupCode
         )
-        val cacheKey = generateCacheKey(Endpoints.GET_ALL_GIFT_GROUPS, params)
-        val cachedResponse = MainCache.get<AllGiftGroupResponseModel>(cacheKey)
+        val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_CATEGORY, params)
+        val cachedResponse = MainCache.get<GiftsByCategoryResponseModel>(cacheKey)
         if (cachedResponse != null) {
             emit(Result.success(cachedResponse))
         } else {
-            val response = api.getAllGiftGroups(queries = params)
+            val response = api.getGiftsByCategory(queries = params)
             MainCache.put(cacheKey, response)
             emit(Result.success(response))
         }
     }.catch {
-        Log.e("AllGiftService", "getAllGiftGroups: ${it.message}")
+        Log.e("GiftGroupService", "getGiftsByGroupCode: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 }
