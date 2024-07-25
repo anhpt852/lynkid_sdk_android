@@ -39,10 +39,14 @@ class CategoryService(private val api: APIEndpoints) {
             "MemberCode" to LynkiD_SDK.memberCode,
             "SkipCount" to index * 10,
             "Sorting" to filter.sorting.id,
-            "MaxItem" to 10
+            "MaxItem" to 5,
+            "MaxResultCount" to 10
         )
         if(categoryCode.isNotEmpty() && categoryCode != "all") {
-            params["GiftCategoryCodeFilter"] = categoryCode
+            params["FullGiftCategoryCodeFilter"] = categoryCode
+        }
+        if (categoryCode == "all"){
+            params["CategoryTypeCode"] = "all"
         }
         if (filter.giftType != GiftType.NONE) {
             params["IsEGiftFilter"] = filter.giftType == GiftType.EGIFT

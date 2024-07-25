@@ -45,5 +45,5 @@ data class GiftFilterModel(
     val searchText: String = "",
     val selectedRange: Range = Range(),
     val selectedCates: List<Category> = emptyList(),
-    val sorting: GiftSorting = GiftSorting.LATEST
+    val sorting: GiftSorting = GiftSorting.DISPLAY_ORDER
 )

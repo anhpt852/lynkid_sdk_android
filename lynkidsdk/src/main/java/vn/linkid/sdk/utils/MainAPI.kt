@@ -206,6 +206,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftsByCategoryResponseModel
 
+    @GET(Endpoints.GET_GIFTS_BY_GROUP)
+    suspend fun getGiftsByGroup(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GiftsByCategoryResponseModel
+
     @GET(Endpoints.GET_MY_REWARDS)
     suspend fun getMyRewards(
         @HeaderMap headers: Map<String, String> = mapOf(
@@ -334,7 +342,8 @@ object Endpoints {
     const val GET_HOME_GIFT_GROUP = "api/sdk-v1/get-gift-group"
     const val GET_GIFT_CATEGORIES = "api/GiftCategory/GiftListCategories_v1"
     const val GET_ALL_GIFT_GROUPS = "api/sdk-v1/get-gift-all-infors"
-    const val GET_GIFTS_BY_CATEGORY = "api/sdk-v1/get-all-by-member-code"
+    const val GET_GIFTS_BY_CATEGORY = "/api/sdk-v1/get-list-gift"
+    const val GET_GIFTS_BY_GROUP = "api/sdk-v1/get-all-by-member-code"
     const val GET_MY_REWARDS = "api/sdk-v1/GetAllWithEGift"
     const val GET_GIFT_DETAILS = "api/sdk-v1/get-gift-details"
     const val CREATE_TRANSACTION = "api/sdk-v1/create-transaction"

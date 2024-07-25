@@ -30,12 +30,12 @@ class GiftGroupService(private val api: APIEndpoints) {
             "MaxRequiredCoinFilter" to 1000000000,
             "GiftGroupCodeFilter" to groupCode
         )
-        val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_CATEGORY, params)
+        val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_GROUP, params)
         val cachedResponse = MainCache.get<GiftsByCategoryResponseModel>(cacheKey)
         if (cachedResponse != null) {
             emit(Result.success(cachedResponse))
         } else {
-            val response = api.getGiftsByCategory(queries = params)
+            val response = api.getGiftsByGroup(queries = params)
             MainCache.put(cacheKey, response)
             emit(Result.success(response))
         }
