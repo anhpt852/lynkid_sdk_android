@@ -21,7 +21,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgCategory"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -29,13 +30,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:lines="2"
+        android:maxWidth="60dp"
+        android:textAlignment="center"
         android:textColor="#261F28"
         android:textSize="12sp"
+        android:ellipsize="end"
         app:fontFamily="@font/bevietnampro_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardCategory"
-        tools:text="Category" />
+        tools:text="CategoryCategoryCategoryCategory" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -448,4 +448,9 @@
             android:name="groupName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="vn.linkid.sdk.account.ui.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account"/>
 </navigation>

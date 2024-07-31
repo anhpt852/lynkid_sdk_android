@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentMyRewardBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 
-class MyRewardFragment: Fragment() {
+class MyRewardFragment : Fragment() {
 
     private lateinit var binding: FragmentMyRewardBinding
 
@@ -29,16 +30,31 @@ class MyRewardFragment: Fragment() {
         setUpView()
     }
 
-    private fun setUpView(){
+    private fun setUpView() {
         binding.apply {
             val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
+            if (LynkiD_SDK.isAnonymous) {
+                layoutNeedLogin.root.visibility = View.VISIBLE
+                layoutNeedLogin.btnInstall.setOnClickListener {
+
+                }
+                layoutNeedLogin.txtLogin.setOnClickListener {
+
+                }
+                viewPager.visibility = View.GONE
+                tabLayout.visibility = View.GONE
+            } else {
+                layoutNeedLogin.root.visibility = View.GONE
+                viewPager.visibility = View.VISIBLE
+                tabLayout.visibility = View.VISIBLE
+                setUpPager()
+            }
         }
-        setUpPager()
     }
 
-    private fun setUpPager(){
+    private fun setUpPager() {
         binding.viewPager.adapter = SectionsPagerAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
@@ -52,6 +68,7 @@ class MyRewardFragment: Fragment() {
     inner class SectionsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         override fun getItemCount(): Int = 2
 
-        override fun createFragment(position: Int): Fragment = MyRewardListFragment.newInstance(position)
+        override fun createFragment(position: Int): Fragment =
+            MyRewardListFragment.newInstance(position)
     }
 }

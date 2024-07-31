@@ -21,7 +21,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgCategory"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -12,5 +12,9 @@
         android:id="@id/transactionFragment"
         android:icon="@drawable/ic_nav_transaction"
         android:title="Lịch sử" />
+    <item
+        android:id="@id/accountFragment"
+        android:icon="@drawable/ic_nav_account"
+        android:title="Tài khoản" />
 
 </menu>

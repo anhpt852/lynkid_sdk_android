@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/imgHeaderBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/home_gradient"
-        app:layout_constraintBottom_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +21,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Danh mục ưu đãi"
+            android:text="Tài khoản"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:fontFamily="@font/bevietnampro_semibold"
@@ -33,32 +32,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:tabIndicatorColor="#FFCC00"
-        app:tabTextColor="@color/tab_color" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
-
-
     <include
         android:id="@+id/layoutNeedLogin"
         layout="@layout/layout_need_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

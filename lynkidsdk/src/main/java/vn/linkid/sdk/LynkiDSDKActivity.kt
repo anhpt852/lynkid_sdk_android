@@ -57,7 +57,7 @@ class LynkiDSDKActivity : AppCompatActivity() {
             val navController = navHostFragment.navController
             bottomNavigation.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment || destination.id == R.id.transactionFragment) {
+                if (destination.id == R.id.homeFragment || destination.id == R.id.myRewardFragment || destination.id == R.id.transactionFragment || destination.id == R.id.accountFragment) {
                     bottomNavigation.visibility = View.VISIBLE
                 } else {
                     bottomNavigation.visibility = View.GONE

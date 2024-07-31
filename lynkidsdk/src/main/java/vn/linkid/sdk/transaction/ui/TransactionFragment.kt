@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentTransactionBinding
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 import vn.linkid.sdk.transaction.service.TransactionService
@@ -45,11 +46,23 @@ class TransactionFragment : Fragment() {
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
 
-            val backgroundLayoutParams = imgHeaderBackground.layoutParams
-            backgroundLayoutParams.height = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0) + (context?.dpToPx(56) ?: 0) + (context?.dpToPx(40) ?: 0)
-            imgHeaderBackground.layoutParams = backgroundLayoutParams
+            if (LynkiD_SDK.isAnonymous) {
+                layoutNeedLogin.root.visibility = View.VISIBLE
+                layoutNeedLogin.btnInstall.setOnClickListener {
+
+                }
+                layoutNeedLogin.txtLogin.setOnClickListener {
+
+                }
+                viewPager.visibility = View.GONE
+                tabLayout.visibility = View.GONE
+            } else {
+                layoutNeedLogin.root.visibility = View.GONE
+                viewPager.visibility = View.VISIBLE
+                tabLayout.visibility = View.VISIBLE
+                setUpPager()
+            }
         }
-        setUpPager()
     }
 
     private fun setUpPager(){

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import vn.linkid.sdk.InstallAppDialog
 import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentHomeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -84,14 +85,33 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(action)
             }
 
+            btnDataTopUp.setOnClickListener {
+                val dialog = InstallAppDialog()
+                dialog.show(childFragmentManager, "InstallAppDialog")
+            }
+
+            btnPhoneTopUp.setOnClickListener {
+                val dialog = InstallAppDialog()
+                dialog.show(childFragmentManager, "InstallAppDialog")
+            }
+
             btnInstallAppBig.setOnClickListener {
                 val dialog = InstallAppDialog()
                 dialog.show(childFragmentManager, "InstallAppDialog")
+            }
+
+            btnScrollToTop.setOnClickListener {
+                scrollHome.smoothScrollTo(0, 0)
             }
         }
     }
 
     private fun setUpMemberInfo() {
+        binding.apply {
+            Glide.with(imgAvatar).load(R.drawable.ic_avatar_placeholder).circleCrop()
+                .into(imgAvatar)
+            txtMemberName.text = LynkiD_SDK.name
+        }
         viewModel.memberInfoLoader.observe(viewLifecycleOwner) { loader ->
             if (loader) {
                 Log.d("HomeFragment", "setUpMemberInfo: $loader")
@@ -101,8 +121,10 @@ class HomeFragment : Fragment() {
             if (memberInfo.getOrNull() != null) {
                 val member = memberInfo.getOrNull()!!
                 binding.apply {
-                    Glide.with(imgAvatar).load(member.avatar).circleCrop().into(imgAvatar)
-                    txtMemberName.text = member.name
+                    Glide.with(imgAvatar).load(member.avatar)
+                        .placeholder(R.drawable.ic_avatar_placeholder).circleCrop().into(imgAvatar)
+                    txtMemberName.text =
+                        if (!member.name.isNullOrEmpty()) member.name else LynkiD_SDK.name
                 }
             }
         }
