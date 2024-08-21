@@ -67,6 +67,8 @@ class CategoryFragment : Fragment() {
             val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
+
+            btnBack.setOnClickListener { findNavController().popBackStack() }
         }
     }
 

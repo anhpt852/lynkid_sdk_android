@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_homeFragment_to_giftGroupFragment"
             app:destination="@id/giftGroupFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_IMediaHomeFragment"
+            app:destination="@id/IMediaHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/allGiftFragment"
@@ -453,4 +456,9 @@
         android:name="vn.linkid.sdk.account.ui.AccountFragment"
         android:label="AccountFragment"
         tools:layout="@layout/fragment_account"/>
+    <fragment
+        android:id="@+id/IMediaHomeFragment"
+        android:name="vn.linkid.sdk.imedia.ui.IMediaHomeFragment"
+        android:label="IMediaHomeFragment"
+        tools:layout="@layout/fragment_imeadia_home"/>
 </navigation>

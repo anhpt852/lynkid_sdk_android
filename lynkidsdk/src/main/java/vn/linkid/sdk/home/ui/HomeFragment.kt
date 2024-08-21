@@ -141,6 +141,14 @@ class HomeFragment : Fragment() {
                 val point = pointInfo.getOrNull()!!
                 binding.apply {
                     txtBalance.text = point.tokenBalance!!.formatPrice()
+                    btnPhoneTopUp.setOnClickListener {
+                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment()
+                        findNavController().navigate(action)
+                    }
+                    btnDataTopUp.setOnClickListener {
+                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
