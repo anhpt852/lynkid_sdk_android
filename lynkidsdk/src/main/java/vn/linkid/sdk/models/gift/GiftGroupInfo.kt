@@ -1,9 +1,7 @@
 package vn.linkid.sdk.models.gift
 
 
-import com.google.gson.annotations.SerializedName
-
-data class GiftGroup(
+data class GiftGroupInfo(
     val code: String?,
     val displayOrder: Int?,
     val name: String?

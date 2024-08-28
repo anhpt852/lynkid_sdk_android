@@ -35,6 +35,7 @@ import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
+import vn.linkid.sdk.models.gift.GiftGroupResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
 import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
@@ -328,6 +329,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GetDiamondMemberInfoResponseModel
 
+    @GET(Endpoints.GET_GIFTS_BY_GROUP_TYPE)
+    suspend fun getGiftsByGroupType(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GiftGroupResponseModel
+
 }
 
 object Endpoints {
@@ -358,4 +367,5 @@ object Endpoints {
     const val GET_DIAMOND_CATEGORIES = "api/sdk-v1/GetAllGiftCategoriesAndInfo"
     const val GET_ALL_FLASH_SALE_PROGRAM = "api/sdk-v1/GiftFlashSaleProgram/GetAllFlashSaleProgram"
     const val GET_DIAMOND_MEMBER_INFO = "api/sdk-v1/Member/GetMemberVpbankInfor"
+    const val GET_GIFTS_BY_GROUP_TYPE = "api/sdk-v1/GiftInfors/GetGiftByGroupType"
 }
