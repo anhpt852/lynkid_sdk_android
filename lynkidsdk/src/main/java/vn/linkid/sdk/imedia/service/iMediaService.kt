@@ -13,10 +13,11 @@ import vn.linkid.sdk.utils.generateCacheKey
 
 class iMediaService(private val api: APIEndpoints) {
 
-    suspend fun getGiftsByGroupType(): Flow<Result<GiftGroupResponseModel>> = flow {
+    suspend fun getGiftsByGroupType(groupType: Int, sorting: String): Flow<Result<GiftGroupResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,
-            "MemberId" to LynkiD_SDK.memberId
+            "GroupTypeFilter" to groupType,
+            "Sorting" to sorting
         )
         val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_GROUP_TYPE, params)
         val cachedResponse = MainCache.get<GiftGroupResponseModel>(cacheKey)

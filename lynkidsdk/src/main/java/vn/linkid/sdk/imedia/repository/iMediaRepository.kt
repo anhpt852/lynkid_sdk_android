@@ -6,7 +6,7 @@ import vn.linkid.sdk.imedia.service.iMediaService
 
 class iMediaRepository(private val service: iMediaService) {
 
-    suspend fun getGiftsByGroupType(id: Int) = service.getGiftsByGroupType(id).map { result ->
+    suspend fun getGiftsByGroupType(groupType: Int, sorting: String) = service.getGiftsByGroupType(groupType, sorting).map { result ->
         if (result.isSuccess) {
             val giftsByGroupType = result.getOrNull()
             if (giftsByGroupType != null && giftsByGroupType.success == true) {
