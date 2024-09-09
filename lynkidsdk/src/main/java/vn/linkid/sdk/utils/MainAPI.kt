@@ -36,6 +36,8 @@ import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.gift.GiftGroupResponseModel
+import vn.linkid.sdk.models.imedia.GetIMediaGiftsResponseModel
+import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendorResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
 import vn.linkid.sdk.models.transaction.GetTransactionDetailResponseModel
@@ -329,13 +331,29 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GetDiamondMemberInfoResponseModel
 
+    @GET(Endpoints.GET_ALL_THIRD_PARTY_BRAND_BY_VENDOR_TYPE)
+    suspend fun getBrandByVendor(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GetThirdPartyBrandByVendorResponseModel
+
     @GET(Endpoints.GET_GIFTS_BY_GROUP_TYPE)
     suspend fun getGiftsByGroupType(
         @HeaderMap headers: Map<String, String> = mapOf(
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
-            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
         ), @QueryMap queries: MutableMap<String, Any>
     ): GiftGroupResponseModel
+
+    @GET(Endpoints.GET_ALL_EFFECTIVE_CATEGORY_TOPUP)
+    suspend fun getAllIMedia(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.seedToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GetIMediaGiftsResponseModel
 
 }
 
@@ -368,4 +386,6 @@ object Endpoints {
     const val GET_ALL_FLASH_SALE_PROGRAM = "api/sdk-v1/GiftFlashSaleProgram/GetAllFlashSaleProgram"
     const val GET_DIAMOND_MEMBER_INFO = "api/sdk-v1/Member/GetMemberVpbankInfor"
     const val GET_GIFTS_BY_GROUP_TYPE = "api/sdk-v1/GiftInfors/GetGiftByGroupType"
+    const val GET_ALL_THIRD_PARTY_BRAND_BY_VENDOR_TYPE = "api/sdk-v1/ThirdPartyBrandMapping/GetAllThirdPartyBrandByVendorType"
+    const val GET_ALL_EFFECTIVE_CATEGORY_TOPUP = "api/sdk-v1/GiftInfors/GetAllEffectiveCategory_TopUpPhone"
 }

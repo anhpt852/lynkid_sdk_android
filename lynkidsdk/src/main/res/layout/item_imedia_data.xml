@@ -29,12 +29,12 @@
             android:id="@+id/txtBandwidth"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
             android:text="Hà Nội"
             android:textAlignment="center"
-            android:gravity="center"
             android:textColor="#242424"
             android:textSize="14sp"
-            android:includeFontPadding="false"
             app:fontFamily="@font/bevietnampro_regular"
             app:layout_constraintBottom_toTopOf="@id/txtDuration"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,12 +45,12 @@
             android:id="@+id/txtDuration"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
             android:text="Hà Nội"
             android:textAlignment="center"
-            android:gravity="center"
             android:textColor="#242424"
             android:textSize="14sp"
-            android:includeFontPadding="false"
             app:fontFamily="@font/bevietnampro_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,17 +72,47 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtRequiredPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="Hà Nội"
+            android:textAlignment="center"
+            android:textColor="#242424"
+            android:textSize="14sp"
+            app:fontFamily="@font/bevietnampro_regular"
+            app:layout_constraintBottom_toTopOf="@id/txtFullPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtFullPrice"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
             android:text="Hà Nội"
             android:textAlignment="center"
             android:textColor="#242424"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_regular"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/txtRequiredPrice" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgCoin"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_coin_small"
+            app:layout_constraintBottom_toBottomOf="@id/txtRequiredPrice"
+            app:layout_constraintEnd_toStartOf="@id/txtRequiredPrice"
+            app:layout_constraintTop_toTopOf="@id/txtRequiredPrice" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -93,7 +123,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_transparent_outlined_button"
         android:clipToOutline="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
