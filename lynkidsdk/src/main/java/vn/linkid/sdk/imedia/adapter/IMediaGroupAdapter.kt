@@ -9,12 +9,13 @@ import vn.linkid.sdk.databinding.ItemImediaBinding
 import vn.linkid.sdk.databinding.ItemImediaDataBinding
 import vn.linkid.sdk.databinding.ItemImediaGroupBinding
 import vn.linkid.sdk.models.category.Gift
+import vn.linkid.sdk.models.gift.GiftDetail
 
-class IMediaGroupAdapter(private val iMediaList: List<Gift>, private val type: Int = 0) :
+class IMediaGroupAdapter(private val iMediaList: List<Pair<String, List<GiftDetail>>>, private val type: Int = 0) :
     RecyclerView.Adapter<IMediaGroupAdapter.ItemIMediaGroupViewHolder>() {
 
 
-    var onItemClick: ((Gift) -> Unit)? = null
+    var onItemClick: ((GiftDetail) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +35,10 @@ class IMediaGroupAdapter(private val iMediaList: List<Gift>, private val type: I
 
     inner class ItemIMediaGroupViewHolder(private val binding: ItemImediaGroupBinding) :
         ViewHolder(binding.root) {
-        fun bind(gift: Gift) {
+        fun bind(iMedia: Pair<String, List<GiftDetail>>) {
             binding.apply {
-                val adapter = IMediaAdapter(emptyList(), type)
+                txtTitle.text = iMedia.first
+                val adapter = IMediaAdapter(iMedia.second, type)
                 adapter.onItemClick = onItemClick
                 listIMedia.layoutManager = GridLayoutManager(listIMedia.context, 2)
                 listIMedia.adapter = adapter

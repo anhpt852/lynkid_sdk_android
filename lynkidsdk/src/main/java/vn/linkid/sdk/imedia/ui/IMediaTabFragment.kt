@@ -60,9 +60,9 @@ class IMediaTabFragment : Fragment() {
         viewModel.getBrandByVendor().observe(viewLifecycleOwner) {
             Log.d("IMediaTabFragment", "getBrandByVendor: $it")
             val brandList = it.getOrNull() ?: emptyList()
-            if(brandList.isNotEmpty()){
+            if (brandList.isNotEmpty()) {
                 val firstBrand = brandList.first()
-                getIMediaGifts(firstBrand.brandId ?: 0)
+                getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
             }
         }
         viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
@@ -70,9 +70,25 @@ class IMediaTabFragment : Fragment() {
         }
     }
 
-    private fun getIMediaGifts(brandId: Int){
+    private fun getIMediaGifts(brandId: Int) {
         viewModel.getAllIMedia(brandId).observe(viewLifecycleOwner) {
             Log.d("IMediaTabFragment", "getAllIMedia: $it")
+            binding.apply {
+                val giftList = it.getOrNull()?.items ?: emptyList()
+                if (tab < 3) {
+                    val iMediaList = listOf(Pair("Mệnh giá", giftList))
+                    val adapter = IMediaGroupAdapter(iMediaList, 0)
+                    binding.listIMedia.layoutManager = LinearLayoutManager(context)
+                    binding.listIMedia.adapter = adapter
+                } else {
+                    val iMediaList = giftList
+                        .groupBy { gift -> gift.giftInfor?.description?.split(':')?.firstOrNull() }
+                        .map { (key, value) -> Pair(key ?: "", value) }
+                    val adapter = IMediaGroupAdapter(iMediaList, 1)
+                    binding.listIMedia.layoutManager = LinearLayoutManager(context)
+                    binding.listIMedia.adapter = adapter
+                }
+            }
         }
     }
 }

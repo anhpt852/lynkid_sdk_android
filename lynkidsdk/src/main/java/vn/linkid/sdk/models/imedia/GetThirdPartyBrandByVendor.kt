@@ -1,6 +1,10 @@
 package vn.linkid.sdk.models.imedia
 
 data class GetThirdPartyBrandByVendor(
+    val brandMapping: ThirdPartyBrandByVendor?
+)
+
+data class ThirdPartyBrandByVendor(
     val id: Int?,
     val code: String?,
     val brandId: Int?,
