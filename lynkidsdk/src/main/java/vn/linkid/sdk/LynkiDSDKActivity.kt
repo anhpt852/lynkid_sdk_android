@@ -15,6 +15,7 @@ import android.view.WindowManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import vn.linkid.sdk.databinding.ActivityMainSdkBinding
+import vn.linkid.sdk.imedia.ui.IMediaHomeFragmentDirections
 import vn.linkid.sdk.my_reward.ui.MyRewardFragmentDirections
 import vn.linkid.sdk.transaction.ui.TransactionFragmentDirections
 import vn.linkid.sdk.transaction.ui.TransactionListFragmentDirections
@@ -124,6 +125,14 @@ class LynkiDSDKActivity : AppCompatActivity() {
             MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardDetailFragment(
                 transactionCode
             )
+        navController.navigate(action)
+    }
+
+    fun navigateFromIMediaToGiftExchangeFragment(giftId: Int){
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val action = IMediaHomeFragmentDirections.actionIMediaHomeFragmentToGiftExchangeFragment(giftId)
         navController.navigate(action)
     }
 

@@ -460,5 +460,9 @@
         android:id="@+id/IMediaHomeFragment"
         android:name="vn.linkid.sdk.imedia.ui.IMediaHomeFragment"
         android:label="IMediaHomeFragment"
-        tools:layout="@layout/fragment_imeadia_home"/>
+        tools:layout="@layout/fragment_imeadia_home">
+        <action
+            android:id="@+id/action_IMediaHomeFragment_to_giftExchangeFragment"
+            app:destination="@id/giftExchangeFragment" />
+    </fragment>
 </navigation>

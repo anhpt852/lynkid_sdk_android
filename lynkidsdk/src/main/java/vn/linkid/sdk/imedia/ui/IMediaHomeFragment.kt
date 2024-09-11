@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -35,6 +36,8 @@ class IMediaHomeFragment : Fragment() {
             val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
+
+            btnBack.setOnClickListener { findNavController().popBackStack() }
 
             for (i in 0 until tabLayout.tabCount) {
                 val tab = (tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)

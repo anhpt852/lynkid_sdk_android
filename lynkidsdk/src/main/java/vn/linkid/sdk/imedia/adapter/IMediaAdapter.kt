@@ -15,7 +15,8 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
     RecyclerView.Adapter<ViewHolder>() {
 
 
-    var onItemClick: ((GiftDetail) -> Unit)? = null
+    var onItemClick: ((GiftDetail?) -> Unit)? = null
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,10 +34,31 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentPosition = position
+        val gift = iMediaList[currentPosition]
         if (type == 0) {
-            (holder as ItemIMediaViewHolder).bind(iMediaList[position])
+            (holder as ItemIMediaViewHolder).bind(
+                iMediaList[currentPosition],
+                currentPosition == selectedPosition
+            )
         } else {
-            (holder as ItemIMediaDataViewHolder).bind(iMediaList[position])
+            (holder as ItemIMediaDataViewHolder).bind(
+                iMediaList[currentPosition],
+                currentPosition == selectedPosition
+            )
+        }
+        holder.itemView.setOnClickListener {
+            val previousSelected = selectedPosition
+            if (currentPosition == selectedPosition) {
+                // Deselect if clicking on the already selected item
+                selectedPosition = RecyclerView.NO_POSITION
+                onItemClick?.invoke(null)
+            } else {
+                selectedPosition = currentPosition
+                onItemClick?.invoke(gift)
+            }
+            notifyItemChanged(previousSelected)
+            notifyItemChanged(selectedPosition)
         }
     }
 
@@ -44,8 +66,10 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
 
     inner class ItemIMediaViewHolder(private val binding: ItemImediaBinding) :
         ViewHolder(binding.root) {
-        fun bind(gift: GiftDetail) {
+        fun bind(gift: GiftDetail, isSelected: Boolean) {
             binding.apply {
+                root.isSelected = isSelected
+                layoutCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
                 val fullPrice = gift.giftInfor?.fullPrice ?: 0.0
                 val requiredCoin = gift.giftInfor?.requiredCoin ?: 0.0
                 val cashBack =
@@ -78,8 +102,10 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
 
     inner class ItemIMediaDataViewHolder(private val binding: ItemImediaDataBinding) :
         ViewHolder(binding.root) {
-        fun bind(gift: GiftDetail) {
+        fun bind(gift: GiftDetail, isSelected: Boolean) {
             binding.apply {
+                root.isSelected = isSelected
+                layoutCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
                 val data: String? = gift.giftInfor?.name?.split("/")?.first()
                 val fullPrice = gift.giftInfor?.fullPrice ?: 0.0
                 val requiredCoin = gift.giftInfor?.requiredCoin ?: 0.0
@@ -90,5 +116,11 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
                     )?.lastOrNull()?.trimStart()
             }
         }
+    }
+
+    fun clearSelection() {
+        val previousSelected = selectedPosition
+        selectedPosition = RecyclerView.NO_POSITION
+        notifyItemChanged(previousSelected)
     }
 }

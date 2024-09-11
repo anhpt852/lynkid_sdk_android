@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.databinding.FragmentImeadiaTabBinding
+import vn.linkid.sdk.imedia.adapter.IMediaBrandAdapter
 import vn.linkid.sdk.imedia.adapter.IMediaGroupAdapter
 import vn.linkid.sdk.imedia.repository.IMediaRepository
 import vn.linkid.sdk.imedia.service.IMediaService
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModel
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModelFactory
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.mainAPI
 
 class IMediaTabFragment : Fragment() {
@@ -64,9 +68,28 @@ class IMediaTabFragment : Fragment() {
                 val firstBrand = brandList.first()
                 getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
             }
+            val adapter = IMediaBrandAdapter(brandList)
+            adapter.onItemClick = { brand ->
+                if(brand != null) {
+                    viewModel.selectedBrand.value = brand
+                    getIMediaGifts(brand.brandMapping?.brandId ?: 0)
+                }
+            }
+            binding.listBrand.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            binding.listBrand.adapter = adapter
         }
         viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
             Log.d("IMediaTabFragment", "getDiscountedIMedia: $it")
+        }
+
+        val layoutParams = binding.btnApply.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.bottomMargin = getNavigationBarHeight(binding.root) + (context?.dpToPx(8) ?: 0)
+        binding.btnApply.layoutParams = layoutParams
+        binding.btnApply.setOnClickListener {
+            viewModel.selectedGift.value?.let { gift ->
+                Log.d("IMediaTabFragment", "Selected gift: $gift")
+                (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(gift.giftInfor?.id ?: 0)
+            }
         }
     }
 
@@ -78,6 +101,7 @@ class IMediaTabFragment : Fragment() {
                 if (tab < 3) {
                     val iMediaList = listOf(Pair("Mệnh giá", giftList))
                     val adapter = IMediaGroupAdapter(iMediaList, 0)
+                    adapter.onItemClick = { gift -> viewModel.selectedGift.value = gift }
                     binding.listIMedia.layoutManager = LinearLayoutManager(context)
                     binding.listIMedia.adapter = adapter
                 } else {
@@ -85,6 +109,7 @@ class IMediaTabFragment : Fragment() {
                         .groupBy { gift -> gift.giftInfor?.description?.split(':')?.firstOrNull() }
                         .map { (key, value) -> Pair(key ?: "", value) }
                     val adapter = IMediaGroupAdapter(iMediaList, 1)
+                    adapter.onItemClick = { gift -> viewModel.selectedGift.value = gift }
                     binding.listIMedia.layoutManager = LinearLayoutManager(context)
                     binding.listIMedia.adapter = adapter
                 }

@@ -15,7 +15,8 @@ class IMediaGroupAdapter(private val iMediaList: List<Pair<String, List<GiftDeta
     RecyclerView.Adapter<IMediaGroupAdapter.ItemIMediaGroupViewHolder>() {
 
 
-    var onItemClick: ((GiftDetail) -> Unit)? = null
+    var onItemClick: ((GiftDetail?) -> Unit)? = null
+    private val childAdapters = mutableListOf<IMediaAdapter>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -39,10 +40,26 @@ class IMediaGroupAdapter(private val iMediaList: List<Pair<String, List<GiftDeta
             binding.apply {
                 txtTitle.text = iMedia.first
                 val adapter = IMediaAdapter(iMedia.second, type)
-                adapter.onItemClick = onItemClick
+                childAdapters.add(adapter)
+                adapter.onItemClick = { gift ->
+                    clearOtherSelections(adapter)
+                    onItemClick?.invoke(gift)
+                }
                 listIMedia.layoutManager = GridLayoutManager(listIMedia.context, 2)
                 listIMedia.adapter = adapter
             }
         }
+    }
+
+    private fun clearOtherSelections(selectedAdapter: IMediaAdapter) {
+        childAdapters.forEach { adapter ->
+            if (adapter != selectedAdapter) {
+                adapter.clearSelection()
+            }
+        }
+    }
+
+    fun clearAllSelections() {
+        childAdapters.forEach { it.clearSelection() }
     }
 }
