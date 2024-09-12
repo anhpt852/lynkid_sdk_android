@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.linkid.sdk.LynkiDSDKActivity
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentImeadiaTabBinding
 import vn.linkid.sdk.imedia.adapter.IMediaBrandAdapter
 import vn.linkid.sdk.imedia.adapter.IMediaGroupAdapter
@@ -16,6 +17,7 @@ import vn.linkid.sdk.imedia.repository.IMediaRepository
 import vn.linkid.sdk.imedia.service.IMediaService
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModel
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModelFactory
+import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.mainAPI
@@ -70,12 +72,13 @@ class IMediaTabFragment : Fragment() {
             }
             val adapter = IMediaBrandAdapter(brandList)
             adapter.onItemClick = { brand ->
-                if(brand != null) {
+                if (brand != null) {
                     viewModel.selectedBrand.value = brand
                     getIMediaGifts(brand.brandMapping?.brandId ?: 0)
                 }
             }
-            binding.listBrand.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            binding.listBrand.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.listBrand.adapter = adapter
         }
         viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
@@ -88,7 +91,13 @@ class IMediaTabFragment : Fragment() {
         binding.btnApply.setOnClickListener {
             viewModel.selectedGift.value?.let { gift ->
                 Log.d("IMediaTabFragment", "Selected gift: $gift")
-                (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(gift.giftInfor?.id ?: 0)
+                (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(
+                    gift.giftInfor?.id ?: 0, TopupRedeemInfo(
+                        operation = if (tab == 0 || tab == 2 || tab == 3) 1200 else 1000,
+                        ownerPhone = if (tab == 0 || tab == 2 || tab == 3) LynkiD_SDK.phoneNumber else null,
+                        accountType = if (tab == 0) 0 else if (tab == 2) 1 else null
+                    )
+                )
             }
         }
     }

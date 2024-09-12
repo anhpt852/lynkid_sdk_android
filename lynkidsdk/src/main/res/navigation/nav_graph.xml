@@ -204,6 +204,11 @@
         <action
             android:id="@+id/action_giftExchangeFragment_to_giftExchangeAddressFragment"
             app:destination="@id/giftExchangeAddressFragment" />
+        <argument
+            android:name="topupRedeemInfo"
+            app:argType="vn.linkid.sdk.models.imedia.TopupRedeemInfo"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/giftOTPFragment"

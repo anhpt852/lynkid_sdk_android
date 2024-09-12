@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.flow.onEach
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
+import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.models.point.Point
 
 class GiftExchangeViewModel(private val repository: GiftDetailRepository) : ViewModel() {
@@ -40,6 +41,7 @@ class GiftExchangeViewModel(private val repository: GiftDetailRepository) : View
         giftCode: String,
         totalAmount: Double,
         description: String,
+        topupRedeemInfo: TopupRedeemInfo? = null
     ) = liveData {
         transactionLoading.postValue(true)
         emitSource(repository.createTransaction(
@@ -47,7 +49,8 @@ class GiftExchangeViewModel(private val repository: GiftDetailRepository) : View
             giftCode,
             quantity.value ?: 1,
             totalAmount,
-            description
+            description,
+            topupRedeemInfo
         )
             .onEach {
                 transactionLoading.postValue(false)

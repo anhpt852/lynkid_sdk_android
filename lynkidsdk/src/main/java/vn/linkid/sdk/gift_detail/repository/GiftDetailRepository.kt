@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.map
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
 import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
+import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.models.point.Point
 import vn.linkid.sdk.models.point.PointResponseModel
 
@@ -49,8 +50,9 @@ class GiftDetailRepository(private val service: GiftDetailService) {
         giftCode: String,
         quantity: Int,
         totalAmount: Double,
-        description: String
-    ) = service.createTransaction(sessionId, giftCode, quantity, totalAmount, description)
+        description: String,
+        topupRedeemInfo: TopupRedeemInfo? = null
+    ) = service.createTransaction(sessionId, giftCode, quantity, totalAmount, description, topupRedeemInfo)
         .map { result ->
             if (result.isSuccess) {
                 val pairResult = result.getOrNull()

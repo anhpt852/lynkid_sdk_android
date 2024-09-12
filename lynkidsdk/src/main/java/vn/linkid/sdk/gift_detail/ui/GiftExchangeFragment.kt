@@ -25,6 +25,7 @@ import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
 import vn.linkid.sdk.models.gift.GiftExchange
 import vn.linkid.sdk.models.gift.GiftReceiver
+import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.utils.formatDate
 
 class GiftExchangeFragment : Fragment() {
@@ -38,6 +39,7 @@ class GiftExchangeFragment : Fragment() {
     private val args: GiftExchangeFragmentArgs by navArgs()
     private val giftId: Int by lazy { args.giftId }
     private val giftReceiver: GiftReceiver? by lazy { args.giftReceiver }
+    private val topupRedeemInfo: TopupRedeemInfo? by lazy { args.topupRedeemInfo }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -141,7 +143,8 @@ class GiftExchangeFragment : Fragment() {
                 sessionId,
                 giftDetail.giftInfor?.code ?: "",
                 (giftDetail.giftInfor?.requiredCoin ?: 0.0) * (viewModel.quantity.value ?: 1),
-                if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else ""
+                if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
+                topupRedeemInfo
             ).observe(viewLifecycleOwner) { result ->
                 result.getOrNull()?.let { exchangeModel ->
                     val isOtpSent = exchangeModel.isOtpSent ?: false

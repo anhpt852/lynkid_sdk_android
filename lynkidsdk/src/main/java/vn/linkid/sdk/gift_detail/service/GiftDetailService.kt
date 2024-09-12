@@ -1,6 +1,7 @@
 package vn.linkid.sdk.gift_detail.service
 
 import android.util.Log
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -13,6 +14,7 @@ import vn.linkid.sdk.utils.generateCacheKey
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
+import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.models.point.PointResponseModel
 
 class GiftDetailService(private val api: APIEndpoints) {
@@ -58,6 +60,7 @@ class GiftDetailService(private val api: APIEndpoints) {
         quantity: Int,
         totalAmount: Double,
         description: String,
+        topupRedeemInfo: TopupRedeemInfo? = null
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "memberCode" to LynkiD_SDK.memberCode,
@@ -69,6 +72,8 @@ class GiftDetailService(private val api: APIEndpoints) {
         )
         if (description.isNotEmpty()) {
             params["description"] = description
+        } else if (topupRedeemInfo != null) {
+            params["description"] = Gson().toJson(topupRedeemInfo)
         }
         val response = api.createTransaction(body = params)
         emit(Result.success(Pair(sessionId, response)))
