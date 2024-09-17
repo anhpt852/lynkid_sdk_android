@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentImeadiaTabBinding
@@ -68,7 +69,7 @@ class IMediaTabFragment : Fragment() {
 
     private fun setUpView() {
         binding.apply {
-            if(tab == 1 || tab == 4){
+            if (tab == 1 || tab == 4) {
                 layoutInformation.visibility = View.GONE
                 layoutBrand.visibility = View.VISIBLE
             } else {
@@ -80,6 +81,10 @@ class IMediaTabFragment : Fragment() {
                 val brandList = it.getOrNull() ?: emptyList()
                 if (brandList.isNotEmpty()) {
                     val firstBrand = brandList.first()
+                    viewModel.selectedBrand.value = firstBrand
+                    Glide.with(this@IMediaTabFragment)
+                        .load(firstBrand.brandMapping?.linkLogo)
+                        .into(imgBrand)
                     getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
                 }
                 val adapter = IMediaBrandAdapter(brandList)

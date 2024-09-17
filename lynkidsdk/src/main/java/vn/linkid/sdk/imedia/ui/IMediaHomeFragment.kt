@@ -47,6 +47,7 @@ class IMediaHomeFragment : Fragment() {
             }
 
             viewPager.adapter = SectionsPagerAdapter(this@IMediaHomeFragment)
+            viewPager.isUserInputEnabled = false
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
                 tab.text = when (position) {
                     0 -> "Điện thoại"

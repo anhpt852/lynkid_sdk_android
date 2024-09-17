@@ -51,6 +51,7 @@ class IMediaTabHomeFragment : Fragment() {
     private fun setupView() {
         binding.apply {
             viewPager.adapter = SectionsPagerAdapter(this@IMediaTabHomeFragment)
+            viewPager.isUserInputEnabled = false
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tabView, position ->
                 tabView.text = if (tab == 0) when (position) {
                     0 -> "Trả trước"

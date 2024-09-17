@@ -45,6 +45,7 @@ class IMediaBrandAdapter(private val iMediaBrandList: List<GetThirdPartyBrandByV
                 root.isSelected = isSelected
                 layoutCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
                 Glide.with(root.context).load(iMediaBrand.brandMapping?.linkLogo).into(imgBrand)
+                imgBrand.clipToOutline = true
             }
         }
     }
