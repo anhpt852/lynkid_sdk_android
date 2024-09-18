@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBrand"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_outlined_button"
+        android:clipToOutline="true"
+        android:padding="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_install_app" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtBrandName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="#242424"
+        android:textSize="14sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgCheck"
+        app:layout_constraintStart_toEndOf="@id/imgBrand"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Ha Noi" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgCheck"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_tick_white"
+        android:tint="#663692"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

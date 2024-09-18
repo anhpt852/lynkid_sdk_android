@@ -11,6 +11,7 @@ import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendor
 class IMediaTabViewModel(private val repository: IMediaRepository) : ViewModel() {
 
     val selectedBrand = MutableLiveData<GetThirdPartyBrandByVendor?>()
+    val brandList = MutableLiveData<List<GetThirdPartyBrandByVendor>>()
     val selectedGift = MutableLiveData<GiftDetail?>()
 
     fun getBrandByVendor() =

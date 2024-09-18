@@ -76,9 +76,11 @@ class IMediaTabFragment : Fragment() {
                 layoutInformation.visibility = View.VISIBLE
                 layoutBrand.visibility = View.GONE
             }
+            imgBrand.clipToOutline = true
             viewModel.getBrandByVendor().observe(viewLifecycleOwner) {
                 Log.d("IMediaTabFragment", "getBrandByVendor: $it")
                 val brandList = it.getOrNull() ?: emptyList()
+                viewModel.brandList.value = brandList
                 if (brandList.isNotEmpty()) {
                     val firstBrand = brandList.first()
                     viewModel.selectedBrand.value = firstBrand
@@ -100,6 +102,21 @@ class IMediaTabFragment : Fragment() {
             }
             viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
                 Log.d("IMediaTabFragment", "getDiscountedIMedia: $it")
+            }
+
+            imgBrand.setOnClickListener {
+                val bottomSheet = IMediaBrandBottomSheet(
+                    viewModel.selectedBrand.value ?: return@setOnClickListener,
+                    viewModel.brandList.value ?: emptyList()
+                )
+                bottomSheet.onApplyBrand = { brand ->
+                    viewModel.selectedBrand.value = brand
+                    Glide.with(this@IMediaTabFragment)
+                        .load(brand.brandMapping?.linkLogo)
+                        .into(imgBrand)
+                    getIMediaGifts(brand.brandMapping?.brandId ?: 0)
+                }
+                bottomSheet.show(childFragmentManager, "IMediaBrandBottomSheet")
             }
 
             val layoutParams = btnApply.layoutParams as ViewGroup.MarginLayoutParams
