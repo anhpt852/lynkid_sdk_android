@@ -1,5 +1,6 @@
 package vn.linkid.sdk.imedia.adapter
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,7 +88,10 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
                     txtRequiredPrice.visibility = View.VISIBLE
                     txtFullPrice.visibility = View.VISIBLE
                     txtRequiredPrice.text = requiredCoin.formatPrice()
-                    txtFullPrice.text = fullPrice.formatPrice()
+                    txtFullPrice.apply {
+                        paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                        text = fullPrice.formatPrice()
+                    }
                 } else {
                     txtCashback.visibility = View.GONE
                     imgCoin.visibility = View.GONE
@@ -114,6 +118,13 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
                     if (gift.giftInfor?.name?.contains("/") == true) "1 ngày" else gift.giftInfor?.description?.split(
                         ":"
                     )?.lastOrNull()?.trimStart()
+                txtBandwidth.text = data
+                txtDuration.text = duration
+                txtRequiredPrice.text = displayPrice.formatPrice()
+                txtFullPrice.apply {
+                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    text = fullPrice.formatPrice()
+                }
             }
         }
     }

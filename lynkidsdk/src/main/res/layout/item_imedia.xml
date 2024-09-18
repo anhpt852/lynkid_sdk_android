@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="58dp"
     android:layout_margin="8dp"
-    android:background="@drawable/bg_gray">
+    android:background="@drawable/bg_gray_imedia">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
