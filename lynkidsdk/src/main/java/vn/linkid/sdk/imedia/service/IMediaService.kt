@@ -8,6 +8,7 @@ import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.cache.MainCache
 import vn.linkid.sdk.models.gift.GiftGroupResponseModel
 import vn.linkid.sdk.models.imedia.GetIMediaGiftsResponseModel
+import vn.linkid.sdk.models.imedia.GetIMediaHistoryResponseModel
 import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendorResponseModel
 import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.utils.Endpoints
@@ -77,6 +78,32 @@ class IMediaService(private val api: APIEndpoints) {
         }
     }.catch {
         Log.e("iMediaService", "getAllIMedia: ${it.message}")
+        emit(Result.failure(RuntimeException("Something went wrong")))
+    }
+
+    suspend fun getIMediaHistory(
+        index: Int,
+        tab: Int
+    ): Flow<Result<GetIMediaHistoryResponseModel>> = flow {
+        val params: MutableMap<String, Any> = mutableMapOf(
+            "MemberCode" to LynkiD_SDK.memberCode,
+            "SkipCount" to index * 10,
+            "MaxResultCount" to 10,
+            "MaxItem" to 10,
+            "StatusFilter" to "Delivered",
+            "EgiftStatusFilter" to "R"
+        )
+        val cacheKey = generateCacheKey(Endpoints.GET_IMEDIA_HISTORY, params)
+        val cachedResponse = MainCache.get<GetIMediaHistoryResponseModel>(cacheKey)
+        if (cachedResponse != null) {
+            emit(Result.success(cachedResponse))
+        } else {
+            val response = api.getIMediaHistory(queries = params)
+            MainCache.put(cacheKey, response)
+            emit(Result.success(response))
+        }
+    }.catch {
+        Log.e("iMediaService", "getIMediaHistory: ${it.message}")
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 

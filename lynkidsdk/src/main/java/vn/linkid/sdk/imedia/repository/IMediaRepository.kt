@@ -1,8 +1,14 @@
 package vn.linkid.sdk.imedia.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import vn.linkid.sdk.imedia.paging.IMediaHistoryTabPagingSource
 import vn.linkid.sdk.imedia.service.IMediaService
+import vn.linkid.sdk.models.imedia.GetIMediaHistory
 
 class IMediaRepository(private val service: IMediaService) {
 
@@ -55,4 +61,11 @@ class IMediaRepository(private val service: IMediaService) {
                 Result.failure(result.exceptionOrNull()!!)
             }
         }
+
+    fun getIMediaHistoryStream(tab: Int): Flow<PagingData<GetIMediaHistory>> =
+        Pager(
+            PagingConfig(pageSize = 10, enablePlaceholders = false)
+        ) {
+            IMediaHistoryTabPagingSource(service, tab)
+        }.flow
 }

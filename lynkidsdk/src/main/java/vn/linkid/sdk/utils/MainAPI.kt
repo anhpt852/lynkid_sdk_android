@@ -37,6 +37,7 @@ import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.gift.GiftGroupResponseModel
 import vn.linkid.sdk.models.imedia.GetIMediaGiftsResponseModel
+import vn.linkid.sdk.models.imedia.GetIMediaHistoryResponseModel
 import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendorResponseModel
 import vn.linkid.sdk.models.merchant.GetMerchantResponseModel
 import vn.linkid.sdk.models.my_reward.MyRewardListResponseModel
@@ -355,6 +356,14 @@ interface APIEndpoints {
         ), @QueryMap queries: MutableMap<String, Any>
     ): GetIMediaGiftsResponseModel
 
+    @GET(Endpoints.GET_IMEDIA_HISTORY)
+    suspend fun getIMediaHistory(
+        @HeaderMap headers: Map<String, String> = mapOf(
+            "X-PartnerCode" to LynkiD_SDK.partnerCode,
+            "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
+        ), @QueryMap queries: MutableMap<String, Any>
+    ): GetIMediaHistoryResponseModel
+
 }
 
 object Endpoints {
@@ -388,4 +397,5 @@ object Endpoints {
     const val GET_GIFTS_BY_GROUP_TYPE = "api/sdk-v1/GiftInfors/GetGiftByGroupType"
     const val GET_ALL_THIRD_PARTY_BRAND_BY_VENDOR_TYPE = "api/sdk-v1/ThirdPartyBrandMapping/GetAllThirdPartyBrandByVendorType"
     const val GET_ALL_EFFECTIVE_CATEGORY_TOPUP = "api/sdk-v1/GiftInfors/GetAllEffectiveCategory_TopUpPhone"
+    const val GET_IMEDIA_HISTORY = "api/sdk-v1/GiftTransaction/GetAllWithTopupPhone_v1"
 }

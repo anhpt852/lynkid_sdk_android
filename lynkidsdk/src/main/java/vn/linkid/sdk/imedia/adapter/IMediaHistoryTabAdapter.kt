@@ -1,4 +1,4 @@
-package vn.linkid.sdk.my_reward.adapter
+package vn.linkid.sdk.imedia.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,61 +9,61 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemMyRewardBinding
-import vn.linkid.sdk.models.my_reward.GiftInfoItem
-import vn.linkid.sdk.transaction.adapter.TransactionAdapter
-import vn.linkid.sdk.transaction.adapter.TransactionAdapter.Companion
+import vn.linkid.sdk.diamond.adapter.DiamondGiftsAdapter
+import vn.linkid.sdk.diamond.adapter.DiamondGiftsAdapter.Companion
+import vn.linkid.sdk.models.category.Gift
+import vn.linkid.sdk.models.imedia.GetIMediaHistory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class MyRewardListAdapter(private val tab: Int = 0) :
-    PagingDataAdapter<GiftInfoItem, MyRewardListAdapter.MyRewardListViewHolder>(DIFF_CALLBACK) {
-
-    var onItemClicked: ((GiftInfoItem) -> Unit)? = null
-
+class IMediaHistoryTabAdapter(private val tab: Int) :
+    PagingDataAdapter<GetIMediaHistory, IMediaHistoryTabAdapter.IMediaHistoryViewHolder>(
+        DIFF_CALLBACK
+    ) {
+    var onItemClick: ((GetIMediaHistory) -> Unit)? = null
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GiftInfoItem>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GetIMediaHistory>() {
             override fun areItemsTheSame(
-                oldItem: GiftInfoItem,
-                newItem: GiftInfoItem,
+                oldItem: GetIMediaHistory,
+                newItem: GetIMediaHistory
             ): Boolean =
-                oldItem.giftTransaction?.code == newItem.giftTransaction?.code
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: GiftInfoItem,
-                newItem: GiftInfoItem,
+                oldItem: GetIMediaHistory,
+                newItem: GetIMediaHistory
             ): Boolean =
                 oldItem == newItem
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRewardListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IMediaHistoryViewHolder {
         val binding = ItemMyRewardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MyRewardListViewHolder(binding)
+        return IMediaHistoryViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyRewardListViewHolder, position: Int) {
-        val giftInfoItem = getItem(position)
-        giftInfoItem?.let {
+    override fun onBindViewHolder(holder: IMediaHistoryViewHolder, position: Int) {
+        val iMediaHistory = getItem(position)
+        iMediaHistory?.let {
             holder.bind(it)
         }
     }
 
-
-    inner class MyRewardListViewHolder(private val binding: ItemMyRewardBinding) :
+    inner class IMediaHistoryViewHolder(private val binding: ItemMyRewardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(giftInfoItem: GiftInfoItem) {
+        fun bind(iMediaHistory: GetIMediaHistory) {
             var expireDateString = ""
             var remainingDay = -1
             var remainingHour = -1
             val expiredString =
-                giftInfoItem.eGift?.expiredDate ?: giftInfoItem.giftInfor?.expireDuration ?: ""
+                iMediaHistory.eGiftExpiredDate ?: ""
 
             try {
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
@@ -88,37 +88,33 @@ class MyRewardListAdapter(private val tab: Int = 0) :
 
             binding.apply {
                 Glide.with(imgBrand)
-                    .load(giftInfoItem.brandInfo?.brandImage)
+                    .load(iMediaHistory.brandInfo?.brandImage)
                     .circleCrop()
                     .placeholder(R.drawable.img_lynkid)
                     .into(imgBrand)
-                txtGiftName.text = giftInfoItem.giftTransaction?.giftName
-                txtBrand.text = if ((giftInfoItem.brandInfo?.brandName
+                txtGiftName.text = iMediaHistory.giftName
+                txtBrand.text = if ((iMediaHistory.brandInfo?.brandName
                         ?: "").isEmpty()
-                ) "THƯƠNG HIỆU KHÁC" else giftInfoItem.brandInfo?.brandName?.uppercase()
+                ) "THƯƠNG HIỆU KHÁC" else iMediaHistory.brandInfo?.brandName?.uppercase()
                 txtExpireDate.text = ""
                 txtAction.visibility = View.GONE
                 if (tab == 0) {
                     txtAction.visibility = View.VISIBLE
-                    if (giftInfoItem.eGift != null) {
-                        txtExpireDate.visibility = View.VISIBLE
-                        txtAction.text = "DÙNG NGAY"
-                        txtExpireDate.text = if (remainingDay in 1..10) {
-                            "Hết hạn sau $remainingDay ngày"
-                        } else if (remainingHour in 1..23) {
-                            "Hết hạn sau $remainingHour giờ"
-                        } else {
-                            "HSD: $expireDateString"
-                        }
+                    txtExpireDate.visibility = View.VISIBLE
+                    txtAction.text = "DÙNG NGAY"
+                    txtExpireDate.text = if (remainingDay in 1..10) {
+                        "Hết hạn sau $remainingDay ngày"
+                    } else if (remainingHour in 1..23) {
+                        "Hết hạn sau $remainingHour giờ"
                     } else {
-                        txtAction.text = "THEO DÕI"
+                        "HSD: $expireDateString"
                     }
                 }
                 itemView.setOnClickListener {
-                    onItemClicked?.invoke(giftInfoItem)
+                    onItemClick?.invoke(iMediaHistory)
                 }
                 txtAction.setOnClickListener {
-                    onItemClicked?.invoke(giftInfoItem)
+                    onItemClick?.invoke(iMediaHistory)
                 }
             }
         }

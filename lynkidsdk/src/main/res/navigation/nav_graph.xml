@@ -469,5 +469,13 @@
         <action
             android:id="@+id/action_IMediaHomeFragment_to_giftExchangeFragment"
             app:destination="@id/giftExchangeFragment" />
+        <action
+            android:id="@+id/action_IMediaHomeFragment_to_IMediaHistoryFragment"
+            app:destination="@id/IMediaHistoryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/IMediaHistoryFragment"
+        android:name="vn.linkid.sdk.imedia.ui.IMediaHistoryFragment"
+        android:label="IMediaHistoryFragment"
+        tools:layout="@layout/fragment_imeadia_history"/>
 </navigation>
