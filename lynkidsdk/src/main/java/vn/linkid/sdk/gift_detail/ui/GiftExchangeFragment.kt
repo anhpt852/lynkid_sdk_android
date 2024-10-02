@@ -78,13 +78,16 @@ class GiftExchangeFragment : Fragment() {
             setUpBalance(giftDetail)
             setUpExchangeButton(giftDetail)
             setUpReceiver()
+            setUpTopUpRedeemInfo(topupRedeemInfo)
         }
     }
 
     private fun FragmentGiftExchangeBinding.setUpGiftInfo(giftDetail: GiftDetail) {
         txtGiftName.text = giftDetail.giftInfor?.name ?: ""
         txtPrice.text = (giftDetail.giftInfor?.requiredCoin ?: 0.0).formatPrice()
-        Glide.with(root.context).load((giftDetail.imageLink ?: emptyList()).firstOrNull()?.link)
+        Glide.with(root.context).load(
+            (giftDetail.imageLink ?: emptyList()).firstOrNull()?.link ?: topupRedeemInfo?.brandImage
+        )
             .into(imgGift)
     }
 
@@ -196,6 +199,84 @@ class GiftExchangeFragment : Fragment() {
             txtNote.text = giftReceiver?.note
         }
 
+    }
+
+//    private fun FragmentGiftExchangeBinding.setUpTopUpRedeemInfo(topupRedeemInfo: TopupRedeemInfo?) {
+//        if (topupRedeemInfo != null) {
+//            layoutIMedia.visibility = View.VISIBLE
+//            txtService.text = when (topupRedeemInfo.type) {
+//                0 -> "Nạp tiền điện thoại trả trước"
+//                1 -> "Đổi mã thẻ nạp điện thoại"
+//                2 -> "Nạp tiền điện thoại trả sau"
+//                3 -> "Nạp Data 3G/4G"
+//                4 -> "Đổi mã thẻ Data 3G/4G"
+//                else -> ""
+//            }
+//            txtRecipient.text = topupRedeemInfo.ownerPhone
+//            txtBrand.text = topupRedeemInfo.brand
+//            if (topupRedeemInfo.type == 0 || topupRedeemInfo.type == 1 || topupRedeemInfo.type == 2) {
+//                txtPrice.visibility = View.VISIBLE
+//                txtBandwidth.visibility = View.GONE
+//                txtTopUpTime.visibility = View.GONE
+//            } else {
+//                txtPrice.visibility = View.GONE
+//                txtBandwidth.visibility = View.VISIBLE
+//                txtTopUpTime.visibility = View.VISIBLE
+//            }
+//            if (topupRedeemInfo.type == 1 || topupRedeemInfo.type == 4) {
+//                txtRecipient.visibility = View.GONE
+//            } else {
+//                txtRecipient.visibility = View.VISIBLE
+//            }
+//            txtPrice.text = topupRedeemInfo.price?.formatPrice()
+//            txtBandwidth.text = topupRedeemInfo.bandwidth
+//            txtTopUpTime.text = topupRedeemInfo.time
+//        } else {
+//            layoutIMedia.visibility = View.GONE
+//        }
+//    }
+
+    private fun FragmentGiftExchangeBinding.setUpTopUpRedeemInfo(topupRedeemInfo: TopupRedeemInfo?) {
+        if (topupRedeemInfo != null) {
+            layoutIMedia.visibility = View.VISIBLE
+
+            txtService.text = when (topupRedeemInfo.type) {
+                0 -> "Nạp tiền điện thoại trả trước"
+                1 -> "Đổi mã thẻ nạp điện thoại"
+                2 -> "Nạp tiền điện thoại trả sau"
+                3 -> "Nạp Data 3G/4G"
+                4 -> "Đổi mã thẻ Data 3G/4G"
+                else -> ""
+            }
+
+            txtRecipient.text = topupRedeemInfo.ownerPhone
+            txtRecipient.visibility =
+                if (topupRedeemInfo.type == 1 || topupRedeemInfo.type == 4) View.GONE else View.VISIBLE
+            txtRecipientTitle.visibility =
+                if (topupRedeemInfo.type == 1 || topupRedeemInfo.type == 4) View.GONE else View.VISIBLE
+            dividerRecipient.visibility =
+                if (topupRedeemInfo.type == 1 || topupRedeemInfo.type == 4) View.GONE else View.VISIBLE
+
+            txtBrand.text = topupRedeemInfo.brand
+
+            val isPhoneTopUp = topupRedeemInfo.type in 0..2
+            txtFullPrice.visibility = if (isPhoneTopUp) View.VISIBLE else View.GONE
+            txtFullPriceTitle.visibility = if (isPhoneTopUp) View.VISIBLE else View.GONE
+            dividerFullPrice.visibility = if (isPhoneTopUp) View.VISIBLE else View.GONE
+            txtFullPrice.text = topupRedeemInfo.price?.formatPrice()
+            txtBandwidth.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            txtBandwidthTitle.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            dividerBandwidth.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            txtBandwidth.text = topupRedeemInfo.bandwidth
+            txtTopUpTime.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            txtTopUpTimeTitle.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            dividerTopUpTime.visibility = if (isPhoneTopUp) View.GONE else View.VISIBLE
+            txtTopUpTime.text = topupRedeemInfo.time
+
+
+        } else {
+            layoutIMedia.visibility = View.GONE
+        }
     }
 
     private fun parseReceiverInfo(receiver: GiftReceiver): String {

@@ -152,7 +152,8 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_semibold"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

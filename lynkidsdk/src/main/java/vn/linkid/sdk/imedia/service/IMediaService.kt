@@ -86,12 +86,12 @@ class IMediaService(private val api: APIEndpoints) {
         tab: Int
     ): Flow<Result<GetIMediaHistoryResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
-            "MemberCode" to LynkiD_SDK.memberCode,
+            "MemberCodeFilter" to LynkiD_SDK.memberCode,
             "SkipCount" to index * 10,
             "MaxResultCount" to 10,
             "MaxItem" to 10,
             "StatusFilter" to "Delivered",
-            "EgiftStatusFilter" to "R"
+            "FullGiftCategoryCodeFilter" to if (tab == 0) "81044caf-eddb-40ee-a7c7-b862be9818e0" else "84afa499-7e53-4cbc-b442-2286ee7ff545"
         )
         val cacheKey = generateCacheKey(Endpoints.GET_IMEDIA_HISTORY, params)
         val cachedResponse = MainCache.get<GetIMediaHistoryResponseModel>(cacheKey)

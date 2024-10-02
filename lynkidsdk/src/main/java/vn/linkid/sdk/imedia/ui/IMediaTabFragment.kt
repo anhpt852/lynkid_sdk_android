@@ -76,6 +76,12 @@ class IMediaTabFragment : Fragment() {
                 layoutInformation.visibility = View.VISIBLE
                 layoutBrand.visibility = View.GONE
             }
+
+            val bottomLayoutParam = layoutBottom.layoutParams as ViewGroup.MarginLayoutParams
+            bottomLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+            layoutBottom.layoutParams = bottomLayoutParam
+
             imgBrand.clipToOutline = true
             viewModel.getBrandByVendor().observe(viewLifecycleOwner) {
                 Log.d("IMediaTabFragment", "getBrandByVendor: $it")
@@ -129,8 +135,16 @@ class IMediaTabFragment : Fragment() {
                     (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(
                         gift.giftInfor?.id ?: 0, TopupRedeemInfo(
                             operation = if (tab == 0 || tab == 2 || tab == 3) 1200 else 1000,
-                            ownerPhone = if (tab == 0 || tab == 2 || tab == 3) LynkiD_SDK.phoneNumber else null,
-                            accountType = if (tab == 0) 0 else if (tab == 2) 1 else null
+                            ownerPhone = if (tab == 0 || tab == 2 || tab == 3) LynkiD_SDK.phoneNumber else edtPhoneNumber.text.toString(),
+                            accountType = if (tab == 0) 0 else if (tab == 2) 1 else null,
+                            type = tab,
+                            brand = viewModel.selectedBrand.value?.brandMapping?.brandName,
+                            brandImage = viewModel.selectedBrand.value?.brandMapping?.linkLogo,
+                            price = gift.giftInfor?.fullPrice ?: 0.0,
+                            bandwidth = gift.giftInfor?.name?.split("/")?.first(),
+                            time = if (gift.giftInfor?.name?.contains("/") == true) "1 ngày" else gift.giftInfor?.description?.split(
+                                ":"
+                            )?.lastOrNull()?.trimStart()
                         )
                     )
                 }

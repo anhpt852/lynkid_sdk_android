@@ -81,7 +81,7 @@ class IMediaHistoryTabFragment : Fragment() {
             listIMediaHistory.adapter = adapter
             adapter.onItemClick = { iMediaHistory ->
                 Log.d("IMediaHistoryTab", "Selected iMediaHistory: $iMediaHistory")
-                (activity as LynkiDSDKActivity).navigateFromMyRewardToMyRewardDetail(
+                (activity as LynkiDSDKActivity).navigateFromIMediaHistoryToMyRewardDetail(
                     iMediaHistory.transactionCode ?: ""
                 )
 

@@ -301,6 +301,234 @@
                 tools:text="100000" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutIMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/txtRequiredPoint">
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerIMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtServiceTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Dịch vụ"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerIMedia" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtServiceTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtServiceTitle"
+                    tools:text="26/12/2023" />
+
+
+                <!-- Recipient -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerRecipient"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtServiceTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtRecipientTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Nạp cho"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerRecipient" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtRecipient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtRecipientTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtRecipientTitle"
+                    tools:text="John Doe" />
+
+                <!-- Brand -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtRecipientTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtBrandTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Nhà mạng"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerBrand" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtBrand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtBrandTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtBrandTitle"
+                    tools:text="Example Brand" />
+
+                <!-- Bandwidth -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerBandwidth"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtBrandTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtBandwidthTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Dung lượng"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerBandwidth" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtBandwidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtBandwidthTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtBandwidthTitle"
+                    tools:text="100 Mbps" />
+
+                <!-- Time -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerTopUpTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtBandwidthTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTopUpTimeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Thời gian sử dụng"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerTopUpTime" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTopUpTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtTopUpTimeTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtTopUpTimeTitle"
+                    tools:text="14:30" />
+
+                <!-- Time -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerFullPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtTopUpTimeTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtFullPriceTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Mệnh giá"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerFullPrice" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtFullPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtFullPriceTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtFullPriceTitle"
+                    tools:text="14:30" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -487,11 +715,11 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bg_gradient_button"
+        android:elevation="0dp"
         android:gravity="center"
         android:text="Xác nhận"
         android:textColor="@color/white"
         android:textSize="14sp"
-        android:elevation="0dp"
         app:fontFamily="@font/bevietnampro_semibold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -507,11 +735,11 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminate="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:indeterminate="true"
-            app:trackColor="#971ACC"/>
+            app:trackColor="#971ACC" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

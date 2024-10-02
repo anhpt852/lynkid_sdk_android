@@ -477,5 +477,9 @@
         android:id="@+id/IMediaHistoryFragment"
         android:name="vn.linkid.sdk.imedia.ui.IMediaHistoryFragment"
         android:label="IMediaHistoryFragment"
-        tools:layout="@layout/fragment_imeadia_history"/>
+        tools:layout="@layout/fragment_imeadia_history">
+        <action
+            android:id="@+id/action_IMediaHistoryFragment_to_myRewardDetailFragment"
+            app:destination="@id/myRewardDetailFragment" />
+    </fragment>
 </navigation>

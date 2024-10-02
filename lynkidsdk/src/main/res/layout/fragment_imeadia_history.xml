@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/home_gradient"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/tabLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
