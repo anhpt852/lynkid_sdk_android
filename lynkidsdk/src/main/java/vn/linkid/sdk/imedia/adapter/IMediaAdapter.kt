@@ -1,6 +1,7 @@
 package vn.linkid.sdk.imedia.adapter
 
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,8 +76,10 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
                 val requiredCoin = gift.giftInfor?.requiredCoin ?: 0.0
                 val cashBack =
                     ((gift.giftInfor?.commisPercentCategory ?: 0).toDouble()) * fullPrice / 100
+                Log.d("IMediaAdapter", "fullPrice $fullPrice\ncommis: ${gift.giftInfor?.commisPercentCategory}\ncashBack: $cashBack")
                 txtPrice.text = fullPrice.formatPrice()
                 if (cashBack > 0) {
+                    Log.d("IMediaAdapter", "cashBack show")
                     txtCashback.visibility = View.VISIBLE
                     imgCoin.visibility = View.GONE
                     txtRequiredPrice.visibility = View.GONE

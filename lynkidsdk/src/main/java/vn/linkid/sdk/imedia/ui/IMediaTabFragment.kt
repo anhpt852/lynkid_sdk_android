@@ -156,7 +156,13 @@ class IMediaTabFragment : Fragment() {
         viewModel.getAllIMedia(brandId).observe(viewLifecycleOwner) {
             Log.d("IMediaTabFragment", "getAllIMedia: $it")
             binding.apply {
-                val giftList = it.getOrNull()?.items ?: emptyList()
+                val giftList = if (tab == 0 || tab == 3) (it.getOrNull()?.items
+                    ?: emptyList()).filter { gift ->
+                    gift.giftInfor?.thirdPartyGiftCode == null
+                } else if (tab == 1 || tab == 4) (it.getOrNull()?.items
+                    ?: emptyList()).filter { gift ->
+                    gift.giftInfor?.thirdPartyGiftCode != null
+                } else it.getOrNull()?.items ?: emptyList()
                 if (tab < 3) {
                     val iMediaList = listOf(Pair("Mệnh giá", giftList))
                     val adapter = IMediaGroupAdapter(iMediaList, 0)
