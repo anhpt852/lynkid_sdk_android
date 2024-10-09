@@ -15,6 +15,7 @@ import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.imedia.TopupRedeemInfo
+import vn.linkid.sdk.models.imedia.toJsonStringForExchange
 import vn.linkid.sdk.models.point.PointResponseModel
 
 class GiftDetailService(private val api: APIEndpoints) {
@@ -73,7 +74,7 @@ class GiftDetailService(private val api: APIEndpoints) {
         if (description.isNotEmpty()) {
             params["description"] = description
         } else if (topupRedeemInfo != null) {
-            params["description"] = Gson().toJson(topupRedeemInfo)
+            params["description"] = Gson().toJson(topupRedeemInfo.toJsonStringForExchange())
         }
         val response = api.createTransaction(body = params)
         emit(Result.success(Pair(sessionId, response)))

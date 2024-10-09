@@ -9,6 +9,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import vn.linkid.sdk.databinding.ItemScrollerBinding
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
@@ -34,18 +36,27 @@ fun Context.dpToPx(dp: Int): Int {
 }
 
 fun Int.formatPrice(): String {
-    val format = NumberFormat.getNumberInstance(Locale.getDefault())
-    return format.format(this)
+    return formatNumberWithDotSeparator(this.toLong())
 }
 
 fun Long.formatPrice(): String {
-    val format = NumberFormat.getNumberInstance(Locale.getDefault())
-    return format.format(this)
+    return formatNumberWithDotSeparator(this)
 }
 
 fun Double.formatPrice(): String {
-    val format = NumberFormat.getNumberInstance(Locale.getDefault())
-    return format.format(this)
+    return formatNumberWithDotSeparator(this)
+}
+
+private fun formatNumberWithDotSeparator(number: Number): String {
+    val symbols = DecimalFormatSymbols(Locale.getDefault()).apply {
+        groupingSeparator = '.'
+        decimalSeparator = ','
+    }
+    val format = DecimalFormat("#,###.##", symbols).apply {
+        groupingSize = 3
+        isGroupingUsed = true
+    }
+    return format.format(number)
 }
 
 fun RecyclerView.handleScroll(itemScrollerBinding: ItemScrollerBinding) {

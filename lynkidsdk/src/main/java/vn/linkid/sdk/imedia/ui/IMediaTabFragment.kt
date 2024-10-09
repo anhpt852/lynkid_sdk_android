@@ -81,6 +81,7 @@ class IMediaTabFragment : Fragment() {
             bottomLayoutParam.bottomMargin =
                 getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
             layoutBottom.layoutParams = bottomLayoutParam
+            edtPhoneNumber.setText(LynkiD_SDK.phoneNumber)
 
             imgBrand.clipToOutline = true
             viewModel.getBrandByVendor().observe(viewLifecycleOwner) {
@@ -135,7 +136,9 @@ class IMediaTabFragment : Fragment() {
                     (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(
                         gift.giftInfor?.id ?: 0, TopupRedeemInfo(
                             operation = if (tab == 0 || tab == 2 || tab == 3) 1200 else 1000,
-                            ownerPhone = if (tab == 0 || tab == 2 || tab == 3) LynkiD_SDK.phoneNumber else edtPhoneNumber.text.toString(),
+                            ownerPhone = if (tab == 1 || tab == 4) LynkiD_SDK.phoneNumber else formatPhoneNumber(
+                                edtPhoneNumber.text.toString()
+                            ),
                             accountType = if (tab == 0) 0 else if (tab == 2) 1 else null,
                             type = tab,
                             brand = viewModel.selectedBrand.value?.brandMapping?.brandName,
@@ -152,17 +155,27 @@ class IMediaTabFragment : Fragment() {
         }
     }
 
+    private fun formatPhoneNumber(phoneNumber: String) = if (phoneNumber.startsWith("0")) {
+        "+84${phoneNumber.substring(1)}"
+    } else {
+        phoneNumber
+    }
+
     private fun getIMediaGifts(brandId: Int) {
         viewModel.getAllIMedia(brandId).observe(viewLifecycleOwner) {
             Log.d("IMediaTabFragment", "getAllIMedia: $it")
             binding.apply {
-                val giftList = if (tab == 0 || tab == 3) (it.getOrNull()?.items
-                    ?: emptyList()).filter { gift ->
-                    gift.giftInfor?.thirdPartyGiftCode == null
-                } else if (tab == 1 || tab == 4) (it.getOrNull()?.items
-                    ?: emptyList()).filter { gift ->
-                    gift.giftInfor?.thirdPartyGiftCode != null
-                } else it.getOrNull()?.items ?: emptyList()
+                val giftList = when (tab) {
+                    0, 3 -> (it.getOrNull()?.items
+                        ?: emptyList()).filter { gift ->
+                        gift.giftInfor?.thirdPartyGiftCode == null
+                    }
+                    1, 4 -> (it.getOrNull()?.items
+                        ?: emptyList()).filter { gift ->
+                        gift.giftInfor?.thirdPartyGiftCode != null
+                    }
+                    else -> it.getOrNull()?.items ?: emptyList()
+                }
                 if (tab < 3) {
                     val iMediaList = listOf(Pair("Mệnh giá", giftList))
                     val adapter = IMediaGroupAdapter(iMediaList, 0)

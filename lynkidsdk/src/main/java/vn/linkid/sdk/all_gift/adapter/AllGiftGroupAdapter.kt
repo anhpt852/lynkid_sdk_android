@@ -14,6 +14,8 @@ import vn.linkid.sdk.models.gift.HomeGiftGroup
 class AllGiftGroupAdapter(private val giftGroups: List<HomeGiftGroup>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var onItemClick: ((Gift) -> Unit)? = null
+    var onViewAllClick: ((HomeGiftGroup) -> Unit)? = null
+    var onBannerClick: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0) {
@@ -59,6 +61,9 @@ class AllGiftGroupAdapter(private val giftGroups: List<HomeGiftGroup>) :
                 val adapter = AllGiftListAdapter(giftGroup.gifts ?: listOf())
                 adapter.onItemClick = onItemClick
                 listGift.adapter = adapter
+                btnSeeMore.setOnClickListener {
+                    onViewAllClick?.invoke(giftGroup)
+                }
             }
         }
     }
@@ -67,7 +72,9 @@ class AllGiftGroupAdapter(private val giftGroups: List<HomeGiftGroup>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.apply {
-                itemView.setOnClickListener { }
+                itemView.setOnClickListener {
+                    onBannerClick?.invoke()
+                }
             }
         }
     }

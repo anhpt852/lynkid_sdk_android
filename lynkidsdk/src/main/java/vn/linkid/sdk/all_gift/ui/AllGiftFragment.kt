@@ -58,6 +58,10 @@ class AllGiftFragment : Fragment() {
             cardLayoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(128) ?: 0)
             cardCategory.layoutParams = cardLayoutParams
 
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
             editSearch.setOnClickListener {
                 val action = AllGiftFragmentDirections.actionAllGiftFragmentToSearchFragment()
                 findNavController().navigate(action)
@@ -110,6 +114,17 @@ class AllGiftFragment : Fragment() {
                                 gift.giftInfo?.id ?: 0
                             )
                         findNavController().navigate(action)
+                    }
+                    adapter.onViewAllClick = { giftGroup ->
+                        val action =
+                            AllGiftFragmentDirections.actionAllGiftFragmentToGiftGroupFragment(
+                                groupCode = giftGroup.giftGroup?.code ?: "",
+                                groupName = giftGroup.giftGroup?.name ?: ""
+                            )
+                        findNavController().navigate(action)
+                    }
+                    adapter.onBannerClick = {
+
                     }
                     listGift.adapter = adapter
                 }
