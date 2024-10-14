@@ -142,6 +142,40 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_gradient_yellow_note"
+            android:padding="12dp"
+            app:layout_constraintBottom_toTopOf="@id/btnApply">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgNote"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_dialog_note"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Tích thêm 10,000 điểm nữa để đổi ưu đãi nhé. Khám phá ngay."
+                android:textColor="#261F28"
+                android:textSize="14sp"
+                app:fontFamily="@font/bevietnampro_regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgNote"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnApply"
             android:layout_width="match_parent"
@@ -152,8 +186,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_semibold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

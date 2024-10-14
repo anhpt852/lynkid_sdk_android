@@ -12,10 +12,26 @@ import vn.linkid.sdk.models.imedia.GetIMediaHistory
 
 class IMediaRepository(private val service: IMediaService) {
 
-    suspend fun getBrandByVendor() = service.getBrandByVendor().map { result ->
+    suspend fun getBrandByVendor(tab: Int) = service.getBrandByVendor().map { result ->
         if (result.isSuccess) {
             val brandsByVendor = result.getOrNull()
             if (brandsByVendor != null && brandsByVendor.success == true) {
+                val brands = brandsByVendor.result
+                if (!brands.isNullOrEmpty()) {
+                    val dataBrands = brands.filter {
+                        it.brandMapping?.thirdPartyBrandId?.lowercase()?.contains("data") == true
+                    }
+                    val cardBrands = brands.toMutableList().apply {
+                        removeAll(dataBrands)
+                    }
+                    Result.success(
+                        if (tab < 3) {
+                            cardBrands
+                        } else {
+                            dataBrands
+                        }
+                    )
+                }
                 Result.success(brandsByVendor.result!!)
             } else {
                 Result.failure(result.exceptionOrNull()!!)

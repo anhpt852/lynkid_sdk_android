@@ -14,8 +14,8 @@ class IMediaTabViewModel(private val repository: IMediaRepository) : ViewModel()
     val brandList = MutableLiveData<List<GetThirdPartyBrandByVendor>>()
     val selectedGift = MutableLiveData<GiftDetail?>()
 
-    fun getBrandByVendor() =
-        liveData { emitSource(repository.getBrandByVendor().asLiveData()) }
+    fun getBrandByVendor(tab: Int) =
+        liveData { emitSource(repository.getBrandByVendor(tab).asLiveData()) }
 
     fun getDiscountedIMedia(groupType: Int) =
         liveData { emitSource(repository.getGiftsByGroupType(groupType).asLiveData()) }

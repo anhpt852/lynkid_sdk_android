@@ -84,7 +84,7 @@ class IMediaTabFragment : Fragment() {
             edtPhoneNumber.setText(LynkiD_SDK.phoneNumber)
 
             imgBrand.clipToOutline = true
-            viewModel.getBrandByVendor().observe(viewLifecycleOwner) {
+            viewModel.getBrandByVendor(tab).observe(viewLifecycleOwner) {
                 Log.d("IMediaTabFragment", "getBrandByVendor: $it")
                 val brandList = it.getOrNull() ?: emptyList()
                 viewModel.brandList.value = brandList
