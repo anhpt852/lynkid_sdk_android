@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentImeadiaTabBinding
+import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
+import vn.linkid.sdk.gift_detail.service.GiftDetailService
 import vn.linkid.sdk.imedia.adapter.IMediaBrandAdapter
 import vn.linkid.sdk.imedia.adapter.IMediaGroupAdapter
 import vn.linkid.sdk.imedia.repository.IMediaRepository
@@ -19,7 +21,9 @@ import vn.linkid.sdk.imedia.service.IMediaService
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModel
 import vn.linkid.sdk.imedia.viewmodel.IMediaTabViewModelFactory
 import vn.linkid.sdk.models.imedia.TopupRedeemInfo
+import vn.linkid.sdk.utils.PhoneTextWatcher
 import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.formatPrice
 import vn.linkid.sdk.utils.getNavigationBarHeight
 import vn.linkid.sdk.utils.mainAPI
 
@@ -48,8 +52,12 @@ class IMediaTabFragment : Fragment() {
     private lateinit var binding: FragmentImeadiaTabBinding
     private lateinit var viewModel: IMediaTabViewModel
     private val service = IMediaService(mainAPI)
+    private val giftDetailService = GiftDetailService(mainAPI)
     private val repository = IMediaRepository(service)
-    private val viewModelFactory = IMediaTabViewModelFactory(repository)
+    private val giftDetailRepository = GiftDetailRepository(giftDetailService)
+    private val viewModelFactory = IMediaTabViewModelFactory(repository, giftDetailRepository)
+
+    private lateinit var phoneNumberFormatter: PhoneTextWatcher
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,75 +77,27 @@ class IMediaTabFragment : Fragment() {
 
     private fun setUpView() {
         binding.apply {
-            if (tab == 1 || tab == 4) {
-                layoutInformation.visibility = View.GONE
-                layoutBrand.visibility = View.VISIBLE
-            } else {
-                layoutInformation.visibility = View.VISIBLE
-                layoutBrand.visibility = View.GONE
-            }
+            setUpLayout()
+            setUpPhoneInput()
+            setUpBrand()
+            setUpApplyButton()
+        }
+    }
 
-            val bottomLayoutParam = layoutBottom.layoutParams as ViewGroup.MarginLayoutParams
-            bottomLayoutParam.bottomMargin =
-                getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
-            layoutBottom.layoutParams = bottomLayoutParam
-            edtPhoneNumber.setText(LynkiD_SDK.phoneNumber)
-
-            imgBrand.clipToOutline = true
-            viewModel.getBrandByVendor(tab).observe(viewLifecycleOwner) {
-                Log.d("IMediaTabFragment", "getBrandByVendor: $it")
-                val brandList = it.getOrNull() ?: emptyList()
-                viewModel.brandList.value = brandList
-                if (brandList.isNotEmpty()) {
-                    val firstBrand = brandList.first()
-                    viewModel.selectedBrand.value = firstBrand
-                    Glide.with(this@IMediaTabFragment)
-                        .load(firstBrand.brandMapping?.linkLogo)
-                        .into(imgBrand)
-                    getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
-                }
-                val adapter = IMediaBrandAdapter(brandList)
-                adapter.onItemClick = { brand ->
-                    if (brand != null) {
-                        viewModel.selectedBrand.value = brand
-                        getIMediaGifts(brand.brandMapping?.brandId ?: 0)
-                    }
-                }
-                listBrand.layoutManager =
-                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                listBrand.adapter = adapter
-            }
-            viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
-                Log.d("IMediaTabFragment", "getDiscountedIMedia: $it")
-            }
-
-            imgBrand.setOnClickListener {
-                val bottomSheet = IMediaBrandBottomSheet(
-                    viewModel.selectedBrand.value ?: return@setOnClickListener,
-                    viewModel.brandList.value ?: emptyList()
-                )
-                bottomSheet.onApplyBrand = { brand ->
-                    viewModel.selectedBrand.value = brand
-                    Glide.with(this@IMediaTabFragment)
-                        .load(brand.brandMapping?.linkLogo)
-                        .into(imgBrand)
-                    getIMediaGifts(brand.brandMapping?.brandId ?: 0)
-                }
-                bottomSheet.show(childFragmentManager, "IMediaBrandBottomSheet")
-            }
-
-            val layoutParams = btnApply.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.bottomMargin =
-                getNavigationBarHeight(root) + (context?.dpToPx(8) ?: 0)
-            btnApply.layoutParams = layoutParams
-            btnApply.setOnClickListener {
+    private fun FragmentImeadiaTabBinding.setUpApplyButton() {
+        val layoutParams = btnApply.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.bottomMargin =
+            getNavigationBarHeight(root) + (context?.dpToPx(8) ?: 0)
+        btnApply.layoutParams = layoutParams
+        btnApply.setOnClickListener {
+            if (phoneNumberFormatter.isValid()) {
                 viewModel.selectedGift.value?.let { gift ->
                     Log.d("IMediaTabFragment", "Selected gift: $gift")
                     (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(
                         gift.giftInfor?.id ?: 0, TopupRedeemInfo(
                             operation = if (tab == 0 || tab == 2 || tab == 3) 1200 else 1000,
                             ownerPhone = if (tab == 1 || tab == 4) LynkiD_SDK.phoneNumber else formatPhoneNumber(
-                                edtPhoneNumber.text.toString()
+                                edtPhoneNumber.text.toString().replace(" ", "")
                             ),
                             accountType = if (tab == 0) 0 else if (tab == 2) 1 else null,
                             type = tab,
@@ -151,6 +111,86 @@ class IMediaTabFragment : Fragment() {
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun FragmentImeadiaTabBinding.setUpBrand() {
+        imgBrand.clipToOutline = true
+        viewModel.getBrandByVendor(tab).observe(viewLifecycleOwner) {
+            Log.d("IMediaTabFragment", "getBrandByVendor: $it")
+            val brandList = it.getOrNull() ?: emptyList()
+            viewModel.brandList.value = brandList
+            if (brandList.isNotEmpty()) {
+                val firstBrand = brandList.first()
+                viewModel.selectedBrand.value = firstBrand
+                Glide.with(this@IMediaTabFragment)
+                    .load(firstBrand.brandMapping?.linkLogo)
+                    .into(imgBrand)
+                getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
+            }
+            val adapter = IMediaBrandAdapter(brandList)
+            adapter.onItemClick = { brand ->
+                if (brand != null) {
+                    viewModel.selectedBrand.value = brand
+                    getIMediaGifts(brand.brandMapping?.brandId ?: 0)
+                }
+            }
+            listBrand.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            listBrand.adapter = adapter
+        }
+        viewModel.getDiscountedIMedia(tab + 5).observe(viewLifecycleOwner) {
+            Log.d("IMediaTabFragment", "getDiscountedIMedia: $it")
+        }
+
+        imgBrand.setOnClickListener {
+            val bottomSheet = IMediaBrandBottomSheet(
+                viewModel.selectedBrand.value ?: return@setOnClickListener,
+                viewModel.brandList.value ?: emptyList()
+            )
+            bottomSheet.onApplyBrand = { brand ->
+                viewModel.selectedBrand.value = brand
+                Glide.with(this@IMediaTabFragment)
+                    .load(brand.brandMapping?.linkLogo)
+                    .into(imgBrand)
+                getIMediaGifts(brand.brandMapping?.brandId ?: 0)
+            }
+            bottomSheet.show(childFragmentManager, "IMediaBrandBottomSheet")
+        }
+    }
+
+    private fun FragmentImeadiaTabBinding.setUpPhoneInput() {
+        edtPhoneNumber.setText(LynkiD_SDK.phoneNumber)
+        phoneNumberFormatter = PhoneTextWatcher(
+            edtPhoneNumber,
+            inputPhoneNumber,
+            btnApply,
+            "Thông tin chưa đúng định dạng"
+        )
+        edtPhoneNumber.addTextChangedListener(phoneNumberFormatter)
+    }
+
+    private fun FragmentImeadiaTabBinding.setUpLayout() {
+        if (tab == 1 || tab == 4) {
+            layoutInformation.visibility = View.GONE
+            layoutBrand.visibility = View.VISIBLE
+        } else {
+            layoutInformation.visibility = View.VISIBLE
+            layoutBrand.visibility = View.GONE
+        }
+
+        layoutNote.visibility = if (tab == 2) View.VISIBLE else View.GONE
+
+        val bottomLayoutParam = layoutBottom.layoutParams as ViewGroup.MarginLayoutParams
+        bottomLayoutParam.bottomMargin =
+            getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+        layoutBottom.layoutParams = bottomLayoutParam
+
+
+        viewModel.pointInfo.observe(viewLifecycleOwner) { pointInfo ->
+            if (pointInfo.getOrNull() != null) {
+                Log.d("IMediaTabFragment", "Point info: ${pointInfo.getOrNull()}")
             }
         }
     }
@@ -170,28 +210,45 @@ class IMediaTabFragment : Fragment() {
                         ?: emptyList()).filter { gift ->
                         gift.giftInfor?.thirdPartyGiftCode == null
                     }
+
                     1, 4 -> (it.getOrNull()?.items
                         ?: emptyList()).filter { gift ->
                         gift.giftInfor?.thirdPartyGiftCode != null
                     }
+
                     else -> it.getOrNull()?.items ?: emptyList()
                 }
                 if (tab < 3) {
                     val iMediaList = listOf(Pair("Mệnh giá", giftList))
                     val adapter = IMediaGroupAdapter(iMediaList, 0)
-                    adapter.onItemClick = { gift -> viewModel.selectedGift.value = gift }
-                    binding.listIMedia.layoutManager = LinearLayoutManager(context)
-                    binding.listIMedia.adapter = adapter
+                    adapter.onItemClick = { gift ->
+                        viewModel.selectedGift.value = gift
+                        checkBalance()
+                    }
+                    listIMedia.layoutManager = LinearLayoutManager(context)
+                    listIMedia.adapter = adapter
                 } else {
                     val iMediaList = giftList
                         .groupBy { gift -> gift.giftInfor?.description?.split(':')?.firstOrNull() }
                         .map { (key, value) -> Pair(key ?: "", value) }
                     val adapter = IMediaGroupAdapter(iMediaList, 1)
-                    adapter.onItemClick = { gift -> viewModel.selectedGift.value = gift }
-                    binding.listIMedia.layoutManager = LinearLayoutManager(context)
-                    binding.listIMedia.adapter = adapter
+                    adapter.onItemClick = { gift ->
+                        viewModel.selectedGift.value = gift
+                        checkBalance()
+                    }
+                    listIMedia.layoutManager = LinearLayoutManager(context)
+                    listIMedia.adapter = adapter
                 }
             }
         }
+    }
+
+    private fun FragmentImeadiaTabBinding.checkBalance() {
+        val totalCost = (viewModel.selectedGift.value?.giftInfor?.requiredCoin ?: 0.0)
+        val balance = viewModel.pointInfo.value?.getOrNull()?.tokenBalance ?: 0.0
+        layoutBalanceCheck.isEnabled = balance >= totalCost
+        txtBalanceCheck.text =
+            "Tích thêm ${(totalCost - balance).formatPrice()} điểm nữa để đổi ưu đãi nhé. Khám phá ngay."
+        btnApply.alpha = if (balance >= totalCost) 1f else 0.6f
     }
 }
