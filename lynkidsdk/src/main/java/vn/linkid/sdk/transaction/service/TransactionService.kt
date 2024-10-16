@@ -18,7 +18,7 @@ class TransactionService(private val api: APIEndpoints) {
 
     suspend fun getTransactions(index: Int, tab: Int): Flow<Result<GetTransactionResponseModel>> =
         flow {
-            val actionTypeFilter = getActionTypeFilter(tab) ?: ""
+            val actionTypeFilter = getActionTypeFilter(tab)
             val params = mutableMapOf<String, Any>(
                 "NationalId" to LynkiD_SDK.memberCode,
                 "SkipCount" to index * 10,
@@ -62,6 +62,7 @@ class TransactionService(private val api: APIEndpoints) {
         }
 
     private fun getActionTypeFilter(tab: Int): String {
+        Log.d("TransactionService", "getActionTypeFilter: $tab")
         return when (tab) {
             0 -> ""
             1 -> "PayByToken;Redeem;CashedOut;CashOutFee"

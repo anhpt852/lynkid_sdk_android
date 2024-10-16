@@ -130,7 +130,7 @@ class TransactionListFragment() : Fragment() {
             }
         }
         viewModel.transactions.observe(viewLifecycleOwner) { transactionItem ->
-            Log.d("TransactionListFragment", "getTransactions: $transactionItem")
+            Log.d("TransactionListFragment", "getTransactions: $tab")
             adapter.submitData(lifecycle, transactionItem)
         }
     }
