@@ -142,11 +142,11 @@ class HomeFragment : Fragment() {
                 binding.apply {
                     txtBalance.text = point.tokenBalance!!.formatPrice()
                     btnPhoneTopUp.setOnClickListener {
-                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment()
+                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment(0)
                         findNavController().navigate(action)
                     }
                     btnDataTopUp.setOnClickListener {
-                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment()
+                        val action = HomeFragmentDirections.actionHomeFragmentToIMediaHomeFragment(1)
                         findNavController().navigate(action)
                     }
                 }

@@ -1,5 +1,6 @@
 package vn.linkid.sdk
 
+import android.app.ActionBar
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -40,6 +41,21 @@ class ErrorDialog : DialogFragment() {
     ): View {
         binding = DialogErrorBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        );
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.decorView?.setPadding(
+            requireContext().dpToPx(16),
+            0,
+            requireContext().dpToPx(16),
+            0
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

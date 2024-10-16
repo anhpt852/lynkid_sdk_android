@@ -472,6 +472,10 @@
         <action
             android:id="@+id/action_IMediaHomeFragment_to_IMediaHistoryFragment"
             app:destination="@id/IMediaHistoryFragment" />
+        <argument
+            android:name="tab"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/IMediaHistoryFragment"

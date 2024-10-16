@@ -20,8 +20,8 @@ class IMediaTabViewModel(private val repository: IMediaRepository, private val g
     fun getBrandByVendor(tab: Int) =
         liveData { emitSource(repository.getBrandByVendor(tab).asLiveData()) }
 
-    fun getDiscountedIMedia(groupType: Int) =
-        liveData { emitSource(repository.getGiftsByGroupType(groupType).asLiveData()) }
+    fun getDiscountedIMedia(groupType: Int, brandId: Int) =
+        liveData { emitSource(repository.getGiftsByGroupType(groupType, brandId).asLiveData()) }
 
     fun getAllIMedia(brandId: Int) =
         liveData { emitSource(repository.getAllIMedia(brandId).asLiveData()) }

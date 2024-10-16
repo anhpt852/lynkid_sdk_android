@@ -128,9 +128,8 @@
                 android:id="@+id/layoutHot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_gradient_yellow_note"
                 android:paddingBottom="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/layoutBrand">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -166,6 +165,7 @@
                     android:background="@drawable/bg_gradient_sale"
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="2dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/txtIMediaHotTitle"
                     app:layout_constraintStart_toEndOf="@id/txtIMediaHotTitle"
                     app:layout_constraintTop_toTopOf="@id/txtIMediaHotTitle">

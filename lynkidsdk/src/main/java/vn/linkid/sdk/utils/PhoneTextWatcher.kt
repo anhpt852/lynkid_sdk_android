@@ -5,11 +5,12 @@ import android.text.TextWatcher
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import vn.linkid.sdk.models.gift.Gift
 
 class PhoneTextWatcher(
     private val editText: TextInputEditText,
     private val textInputLayout: TextInputLayout,
-    private val button: Button,
+    private val onValidButton: ((Boolean) -> Unit)?,
     private val errorMessage: String = "Please enter a valid Vietnamese phone number"
 ) : TextWatcher {
     private var isFormatting = false
@@ -37,18 +38,18 @@ class PhoneTextWatcher(
             isFormatting = true
             val cursorPosition = editText.selectionStart
             val formatted = formatNumber(s.toString())
-            s.replace(0, s.length, formatted)
-
-            var cursorOffset = 0
-            if (deletingHyphen) {
-                cursorOffset = -1
-            } else if (formatted.length > s.length) {
-                cursorOffset = 1
-            }
-
-            val newCursorPosition = cursorPosition + cursorOffset
-            editText.setSelection(newCursorPosition.coerceIn(0, formatted.length))
-
+//            s.replace(0, s.length, formatted)
+//
+//            var cursorOffset = 0
+//            if (deletingHyphen) {
+//                cursorOffset = -1
+//            } else if (formatted.length > s.length) {
+//                cursorOffset = 1
+//            }
+//
+//            val newCursorPosition = cursorPosition + cursorOffset
+//            editText.setSelection(newCursorPosition.coerceIn(0, formatted.length))
+//
             isFormatting = false
 
             val isValid = isValid()
@@ -58,31 +59,31 @@ class PhoneTextWatcher(
     }
 
     private fun formatNumber(number: String): String {
-        val digitsOnly = number.replace(Regex("\\D"), "")
-        val formatted = StringBuilder()
+//        val digitsOnly = number.replace(Regex("\\D"), "")
+//        val formatted = StringBuilder()
+//
+//        if (digitsOnly.startsWith("84")) {
+//            formatted.append("+84 ")
+//            var index = 2
+//            while (index < digitsOnly.length && formatted.length < maxLength) {
+//                if ((index - 2) % 3 == 0 && index != 2) {
+//                    formatted.append(" ")
+//                }
+//                formatted.append(digitsOnly[index])
+//                index++
+//            }
+//        } else {
+//            var index = 0
+//            while (index < digitsOnly.length && formatted.length < maxLength) {
+//                if (index % 3 == 0 && index != 0) {
+//                    formatted.append(" ")
+//                }
+//                formatted.append(digitsOnly[index])
+//                index++
+//            }
+//        }
 
-        if (digitsOnly.startsWith("84")) {
-            formatted.append("+84 ")
-            var index = 2
-            while (index < digitsOnly.length && formatted.length < maxLength) {
-                if ((index - 2) % 3 == 0 && index != 2) {
-                    formatted.append(" ")
-                }
-                formatted.append(digitsOnly[index])
-                index++
-            }
-        } else {
-            var index = 0
-            while (index < digitsOnly.length && formatted.length < maxLength) {
-                if (index % 3 == 0 && index != 0) {
-                    formatted.append(" ")
-                }
-                formatted.append(digitsOnly[index])
-                index++
-            }
-        }
-
-        return formatted.toString()
+        return number
     }
 
     fun isValid(): Boolean {
@@ -92,7 +93,7 @@ class PhoneTextWatcher(
     }
 
     private fun updateButtonOpacity(isValid: Boolean) {
-        button.alpha = if (isValid) 1.0f else 0.6f
+        onValidButton?.invoke(isValid)
     }
 
     private fun updateErrorStatus(isValid: Boolean) {

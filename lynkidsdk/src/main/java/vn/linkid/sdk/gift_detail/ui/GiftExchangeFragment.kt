@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import vn.linkid.sdk.ErrorDialog
 import vn.linkid.sdk.databinding.FragmentGiftExchangeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -149,33 +150,41 @@ class GiftExchangeFragment : Fragment() {
                 if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
                 topupRedeemInfo
             ).observe(viewLifecycleOwner) { result ->
-                result.getOrNull()?.let { exchangeModel ->
-                    val isOtpSent = exchangeModel.isOtpSent ?: false
-                    val expiredString =
-                        formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
-                    val giftExchange = GiftExchange(
-                        sessionId = sessionId,
-                        giftCode = giftDetail.giftInfor?.code ?: "",
-                        totalAmount = (giftDetail.giftInfor?.requiredCoin
-                            ?: 0.0) * (viewModel.quantity.value ?: 1),
-                        description = if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
-                        amount = viewModel.quantity.value,
-                        brandImage = giftDetail.giftInfor?.brandLinkLogo,
-                        brandName = giftDetail.giftInfor?.brandName,
-                        giftName = giftDetail.giftInfor?.name,
-                        expiredString = expiredString,
-                        transactionCode = exchangeModel.items?.firstOrNull()?.code
-                    )
-                    val action = if (isOtpSent) {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(
-                            giftExchange
+                if(result.isSuccess) {
+                    result.getOrNull()?.let { exchangeModel ->
+                        val isOtpSent = exchangeModel.isOtpSent ?: false
+                        val expiredString =
+                            formatDate(exchangeModel.items?.firstOrNull()?.eGift?.expiredDate ?: "")
+                        val giftExchange = GiftExchange(
+                            sessionId = sessionId,
+                            giftCode = giftDetail.giftInfor?.code ?: "",
+                            totalAmount = (giftDetail.giftInfor?.requiredCoin
+                                ?: 0.0) * (viewModel.quantity.value ?: 1),
+                            description = if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
+                            amount = viewModel.quantity.value,
+                            brandImage = giftDetail.giftInfor?.brandLinkLogo,
+                            brandName = giftDetail.giftInfor?.brandName,
+                            giftName = giftDetail.giftInfor?.name,
+                            expiredString = expiredString,
+                            transactionCode = exchangeModel.items?.firstOrNull()?.code
                         )
-                    } else {
-                        GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
-                            giftExchange
-                        )
+                        val action = if (isOtpSent) {
+                            GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftOTPFragment(
+                                giftExchange
+                            )
+                        } else {
+                            GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
+                                giftExchange
+                            )
+                        }
+                        findNavController().navigate(action)
                     }
-                    findNavController().navigate(action)
+                } else {
+                    val errorDialog = ErrorDialog.newInstance(
+                        "Có lỗi xảy ra",
+                        result.exceptionOrNull()?.message ?: "Có lỗi trong quá trình kết nối bạn vui lòng thực hiện lại nhé."
+                    )
+                    errorDialog.show(childFragmentManager, "error_dialog")
                 }
             }
         }
@@ -239,6 +248,7 @@ class GiftExchangeFragment : Fragment() {
     private fun FragmentGiftExchangeBinding.setUpTopUpRedeemInfo(topupRedeemInfo: TopupRedeemInfo?) {
         if (topupRedeemInfo != null) {
             layoutIMedia.visibility = View.VISIBLE
+            dividerGift.visibility = View.GONE
 
             txtService.text = when (topupRedeemInfo.type) {
                 0 -> "Nạp tiền điện thoại trả trước"

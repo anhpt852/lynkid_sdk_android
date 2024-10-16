@@ -51,7 +51,7 @@ class IMediaGroupAdapter(private val iMediaList: List<Pair<String, List<GiftDeta
         }
     }
 
-    private fun clearOtherSelections(selectedAdapter: IMediaAdapter) {
+    fun clearOtherSelections(selectedAdapter: IMediaAdapter) {
         childAdapters.forEach { adapter ->
             if (adapter != selectedAdapter) {
                 adapter.clearSelection()

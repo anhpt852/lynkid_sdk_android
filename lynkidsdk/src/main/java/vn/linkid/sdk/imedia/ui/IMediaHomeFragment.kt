@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import vn.linkid.sdk.databinding.FragmentImeadiaHomeBinding
-import vn.linkid.sdk.my_reward.ui.MyRewardListFragment
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 
 class IMediaHomeFragment : Fragment() {
+
+
+    private val args: IMediaHomeFragmentArgs by navArgs()
+    private val tab: Int by lazy { args.tab }
 
     private lateinit var binding: FragmentImeadiaHomeBinding
 
@@ -59,6 +62,7 @@ class IMediaHomeFragment : Fragment() {
                     else -> null
                 }
             }.attach()
+            viewPager.setCurrentItem(tab, false)
         }
     }
 

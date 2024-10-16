@@ -31,8 +31,9 @@ class IMediaRepository(private val service: IMediaService) {
                             dataBrands
                         }
                     )
+                } else {
+                    Result.failure(Exception("No brand found"))
                 }
-                Result.success(brandsByVendor.result!!)
             } else {
                 Result.failure(result.exceptionOrNull()!!)
             }
@@ -42,8 +43,8 @@ class IMediaRepository(private val service: IMediaService) {
         }
     }
 
-    suspend fun getGiftsByGroupType(groupType: Int) =
-        service.getGiftsByGroupType(groupType).map { result ->
+    suspend fun getGiftsByGroupType(groupType: Int, brandId: Int) =
+        service.getGiftsByGroupType(groupType, brandId).map { result ->
             if (result.isSuccess) {
                 val giftsByGroupType = result.getOrNull()
                 if (giftsByGroupType != null && giftsByGroupType.success == true) {

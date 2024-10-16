@@ -5,10 +5,12 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 import vn.linkid.sdk.utils.APIEndpoints
 import vn.linkid.sdk.utils.Endpoints
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.cache.MainCache
+import vn.linkid.sdk.models.common.ErrorResponse
 import vn.linkid.sdk.models.diamond.GetDiamondMemberInfoResponseModel
 import vn.linkid.sdk.utils.generateCacheKey
 import vn.linkid.sdk.models.exchange.ExchangeResponseModel
@@ -78,9 +80,23 @@ class GiftDetailService(private val api: APIEndpoints) {
         }
         val response = api.createTransaction(body = params)
         emit(Result.success(Pair(sessionId, response)))
-    }.catch {
-        Log.e("GiftDetailService", "createTransaction: ${it.message}")
-        emit(Result.failure(RuntimeException("Something went wrong")))
+    }.catch { throwable ->
+        val errorMessage = when (throwable) {
+            is HttpException -> {
+                val errorBody = throwable.response()?.errorBody()?.string()
+                try {
+                    Log.d("GiftDetailService", "createTransaction1: $errorBody")
+                    val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+                    errorResponse.message
+                } catch (e: Exception) {
+                    Log.d("GiftDetailService", "createTransaction2: $e")
+                    errorBody ?: "Unknown error occurred"
+                }
+            }
+            else -> throwable.message ?: "Unknown error occurred"
+        }
+        Log.e("GiftDetailService", "createTransaction: $errorMessage")
+        emit(Result.failure(RuntimeException(errorMessage)))
     }
 
     suspend fun confirmTransaction(

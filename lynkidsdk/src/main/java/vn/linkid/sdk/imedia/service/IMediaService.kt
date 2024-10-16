@@ -36,12 +36,13 @@ class IMediaService(private val api: APIEndpoints) {
         emit(Result.failure(RuntimeException("Something went wrong")))
     }
 
-    suspend fun getGiftsByGroupType(groupType: Int): Flow<Result<GiftGroupResponseModel>> = flow {
+    suspend fun getGiftsByGroupType(groupType: Int, brandId: Int): Flow<Result<GiftGroupResponseModel>> = flow {
         val params: MutableMap<String, Any> = mutableMapOf(
             "MemberCode" to LynkiD_SDK.memberCode,
             "GroupTypeFilter" to groupType,
             "SkipCount" to 0,
-            "MaxResultCount" to 100
+            "MaxResultCount" to 100,
+            "BrandIdFilter" to brandId
         )
         val cacheKey = generateCacheKey(Endpoints.GET_GIFTS_BY_GROUP_TYPE, params)
         val cachedResponse = MainCache.get<GiftGroupResponseModel>(cacheKey)

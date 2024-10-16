@@ -9,15 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import vn.linkid.sdk.databinding.ItemImediaBinding
 import vn.linkid.sdk.databinding.ItemImediaDataBinding
+import vn.linkid.sdk.databinding.ItemImediaHotBinding
+import vn.linkid.sdk.databinding.ItemImediaHotDataBinding
 import vn.linkid.sdk.models.category.Gift
 import vn.linkid.sdk.models.gift.GiftDetail
 import vn.linkid.sdk.utils.formatPrice
 
-class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: Int = 0) :
+class IMediaHotAdapter(private val iMediaList: List<Gift>, private val type: Int = 0) :
     RecyclerView.Adapter<ViewHolder>() {
 
 
-    var onItemClick: ((GiftDetail?) -> Unit)? = null
+    var onItemClick: ((Gift?) -> Unit)? = null
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(
@@ -26,11 +28,11 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
     ): ViewHolder {
         if (type == 0) {
             val binding =
-                ItemImediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemImediaHotBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ItemIMediaViewHolder(binding)
         }
         val binding =
-            ItemImediaDataBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemImediaHotDataBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemIMediaDataViewHolder(binding)
 
     }
@@ -66,9 +68,9 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
 
     override fun getItemCount(): Int = iMediaList.size
 
-    inner class ItemIMediaViewHolder(private val binding: ItemImediaBinding) :
+    inner class ItemIMediaViewHolder(private val binding: ItemImediaHotBinding) :
         ViewHolder(binding.root) {
-        fun bind(gift: GiftDetail, isSelected: Boolean) {
+        fun bind(gift: Gift, isSelected: Boolean) {
             binding.apply {
                 root.isSelected = isSelected
                 layoutCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
@@ -105,9 +107,9 @@ class IMediaAdapter(private val iMediaList: List<GiftDetail>, private val type: 
         }
     }
 
-    inner class ItemIMediaDataViewHolder(private val binding: ItemImediaDataBinding) :
+    inner class ItemIMediaDataViewHolder(private val binding: ItemImediaHotDataBinding) :
         ViewHolder(binding.root) {
-        fun bind(gift: GiftDetail, isSelected: Boolean) {
+        fun bind(gift: Gift, isSelected: Boolean) {
             binding.apply {
                 root.isSelected = isSelected
                 layoutCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
