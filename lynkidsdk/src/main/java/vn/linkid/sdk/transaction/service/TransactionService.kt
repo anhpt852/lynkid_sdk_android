@@ -24,7 +24,8 @@ class TransactionService(private val api: APIEndpoints) {
                 "SkipCount" to index * 10,
                 "MaxItem" to 10
             )
-            if (actionTypeFilter.isNotEmpty()) params["ActionTypeFilter"] = actionTypeFilter
+            params["ActionTypeFilter"] = actionTypeFilter
+            Log.d("TransactionService", "getTransactions$tab: $params")
             val cacheKey = generateCacheKey(Endpoints.GET_TRANSACTIONS, params)
             val cachedResponse = MainCache.get<GetTransactionResponseModel>(cacheKey)
             if (cachedResponse != null) {
@@ -65,9 +66,9 @@ class TransactionService(private val api: APIEndpoints) {
         Log.d("TransactionService", "getActionTypeFilter: $tab")
         return when (tab) {
             0 -> ""
-            1 -> "PayByToken;Redeem;CashedOut;CashOutFee"
-            2 -> "Action;BatchManualGrant;Order;SingleManualGrant;Topup"
-            3 -> "Exchange;ExchangeAndUse;RevertExchange"
+            1 -> "Action;BatchManualGrant;Order;SingleManualGrant;Topup"
+            2 -> "Exchange;ExchangeAndUse;RevertExchange"
+            3 -> "PayByToken;Redeem;CashedOut;CashOutFee"
             else -> ""
         }
     }
@@ -91,7 +92,6 @@ class TransactionService(private val api: APIEndpoints) {
             Log.e("TransactionService", "getTransactionDetail: ${it.message}")
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
-
 
 
     suspend fun getMerchant(): Flow<Result<GetMerchantResponseModel>> =

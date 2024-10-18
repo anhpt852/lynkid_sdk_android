@@ -61,8 +61,7 @@ class TransactionListFragment() : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentTransactionListBinding.inflate(inflater, container, false)
-        Log.d("TransactionListFragment", "tab: $tab")
-        viewModelFactory = TransactionListViewModelFactory(repository, tab)
+        viewModelFactory = TransactionListViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionListViewModel::class.java]
         return binding.root
     }
@@ -74,8 +73,8 @@ class TransactionListFragment() : Fragment() {
     }
 
     private fun setUpMerchant(){
+        viewModel.setTab(tab)
         viewModel.getMerchant().observe(viewLifecycleOwner) { merchant ->
-            Log.d("TransactionListFragment", "getMerchant: $merchant")
             val merchantList = merchant?.getOrNull()?.items ?: emptyList()
             setUpTransactionList(merchantList)
         }
@@ -130,7 +129,6 @@ class TransactionListFragment() : Fragment() {
             }
         }
         viewModel.transactions.observe(viewLifecycleOwner) { transactionItem ->
-            Log.d("TransactionListFragment", "getTransactions: $tab")
             adapter.submitData(lifecycle, transactionItem)
         }
     }
