@@ -69,6 +69,10 @@ class CategoryFragment : Fragment() {
             toolbar.layoutParams = layoutParams
 
             btnBack.setOnClickListener { findNavController().popBackStack() }
+            btnSearch.setOnClickListener {
+                val action = CategoryFragmentDirections.actionCategoryFragmentToSearchFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

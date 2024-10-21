@@ -147,6 +147,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_diamondCategoryFragment"
             app:destination="@id/diamondCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/myRewardFragment"
