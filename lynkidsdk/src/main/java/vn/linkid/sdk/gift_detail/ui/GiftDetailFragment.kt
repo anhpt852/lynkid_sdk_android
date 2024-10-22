@@ -72,7 +72,8 @@ class GiftDetailFragment : Fragment() {
 
 
             val bottomLayoutParam = btnExchange.layoutParams as ViewGroup.MarginLayoutParams
-            bottomLayoutParam.bottomMargin = getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
+            bottomLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
             btnExchange.layoutParams = bottomLayoutParam
 
             val bottomPromoLayoutParam = btnInstallApp.layoutParams as ViewGroup.MarginLayoutParams
@@ -129,7 +130,15 @@ class GiftDetailFragment : Fragment() {
         }
 
         val expireData = giftDetail.giftInfor?.expireDuration ?: ""
-        txtExpireDate.text = formatExpireDate(expireData)
+        if (expireData.isNotEmpty()) {
+            txtExpireDate.visibility = View.VISIBLE
+            btnExpiredInfo.visibility = View.VISIBLE
+            txtExpireDate.text = formatExpireDate(expireData)
+            btnExpiredInfo.visibility = View.VISIBLE
+        } else {
+            txtExpireDate.visibility = View.GONE
+            btnExpiredInfo.visibility = View.GONE
+        }
 
 
         val imageList = giftDetail.imageLink ?: emptyList()
@@ -142,17 +151,20 @@ class GiftDetailFragment : Fragment() {
         val fullPrice = giftDetail.giftInfor?.fullPrice ?: 0.0
         val discountPrice = giftDetail.giftInfor?.discountPrice ?: 0.0
         val requiredPrice = giftDetail.giftInfor?.requiredCoin ?: 0.0
+        Log.d("TAG", "setUpPrice: ${giftDetail.giftInfor} $fullPrice $discountPrice $requiredPrice")
 
         txtPrice.text = requiredPrice.formatPrice()
-        txtPriceSale.visibility = if (fullPrice > requiredPrice) View.VISIBLE else View.GONE
-        layoutSale.visibility = txtPriceSale.visibility
-        if (fullPrice > requiredPrice) {
+        txtPriceSale.visibility = if (discountPrice > 0) View.VISIBLE else View.GONE
+        layoutSale.visibility = if (discountPrice > 0) View.VISIBLE else View.GONE
+        if (discountPrice > 0) {
             txtPriceSale.text = fullPrice.formatPrice()
             txtSalePercent.text = "-${requiredPrice * 100 / fullPrice}%"
+            txtPrice.text = discountPrice.formatPrice()
+            txtFlashPriceSale.text = fullPrice.formatPrice()
+            txtFlashSalePercent.text = "-${discountPrice * 100 / fullPrice}%"
+        } else {
+            txtPrice.text = fullPrice.formatPrice()
         }
-        txtPrice.text = discountPrice.formatPrice()
-        txtFlashPriceSale.text = fullPrice.formatPrice()
-        txtFlashSalePercent.text = "-${discountPrice * 100 / fullPrice}%"
 
     }
 
@@ -217,30 +229,84 @@ class GiftDetailFragment : Fragment() {
                 txtFlashSaleMinute.text = minutes.toString()
                 txtFlashSaleSecond.text = seconds.toString()
             }
-        } else {
-            layoutFlashSale.visibility = View.GONE
-            imgCoin.visibility = View.VISIBLE
-            txtPrice.visibility = View.VISIBLE
-            txtPriceSale.visibility = View.VISIBLE
-            layoutSale.visibility = View.VISIBLE
         }
     }
 
     private fun FragmentGiftDetailBinding.setUpDescription(giftDetail: GiftDetail) {
-        webViewIntroduce.loadData(giftDetail.giftInfor?.description ?: "", "text/html", "UTF-8")
-        webViewCondition.loadData(giftDetail.giftInfor?.condition ?: "", "text/html", "UTF-8")
-        webViewInstruction.loadData(giftDetail.giftInfor?.introduce ?: "", "text/html", "UTF-8")
-        txtContactEmail.text = giftDetail.giftInfor?.contactEmail ?: ""
-        txtContactHotline.text = giftDetail.giftInfor?.contactHotline ?: ""
+        if ((giftDetail.giftInfor?.description ?: "").isNotEmpty()) {
+            txtIntroduceTitle.visibility = View.VISIBLE
+            webViewIntroduce.visibility = View.VISIBLE
+            dividerIntroduce.visibility = View.VISIBLE
+            webViewIntroduce.loadData(giftDetail.giftInfor?.description ?: "", "text/html", "UTF-8")
+        } else {
+            txtIntroduceTitle.visibility = View.GONE
+            webViewIntroduce.visibility = View.GONE
+            dividerIntroduce.visibility = View.GONE
+        }
+        if ((giftDetail.giftInfor?.condition ?: "").isNotEmpty()) {
+            layoutCondition.visibility = View.VISIBLE
+            webViewCondition.loadData(giftDetail.giftInfor?.condition ?: "", "text/html", "UTF-8")
+        } else {
+            layoutCondition.visibility = View.GONE
+        }
+        if ((giftDetail.giftInfor?.introduce ?: "").isNotEmpty()) {
+            txtInstructionTitle.visibility = View.VISIBLE
+            webViewInstruction.visibility = View.VISIBLE
+            dividerInstruction.visibility = View.VISIBLE
+            webViewInstruction.loadData(giftDetail.giftInfor?.introduce ?: "", "text/html", "UTF-8")
+        } else {
+            txtInstructionTitle.visibility = View.GONE
+            webViewInstruction.visibility = View.GONE
+            dividerInstruction.visibility = View.GONE
+        }
+        if ((giftDetail.giftInfor?.contactEmail
+                ?: "").isNotEmpty() && (giftDetail.giftInfor?.contactHotline ?: "").isNotEmpty()
+        ) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.VISIBLE
+            txtContactEmailTitle.visibility = View.VISIBLE
+            txtContactHotline.visibility = View.VISIBLE
+            txtContactHotlineTitle.visibility = View.VISIBLE
+            txtContactEmail.text = giftDetail.giftInfor?.contactEmail ?: ""
+            txtContactHotline.text = giftDetail.giftInfor?.contactHotline ?: ""
+        } else if ((giftDetail.giftInfor?.contactEmail ?: "").isNotEmpty()) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.VISIBLE
+            txtContactEmailTitle.visibility = View.VISIBLE
+            txtContactHotline.visibility = View.GONE
+            txtContactHotlineTitle.visibility = View.GONE
+            txtContactEmail.text = giftDetail.giftInfor?.contactEmail ?: ""
+        } else if ((giftDetail.giftInfor?.contactHotline ?: "").isNotEmpty()) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.GONE
+            txtContactEmailTitle.visibility = View.GONE
+            txtContactHotline.visibility = View.VISIBLE
+            txtContactHotlineTitle.visibility = View.VISIBLE
+            txtContactHotline.text = giftDetail.giftInfor?.contactHotline ?: ""
+        } else {
+            txtContactTitle.visibility = View.GONE
+            txtContactBody.visibility = View.GONE
+            txtContactEmail.visibility = View.GONE
+            txtContactEmailTitle.visibility = View.GONE
+            txtContactHotline.visibility = View.GONE
+            txtContactHotlineTitle.visibility = View.GONE
+        }
     }
 
     private fun FragmentGiftDetailBinding.setUpAddress(giftDetail: GiftDetail) {
-        val adapter = MyRewardDetailAddressAdapter(giftDetail.giftUsageAddress ?: emptyList())
-        adapter.onItemClick = {
-            Log.d("TAG", "setUpAddress: $it")
+        if (giftDetail.giftUsageAddress.isNullOrEmpty()) {
+            layoutUsageAddress.visibility = View.GONE
+        } else {
+            val adapter = MyRewardDetailAddressAdapter(giftDetail.giftUsageAddress ?: emptyList())
+            adapter.onItemClick = {
+                Log.d("TAG", "setUpAddress: $it")
+            }
+            listAddress.layoutManager = LinearLayoutManager(context)
+            listAddress.adapter = adapter
         }
-        listAddress.layoutManager = LinearLayoutManager(context)
-        listAddress.adapter = adapter
     }
 
     private fun FragmentGiftDetailBinding.setUpExchangeButton(giftDetail: GiftDetail) {
