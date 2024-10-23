@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.ErrorDialog
 import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentGiftOtpBinding
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
@@ -65,7 +66,8 @@ class GiftOTPFragment : Fragment() {
                 getNavigationBarHeight(root) + (context?.dpToPx(16) ?: 0)
             btnVerify.layoutParams = bottomLayoutParam
             btnBack.setOnClickListener { findNavController().popBackStack() }
-            txtTitle.text = "Vui lòng nhập mã xác thực (OTP) được gửi về số điện thoại ${LynkiD_SDK.phoneNumber}"
+            txtTitle.text =
+                "Vui lòng nhập mã xác thực (OTP) được gửi về số điện thoại ${LynkiD_SDK.phoneNumber}"
             viewModel.isLoading.observe(viewLifecycleOwner) {
                 layoutLoading.visibility = if (it) View.VISIBLE else View.GONE
             }
@@ -88,18 +90,27 @@ class GiftOTPFragment : Fragment() {
             btnVerify.setOnClickListener {
                 viewModel.confirmTransaction(edtPin.text.toString())
                     .observe(viewLifecycleOwner) { result ->
-                        result.getOrNull()?.let { exchangeModel ->
-                            val eGift = exchangeModel.items?.firstOrNull()?.eGift
-                            val expiredString =
-                                formatDate(eGift?.expiredDate ?: "")
-                            val newGiftExchange = giftExchange.copy(
-                                expiredString = expiredString
-                            )
-                            val action =
-                                GiftOTPFragmentDirections.actionGiftOTPFragmentToGiftExchangeSuccessFragment(
-                                    newGiftExchange
+                        if (result.isSuccess) {
+                            result.getOrNull()?.let { exchangeModel ->
+                                val eGift = exchangeModel.items?.firstOrNull()?.eGift
+                                val expiredString =
+                                    formatDate(eGift?.expiredDate ?: "")
+                                val newGiftExchange = giftExchange.copy(
+                                    expiredString = expiredString
                                 )
-                            findNavController().navigate(action)
+                                val action =
+                                    GiftOTPFragmentDirections.actionGiftOTPFragmentToGiftExchangeSuccessFragment(
+                                        newGiftExchange
+                                    )
+                                findNavController().navigate(action)
+                            }
+                        } else {
+                            val errorDialog = ErrorDialog.newInstance(
+                                "Có lỗi xảy ra",
+                                result.exceptionOrNull()?.message
+                                    ?: "Có lỗi trong quá trình kết nối bạn vui lòng thực hiện lại nhé."
+                            )
+                            errorDialog.show(childFragmentManager, "error_dialog")
                         }
                     }
             }

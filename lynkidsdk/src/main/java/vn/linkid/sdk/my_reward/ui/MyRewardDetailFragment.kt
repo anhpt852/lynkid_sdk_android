@@ -34,7 +34,10 @@ import vn.linkid.sdk.my_reward.repository.MyRewardDetailRepository
 import vn.linkid.sdk.my_reward.service.MyRewardDetailService
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModel
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModelFactory
+import vn.linkid.sdk.utils.copyToClipboard
 import vn.linkid.sdk.utils.formatDate
+import vn.linkid.sdk.utils.openCall
+import vn.linkid.sdk.utils.openEmail
 import java.util.Date
 import java.util.Locale
 
@@ -73,6 +76,7 @@ class MyRewardDetailFragment : Fragment() {
         binding.apply {
             btnBack.setOnClickListener { findNavController().popBackStack() }
             setUpCommonView(giftInfoItem)
+            setUpLocationList(giftInfoItem)
             if (giftInfoItem.eGift != null) {
                 setUpEGiftView(giftInfoItem)
             } else {
@@ -98,19 +102,89 @@ class MyRewardDetailFragment : Fragment() {
             .placeholder(R.drawable.img_lynkid)
             .into(imgBrand)
 
-        webViewIntroduce.loadUrl(giftInfoItem.giftTransaction?.giftDescription ?: "")
-        webViewInstruction.loadUrl(giftInfoItem.giftTransaction?.introduce ?: "")
-        txtContactEmail.text = giftInfoItem.giftTransaction?.contactEmail ?: ""
-        txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
+
+        if ((giftInfoItem.giftTransaction?.description ?: "").isNotEmpty()) {
+            txtIntroduceTitle.visibility = View.VISIBLE
+            webViewIntroduce.visibility = View.VISIBLE
+            dividerIntroduce.visibility = View.VISIBLE
+            webViewIntroduce.loadData(giftInfoItem.giftTransaction?.description ?: "", "text/html", "UTF-8")
+        } else {
+            txtIntroduceTitle.visibility = View.GONE
+            webViewIntroduce.visibility = View.GONE
+            dividerIntroduce.visibility = View.GONE
+        }
+        if ((giftInfoItem.giftTransaction?.condition ?: "").isNotEmpty()) {
+            layoutCondition.visibility = View.VISIBLE
+            webViewCondition.loadData(giftInfoItem.giftTransaction?.condition ?: "", "text/html", "UTF-8")
+        } else {
+            layoutCondition.visibility = View.GONE
+        }
+        if ((giftInfoItem.giftTransaction?.introduce ?: "").isNotEmpty()) {
+            txtInstructionTitle.visibility = View.VISIBLE
+            webViewInstruction.visibility = View.VISIBLE
+            dividerInstruction.visibility = View.VISIBLE
+            webViewInstruction.loadData(giftInfoItem.giftTransaction?.introduce ?: "", "text/html", "UTF-8")
+        } else {
+            txtInstructionTitle.visibility = View.GONE
+            webViewInstruction.visibility = View.GONE
+            dividerInstruction.visibility = View.GONE
+        }
+
+        txtContactHotline.setOnClickListener { openCall(requireContext(), giftInfoItem.giftTransaction?.contactHotline ?: "") }
+        txtContactEmail.setOnClickListener { openEmail(requireContext(), giftInfoItem.giftTransaction?.contactEmail ?: "") }
+        if ((giftInfoItem.giftTransaction?.contactEmail
+                ?: "").isNotEmpty() && (giftInfoItem.giftTransaction?.contactHotline ?: "").isNotEmpty()
+        ) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.VISIBLE
+            txtContactEmailTitle.visibility = View.VISIBLE
+            txtContactHotline.visibility = View.VISIBLE
+            txtContactHotlineTitle.visibility = View.VISIBLE
+            txtContactEmail.text = giftInfoItem.giftTransaction?.contactEmail ?: ""
+            txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
+        } else if ((giftInfoItem.giftTransaction?.contactEmail ?: "").isNotEmpty()) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.VISIBLE
+            txtContactEmailTitle.visibility = View.VISIBLE
+            txtContactHotline.visibility = View.GONE
+            txtContactHotlineTitle.visibility = View.GONE
+            txtContactEmail.text = giftInfoItem.giftTransaction?.contactEmail ?: ""
+        } else if ((giftInfoItem.giftTransaction?.contactHotline ?: "").isNotEmpty()) {
+            txtContactTitle.visibility = View.VISIBLE
+            txtContactBody.visibility = View.VISIBLE
+            txtContactEmail.visibility = View.GONE
+            txtContactEmailTitle.visibility = View.GONE
+            txtContactHotline.visibility = View.VISIBLE
+            txtContactHotlineTitle.visibility = View.VISIBLE
+            txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
+        } else {
+            txtContactTitle.visibility = View.GONE
+            txtContactBody.visibility = View.GONE
+            txtContactEmail.visibility = View.GONE
+            txtContactEmailTitle.visibility = View.GONE
+            txtContactHotline.visibility = View.GONE
+            txtContactHotlineTitle.visibility = View.GONE
+        }
+
+//        webViewIntroduce.loadUrl(giftInfoItem.giftTransaction?.giftDescription ?: "")
+//        webViewInstruction.loadUrl(giftInfoItem.giftTransaction?.introduce ?: "")
+//        txtContactEmail.text = giftInfoItem.giftTransaction?.contactEmail ?: ""
+//        txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
     }
 
     private fun FragmentMyRewardDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem) {
-        val adapter = MyRewardDetailAddressAdapter(giftInfoItem.giftUsageAddress ?: emptyList())
-        adapter.onItemClick = {
-            Log.d("TAG", "setUpAddress: $it")
+        if (giftInfoItem.giftUsageAddress.isNullOrEmpty()) {
+            layoutUsageAddress.visibility = View.GONE
+        } else {
+            val adapter = MyRewardDetailAddressAdapter(giftInfoItem.giftUsageAddress ?: emptyList())
+            adapter.onItemClick = {
+                Log.d("TAG", "setUpAddress: $it")
+            }
+            listAddress.layoutManager = LinearLayoutManager(context)
+            listAddress.adapter = adapter
         }
-        listAddress.layoutManager = LinearLayoutManager(context)
-        listAddress.adapter = adapter
     }
 
     private fun FragmentMyRewardDetailBinding.setUpEGiftView(giftInfoItem: GiftInfoItem) {
@@ -162,6 +236,15 @@ class MyRewardDetailFragment : Fragment() {
         )  // Adjust index based on actual text
         spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         txtWarning.text = spannable
+
+        btnCopy.setOnClickListener {
+            copyToClipboard(
+                requireContext(),
+                codeString,
+                "gift_code",
+                "Đã sao chép mã quà tặng"
+            )
+        }
 
     }
 

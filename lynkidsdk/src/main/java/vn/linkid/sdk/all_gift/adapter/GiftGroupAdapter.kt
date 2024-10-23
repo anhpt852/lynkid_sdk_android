@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemAllGiftBinding
 import vn.linkid.sdk.databinding.ItemCategoryGiftBinding
 import vn.linkid.sdk.models.category.Gift
@@ -44,6 +45,7 @@ class GiftGroupAdapter() :
             binding.apply {
                 Glide.with(root.context)
                     .load(gift.imageLink?.firstOrNull())
+                    .placeholder(R.drawable.img_gift_placeholder)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfor?.name ?: ""
                 txtPrice.text = (gift.giftInfor?.requiredCoin ?: 0.0).formatPrice()

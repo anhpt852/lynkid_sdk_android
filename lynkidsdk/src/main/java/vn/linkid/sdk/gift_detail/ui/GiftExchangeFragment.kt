@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import vn.linkid.sdk.ErrorDialog
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentGiftExchangeBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -89,6 +90,7 @@ class GiftExchangeFragment : Fragment() {
         Glide.with(root.context).load(
             (giftDetail.imageLink ?: emptyList()).firstOrNull()?.link ?: topupRedeemInfo?.brandImage
         )
+            .placeholder(R.drawable.img_gift_placeholder)
             .into(imgGift)
     }
 

@@ -24,7 +24,7 @@ class ImagePagerAdapter(private val images: List<String>) : RecyclerView.Adapter
         fun bind(image: String) {
             Glide.with(binding.root.context)
                 .load(image)
-                .placeholder(R.drawable.home_gradient)
+                .placeholder(R.drawable.img_gift_placeholder)
                 .into(binding.imgGift)
         }
     }

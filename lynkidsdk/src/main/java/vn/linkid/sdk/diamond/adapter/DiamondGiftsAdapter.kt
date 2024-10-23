@@ -52,7 +52,7 @@ class DiamondGiftsAdapter :
             binding.apply {
                 Glide.with(root.context)
                     .load(gift.imageLink?.firstOrNull()?.link ?: "")
-                    .placeholder(R.drawable.home_gradient)
+                    .placeholder(R.drawable.img_gift_placeholder)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfor?.name ?: ""
                 txtPrice.text = (gift.giftInfor?.requiredCoin ?: 0.0).formatPrice()

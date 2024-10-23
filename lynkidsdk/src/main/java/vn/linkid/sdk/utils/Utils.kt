@@ -1,10 +1,14 @@
 package vn.linkid.sdk.utils
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +31,6 @@ fun getStatusBarHeight(view: View): Int = ViewCompat.getRootWindowInsets(view)?.
 fun getNavigationBarHeight(view: View): Int = ViewCompat.getRootWindowInsets(view)?.getInsets(
     WindowInsetsCompat.Type.systemBars()
 )?.bottom ?: 0
-
 
 
 fun Context.dpToPx(dp: Int): Int {
@@ -137,7 +140,8 @@ fun formatDateTimeToHourMinuteDayMonth(isoDateString: String): String {
 
 fun parseIsoDate(isoDateString: String): Date {
     val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-    isoFormatter.timeZone = TimeZone.getTimeZone("UTC")  // Set timezone to UTC to match the 'Z' in the ISO string
+    isoFormatter.timeZone =
+        TimeZone.getTimeZone("UTC")  // Set timezone to UTC to match the 'Z' in the ISO string
     return isoFormatter.parse(isoDateString) ?: Date()  // Return current date if parsing fails
 }
 
@@ -155,5 +159,42 @@ fun View.adjustWhenKeyboardShown(bottomButton: View) {
             // Keyboard is hidden
             bottomButton.translationY = 0f
         }
+    }
+}
+
+fun copyToClipboard(
+    context: Context,
+    text: String?,
+    label: String,
+    toastMessage: String = "Đã sao chép"
+) {
+    if (text.isNullOrEmpty()) {
+        Log.e("Utils", "Cannot copy empty text")
+        return
+    }
+    val clipboard =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+    val clip = android.content.ClipData.newPlainText(label, text)
+    clipboard.setPrimaryClip(clip)
+    Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+}
+
+fun openCall(context: Context, phoneNumber: String) {
+    val intent = android.content.Intent(android.content.Intent.ACTION_DIAL)
+    intent.data = android.net.Uri.parse("tel:$phoneNumber")
+    context.startActivity(intent)
+}
+
+fun openEmail(context: Context, email: String) {
+    val intent = android.content.Intent(android.content.Intent.ACTION_SENDTO)
+    intent.data = android.net.Uri.parse("mailto:$email")
+    context.startActivity(intent)
+}
+
+fun openInstallApp(context: Context){
+    try {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.linkid")))
+    } catch (e: ActivityNotFoundException) {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.linkid")))
     }
 }

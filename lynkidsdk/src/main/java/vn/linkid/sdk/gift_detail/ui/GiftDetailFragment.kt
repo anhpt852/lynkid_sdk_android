@@ -24,6 +24,9 @@ import vn.linkid.sdk.gift_detail.viewmodel.GiftDetailViewModelFactory
 import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.gift.GiftDetail
 import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
+import vn.linkid.sdk.utils.openCall
+import vn.linkid.sdk.utils.openEmail
+import vn.linkid.sdk.utils.openInstallApp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -143,8 +146,10 @@ class GiftDetailFragment : Fragment() {
 
         val imageList = giftDetail.imageLink ?: emptyList()
         val imageStringList = imageList.map { it.link ?: "" }
-        val pagerAdapter = ImagePagerAdapter(imageStringList)
+        val pagerAdapter = ImagePagerAdapter(imageStringList.ifEmpty { listOf("") })
         pagerImage.adapter = pagerAdapter
+
+        btnInstallAppSmall.setOnClickListener { openInstallApp(requireContext()) }
     }
 
     private fun FragmentGiftDetailBinding.setUpPrice(giftDetail: GiftDetail) {
@@ -259,6 +264,9 @@ class GiftDetailFragment : Fragment() {
             webViewInstruction.visibility = View.GONE
             dividerInstruction.visibility = View.GONE
         }
+
+        txtContactHotline.setOnClickListener { openCall(requireContext(), giftDetail.giftInfor?.contactHotline ?: "") }
+        txtContactEmail.setOnClickListener { openEmail(requireContext(), giftDetail.giftInfor?.contactEmail ?: "") }
         if ((giftDetail.giftInfor?.contactEmail
                 ?: "").isNotEmpty() && (giftDetail.giftInfor?.contactHotline ?: "").isNotEmpty()
         ) {

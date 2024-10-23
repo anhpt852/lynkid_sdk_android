@@ -50,7 +50,7 @@ class SearchAdapter : PagingDataAdapter<Gift, SearchAdapter.SearchViewHolder>(
             binding.apply {
                 Glide.with(root.context)
                     .load(gift.fullLink ?: "")
-                    .placeholder(R.drawable.home_gradient)
+                    .placeholder(R.drawable.img_gift_placeholder)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfo?.name ?: ""
                 txtPrice.text = (gift.giftInfo?.requiredCoin ?: 0.0).formatPrice()
