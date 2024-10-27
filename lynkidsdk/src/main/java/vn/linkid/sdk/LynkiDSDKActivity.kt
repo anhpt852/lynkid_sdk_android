@@ -121,14 +121,21 @@ class LynkiDSDKActivity : AppCompatActivity() {
         navController.navigate(action)
     }
 
-    fun navigateFromMyRewardToMyRewardDetail(transactionCode: String) {
+    fun navigateFromMyRewardToMyRewardDetail(transactionCode: String, type: Int) {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val action =
-            MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardDetailFragment(
+        val action = when (type) {
+            0 -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardEGiftDetailFragment(
                 transactionCode
             )
+            1 -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardPhysicalDetailFragment(
+                transactionCode
+            )
+            else -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardPhysicalDetailFragment(
+                transactionCode
+            )
+        }
         navController.navigate(action)
     }
 
@@ -148,7 +155,7 @@ class LynkiDSDKActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val action =
-            IMediaHistoryFragmentDirections.actionIMediaHistoryFragmentToMyRewardDetailFragment(
+            IMediaHistoryFragmentDirections.actionIMediaHistoryFragmentToMyRewardTopupDetailFragment(
                 transactionCode
             )
         navController.navigate(action)

@@ -2,8 +2,6 @@ package vn.linkid.sdk.my_reward.ui
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -13,7 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,7 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.R
-import vn.linkid.sdk.databinding.FragmentMyRewardDetailBinding
+import vn.linkid.sdk.databinding.FragmentMyRewardPhysicalDetailBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.mainAPI
@@ -38,18 +35,16 @@ import vn.linkid.sdk.utils.copyToClipboard
 import vn.linkid.sdk.utils.formatDate
 import vn.linkid.sdk.utils.openCall
 import vn.linkid.sdk.utils.openEmail
-import java.util.Date
-import java.util.Locale
 
-class MyRewardDetailFragment : Fragment() {
+class MyRewardPhysicalDetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentMyRewardDetailBinding
+    private lateinit var binding: FragmentMyRewardPhysicalDetailBinding
     private lateinit var viewModel: MyRewardDetailViewModel
     private val service = MyRewardDetailService(mainAPI)
     private val repository = MyRewardDetailRepository(service)
     private val viewModelFactory = MyRewardDetailViewModelFactory(repository)
 
-    private val args: MyRewardDetailFragmentArgs by navArgs()
+    private val args: MyRewardPhysicalDetailFragmentArgs by navArgs()
     private val transactionCode: String by lazy { args.transactionCode }
 
     override fun onCreateView(
@@ -57,7 +52,7 @@ class MyRewardDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentMyRewardDetailBinding.inflate(inflater, container, false)
+        binding = FragmentMyRewardPhysicalDetailBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, viewModelFactory)[MyRewardDetailViewModel::class.java]
         return binding.root
     }
@@ -77,15 +72,11 @@ class MyRewardDetailFragment : Fragment() {
             btnBack.setOnClickListener { findNavController().popBackStack() }
             setUpCommonView(giftInfoItem)
             setUpLocationList(giftInfoItem)
-            if (giftInfoItem.eGift != null) {
-                setUpEGiftView(giftInfoItem)
-            } else {
-                setUpPhysicalGiftView(giftInfoItem)
-            }
+            setUpPhysicalGiftView(giftInfoItem)
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpCommonView(giftInfoItem: GiftInfoItem) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpCommonView(giftInfoItem: GiftInfoItem) {
         val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
         toolbar.layoutParams = layoutParams
@@ -167,14 +158,9 @@ class MyRewardDetailFragment : Fragment() {
             txtContactHotline.visibility = View.GONE
             txtContactHotlineTitle.visibility = View.GONE
         }
-
-//        webViewIntroduce.loadUrl(giftInfoItem.giftTransaction?.giftDescription ?: "")
-//        webViewInstruction.loadUrl(giftInfoItem.giftTransaction?.introduce ?: "")
-//        txtContactEmail.text = giftInfoItem.giftTransaction?.contactEmail ?: ""
-//        txtContactHotline.text = giftInfoItem.giftTransaction?.contactHotline ?: ""
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpLocationList(giftInfoItem: GiftInfoItem) {
         if (giftInfoItem.giftUsageAddress.isNullOrEmpty()) {
             layoutUsageAddress.visibility = View.GONE
         } else {
@@ -187,69 +173,8 @@ class MyRewardDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpEGiftView(giftInfoItem: GiftInfoItem) {
-        val expiredDate = formatDate(giftInfoItem.eGift?.expiredDate)
-        val sentDate = formatDate(giftInfoItem.giftTransaction?.transferTime)
-        val usedDate = formatDate(giftInfoItem.giftTransaction?.eGiftUsedAt)
 
-        val (text, color) = when {
-            giftInfoItem.giftTransaction?.whyHaveIt == WhyHaveRewardType.SENT -> "Đã tặng vào: $sentDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.EXPIRED -> "Hết hạn vào: $expiredDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.USED && usedDate.isNotEmpty() -> "Đã dùng vào: $usedDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.USED -> "Đã sử dụng" to "#F5574E"
-            expiredDate.isNotEmpty() -> "HSD: $expiredDate" to "#6D6B7A"
-            else -> "" to "#6D6B7A"
-        }
-        txtExpireDate.text = text
-        txtExpireDate.setTextColor(Color.parseColor(color))
-
-        if (giftInfoItem.giftTransaction?.whyHaveIt == WhyHaveRewardType.RECEIVED) {
-            tagGift.visibility = View.VISIBLE
-        }
-
-        layoutEGiftFooter.visibility = View.VISIBLE
-
-
-        val codeImage = giftInfoItem.giftTransaction?.qrCode
-        val codeString = giftInfoItem.eGift?.code
-
-        if (!codeImage.isNullOrEmpty()) {
-            Glide.with(imgCode)
-                .load(codeImage)
-                .into(imgCode)
-        } else {
-            imgCode.visibility = View.GONE
-        }
-        if (!codeString.isNullOrEmpty()) {
-            txtCode.text = codeString
-        } else {
-            txtCode.visibility = View.GONE
-        }
-
-        val fullText = "Lưu ý: Không cung cấp ảnh chụp màn hình cho nhân viên để thanh toán."
-        val spannable = SpannableString(fullText)
-        spannable.setSpan(
-            ForegroundColorSpan(Color.parseColor("#F5574E")),
-            0,
-            7,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )  // Adjust index based on actual text
-        spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        txtWarning.text = spannable
-
-        btnCopy.setOnClickListener {
-            copyToClipboard(
-                requireContext(),
-                codeString,
-                "gift_code",
-                "Đã sao chép mã quà tặng"
-            )
-        }
-
-    }
-
-
-    private fun FragmentMyRewardDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
         layoutPhysicalFooter.visibility = View.VISIBLE
         when (giftInfoItem.giftTransaction?.rewardStatus) {
             RewardStatus.PENDING -> setUpPhysicalTypeOne(1)
@@ -268,7 +193,7 @@ class MyRewardDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeOne(step: Int) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpPhysicalTypeOne(step: Int) {
         layoutStep2.visibility = View.GONE
         layoutStep2Image.visibility = View.GONE
         txtStep2Description.visibility = View.GONE
@@ -316,7 +241,7 @@ class MyRewardDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeTwo(step: Int) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpPhysicalTypeTwo(step: Int) {
         layoutStep2.visibility = View.GONE
         layoutStep2Image.visibility = View.GONE
         txtStep2Description.visibility = View.GONE
@@ -354,7 +279,7 @@ class MyRewardDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpPhysicalTypeThree(step: Int) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpPhysicalTypeThree(step: Int) {
         layoutStep3.visibility = View.GONE
         layoutStep3Image.visibility = View.GONE
         txtStep3Description.visibility = View.GONE
@@ -412,7 +337,7 @@ class MyRewardDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardDetailBinding.setUpTopUpView(giftInfoItem: GiftInfoItem) {
+    private fun FragmentMyRewardPhysicalDetailBinding.setUpTopUpView(giftInfoItem: GiftInfoItem) {
 
     }
 

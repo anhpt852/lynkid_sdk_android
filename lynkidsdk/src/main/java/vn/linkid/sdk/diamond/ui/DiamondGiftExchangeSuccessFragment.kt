@@ -27,7 +27,7 @@ class DiamondGiftExchangeSuccessFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDiamondGiftExchangeSuccessBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,7 +68,10 @@ class DiamondGiftExchangeSuccessFragment : Fragment() {
                 }
                 layoutGift.setOnClickListener {
                     val action =
-                        DiamondGiftExchangeSuccessFragmentDirections.actionDiamondGiftExchangeSuccessFragmentToMyRewardDetailFragment(
+                        if (isEGift == true)
+                            DiamondGiftExchangeSuccessFragmentDirections.actionDiamondGiftExchangeSuccessFragmentToMyRewardEGiftDetailFragment(
+                                transactionCode ?: ""
+                            ) else DiamondGiftExchangeSuccessFragmentDirections.actionDiamondGiftExchangeSuccessFragmentToMyRewardPhysicalDetailFragment(
                             transactionCode ?: ""
                         )
                     findNavController().navigate(action)

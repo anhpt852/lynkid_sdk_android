@@ -157,14 +157,20 @@
         android:label="MyRewardFragment"
         tools:layout="@layout/fragment_my_reward">
         <action
-            android:id="@+id/action_myRewardFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_myRewardFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
+        <action
+            android:id="@+id/action_myRewardFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_myRewardFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myRewardDetailFragment"
-        android:name="vn.linkid.sdk.my_reward.ui.MyRewardDetailFragment"
-        android:label="MyRewardDetailFragment"
-        tools:layout="@layout/fragment_my_reward_detail">
+        android:id="@+id/myRewardEGiftDetailFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardEGiftDetailFragment"
+        android:label="myRewardEGiftDetailFragment"
+        tools:layout="@layout/fragment_my_reward_e_gift_detail">
         <argument
             android:name="transactionCode"
             app:argType="string" />
@@ -232,14 +238,20 @@
         android:label="GiftExchangeSuccessFragment"
         tools:layout="@layout/fragment_gift_exchange_success">
         <action
-            android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_transactionDetailFragment"
             app:destination="@id/transactionDetailFragment" />
         <argument
             android:name="giftExchange"
             app:argType="vn.linkid.sdk.models.gift.GiftExchange" />
+        <action
+            android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeAddressFragment"
@@ -271,8 +283,8 @@
         android:label="TransactionDetailFragment"
         tools:layout="@layout/fragment_transaction_detail">
         <action
-            android:id="@+id/action_transactionDetailFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_transactionDetailFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
         <argument
             android:name="transactionCode"
             app:argType="string" />
@@ -280,6 +292,12 @@
             android:name="isTokenTransId"
             android:defaultValue="true"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_transactionDetailFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_transactionDetailFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -308,8 +326,14 @@
         android:label="MyRewardListFragment"
         tools:layout="@layout/fragment_my_reward_list">
         <action
-            android:id="@+id/action_myRewardListFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_myRewardListFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
+        <action
+            android:id="@+id/action_myRewardListFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_myRewardListFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/transactionListFragment"
@@ -391,8 +415,14 @@
             android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_transactionDetailFragment"
             app:destination="@id/transactionDetailFragment" />
         <action
-            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_diamondGiftExchangeSuccessFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/diamondGiftExchangeAddressFragment"
@@ -486,7 +516,31 @@
         android:label="IMediaHistoryFragment"
         tools:layout="@layout/fragment_imeadia_history">
         <action
-            android:id="@+id/action_IMediaHistoryFragment_to_myRewardDetailFragment"
-            app:destination="@id/myRewardDetailFragment" />
+            android:id="@+id/action_IMediaHistoryFragment_to_myRewardEGiftDetailFragment"
+            app:destination="@id/myRewardEGiftDetailFragment" />
+        <action
+            android:id="@+id/action_IMediaHistoryFragment_to_myRewardTopupDetailFragment"
+            app:destination="@id/myRewardTopupDetailFragment" />
+        <action
+            android:id="@+id/action_IMediaHistoryFragment_to_myRewardPhysicalDetailFragment"
+            app:destination="@id/myRewardPhysicalDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRewardPhysicalDetailFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardPhysicalDetailFragment"
+        android:label="MyRewardPhysicalDetailFragment"
+        tools:layout="@layout/fragment_my_reward_physical_detail">
+        <argument
+            android:name="transactionCode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRewardTopupDetailFragment"
+        android:name="vn.linkid.sdk.my_reward.ui.MyRewardTopupDetailFragment"
+        android:label="MyRewardTopupDetailFragment"
+        tools:layout="@layout/fragment_my_reward_topup_detail">
+        <argument
+            android:name="transactionCode"
+            app:argType="string" />
     </fragment>
 </navigation>

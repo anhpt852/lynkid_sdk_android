@@ -26,7 +26,7 @@ class GiftExchangeSuccessFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentGiftExchangeSuccessBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,7 +67,9 @@ class GiftExchangeSuccessFragment : Fragment() {
                 }
                 layoutGift.setOnClickListener {
                     val action =
-                        GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardDetailFragment(
+                        if (isEGift == true) GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardEGiftDetailFragment(
+                            transactionCode ?: ""
+                        ) else GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardPhysicalDetailFragment(
                             transactionCode ?: ""
                         )
                     findNavController().navigate(action)

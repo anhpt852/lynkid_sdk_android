@@ -84,12 +84,19 @@ class MyRewardListFragment : Fragment() {
             listMyReward.adapter = adapter
             adapter.onItemClicked = { myReward ->
                 Log.d("MyRewardListFragment", "Selected reward: $myReward")
-                if(myReward.giftTransaction?.isExperienceGift == true){
+                if (myReward.giftTransaction?.isExperienceGift == true) {
                     val dialog = TrialGiftDialog()
                     dialog.show(childFragmentManager, "TrialGiftDialog")
                 } else {
+                    val type = if (myReward.vendorInfo?.type == "TopupPhone") {
+                        2
+                    } else if (myReward.giftInfor?.isEGift == true) {
+                        0
+                    } else {
+                        1
+                    }
                     (activity as LynkiDSDKActivity).navigateFromMyRewardToMyRewardDetail(
-                        myReward.giftTransaction?.transactionCode ?: ""
+                        myReward.giftTransaction?.transactionCode ?: "", type
                     )
                 }
             }

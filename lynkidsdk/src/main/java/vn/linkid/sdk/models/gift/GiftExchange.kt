@@ -2,6 +2,7 @@ package vn.linkid.sdk.models.gift
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import vn.linkid.sdk.models.my_reward.EGift
 
 @Parcelize
 data class GiftExchange(
@@ -14,5 +15,6 @@ data class GiftExchange(
     val brandName: String?,
     val giftName: String?,
     val expiredString: String?,
-    val transactionCode: String?
+    val transactionCode: String?,
+    val isEGift: Boolean?
 ) : Parcelable
