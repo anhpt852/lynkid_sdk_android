@@ -229,7 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/ic_tick_white"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txtStep1"
@@ -284,8 +284,8 @@
                                 android:id="@+id/imgStep2Done"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:visibility="gone"
-                                android:src="@drawable/ic_tick_white" />
+                                android:src="@drawable/ic_tick_white"
+                                android:visibility="gone" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txtStep2"
@@ -531,6 +531,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layoutFooter" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutAddress"
                 android:layout_width="match_parent"
@@ -638,6 +639,7 @@
                     tools:text="Tặng em quà sinh nhật 23 tuổi với very long text for test" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutOtherInfo"
                 android:layout_width="match_parent"
@@ -648,6 +650,72 @@
                 app:layout_constraintTop_toBottomOf="@id/layoutAddress">
 
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtOtherInfoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thông tin khác"
+                    android:textColor="#261F28"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/bevietnampro_semibold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtExchangeDateTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Ngày đổi"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtOtherInfoTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtExchangeDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#242424"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtExchangeDateTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtExchangeDateTitle"
+                    tools:text="Giới thiệu" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dividerExchangeDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#EFEFF6"
+                    app:layout_constraintTop_toBottomOf="@id/txtExchangeDateTitle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtOtherInfoHotlineTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Hotline hỗ trợ"
+                    android:textColor="#6D6B7A"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerExchangeDate" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtOtherInfoHotline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#007AFF"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/bevietnampro_regular"
+                    app:layout_constraintBottom_toBottomOf="@id/txtOtherInfoHotlineTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtOtherInfoHotlineTitle"
+                    tools:text="Giới thiệu" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

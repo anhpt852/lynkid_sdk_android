@@ -90,11 +90,12 @@ class MyRewardListFragment : Fragment() {
                 } else {
                     val type = if (myReward.vendorInfo?.type == "TopupPhone") {
                         2
-                    } else if (myReward.giftInfor?.isEGift == true) {
+                    } else if (myReward.giftInfor?.isEGift == true || myReward.eGift != null) {
                         0
                     } else {
                         1
                     }
+                    Log.d("MyRewardListFragment", "Selected reward type: $type")
                     (activity as LynkiDSDKActivity).navigateFromMyRewardToMyRewardDetail(
                         myReward.giftTransaction?.transactionCode ?: "", type
                     )

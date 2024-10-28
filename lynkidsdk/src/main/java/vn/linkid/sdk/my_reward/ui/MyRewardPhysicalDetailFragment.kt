@@ -17,6 +17,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentMyRewardPhysicalDetailBinding
 import vn.linkid.sdk.utils.dpToPx
@@ -35,6 +37,8 @@ import vn.linkid.sdk.utils.copyToClipboard
 import vn.linkid.sdk.utils.formatDate
 import vn.linkid.sdk.utils.openCall
 import vn.linkid.sdk.utils.openEmail
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MyRewardPhysicalDetailFragment : Fragment() {
 
@@ -82,7 +86,9 @@ class MyRewardPhysicalDetailFragment : Fragment() {
         toolbar.layoutParams = layoutParams
 
         val backgroundLayoutParams = imgHeaderBackground.layoutParams
-        backgroundLayoutParams.height = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0) + (context?.dpToPx(56) ?: 0) + (context?.dpToPx(40) ?: 0)
+        backgroundLayoutParams.height =
+            getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0) + (context?.dpToPx(56)
+                ?: 0) + (context?.dpToPx(40) ?: 0)
         imgHeaderBackground.layoutParams = backgroundLayoutParams
 
         txtGiftName.text = giftInfoItem.giftTransaction?.giftName
@@ -93,12 +99,67 @@ class MyRewardPhysicalDetailFragment : Fragment() {
             .placeholder(R.drawable.img_lynkid)
             .into(imgBrand)
 
+        val description = giftInfoItem.giftTransaction?.description ?: ""
+        if (description.isNotEmpty()) {
+            try {
+                val jsonObject = Gson().fromJson(description, JsonObject::class.java)
+                val fullName = jsonObject?.get("fullname")?.asString ?: ""
+                txtName.text = fullName
+                val phone = jsonObject?.get("phone")?.asString ?: ""
+                txtPhone.text = phone
+                val fullLocation = jsonObject?.get("fullLocation")?.asString ?: ""
+                val note = jsonObject?.get("note")?.asString ?: ""
+                txtNote.text = note
+                val cityId = jsonObject?.get("cityId")?.asString ?: ""
+                val districtId = jsonObject?.get("districtId")?.asString ?: ""
+                val wardId = jsonObject?.get("wardId")?.asString ?: ""
+                val shipAddress = jsonObject?.get("shipAddress")?.asString ?: ""
+                if (cityId.isNotEmpty() && districtId.isNotEmpty() && wardId.isNotEmpty()) {
+                    viewModel.getFullAddress(cityId, districtId, wardId)
+                        .observe(viewLifecycleOwner) {
+                            txtAddress.text = it.getOrNull() ?: ""
+                        }
+                }
+            } catch (e: Exception) {
+                // do nothing
+            }
+        }
+
+
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val exchangeDate =
+            if (giftInfoItem.giftTransaction?.date != null) outputFormat.format(giftInfoItem.giftTransaction.date) else ""
+        if (exchangeDate.isNotEmpty()) {
+            txtExchangeDate.text = exchangeDate
+            txtExchangeDateTitle.visibility = View.VISIBLE
+            txtExchangeDate.visibility = View.VISIBLE
+            dividerExchangeDate.visibility = View.VISIBLE
+        } else {
+            txtExchangeDateTitle.visibility = View.GONE
+            txtExchangeDate.visibility = View.GONE
+            dividerExchangeDate.visibility = View.GONE
+        }
+        val otherHotline = giftInfoItem.vendorInfo?.hotLine ?: ""
+        if (otherHotline.isNotEmpty()) {
+            txtOtherInfoHotline.text = otherHotline
+            txtOtherInfoHotlineTitle.visibility = View.VISIBLE
+            txtOtherInfoHotline.visibility = View.VISIBLE
+        } else {
+            txtOtherInfoHotlineTitle.visibility = View.GONE
+            txtOtherInfoHotline.visibility = View.GONE
+        }
+        txtOtherInfoHotline.setOnClickListener { openCall(requireContext(), otherHotline) }
+
 
         if ((giftInfoItem.giftTransaction?.description ?: "").isNotEmpty()) {
             txtIntroduceTitle.visibility = View.VISIBLE
             webViewIntroduce.visibility = View.VISIBLE
             dividerIntroduce.visibility = View.VISIBLE
-            webViewIntroduce.loadData(giftInfoItem.giftTransaction?.description ?: "", "text/html", "UTF-8")
+            webViewIntroduce.loadData(
+                giftInfoItem.giftTransaction?.description ?: "",
+                "text/html",
+                "UTF-8"
+            )
         } else {
             txtIntroduceTitle.visibility = View.GONE
             webViewIntroduce.visibility = View.GONE
@@ -106,7 +167,11 @@ class MyRewardPhysicalDetailFragment : Fragment() {
         }
         if ((giftInfoItem.giftTransaction?.condition ?: "").isNotEmpty()) {
             layoutCondition.visibility = View.VISIBLE
-            webViewCondition.loadData(giftInfoItem.giftTransaction?.condition ?: "", "text/html", "UTF-8")
+            webViewCondition.loadData(
+                giftInfoItem.giftTransaction?.condition ?: "",
+                "text/html",
+                "UTF-8"
+            )
         } else {
             layoutCondition.visibility = View.GONE
         }
@@ -114,17 +179,32 @@ class MyRewardPhysicalDetailFragment : Fragment() {
             txtInstructionTitle.visibility = View.VISIBLE
             webViewInstruction.visibility = View.VISIBLE
             dividerInstruction.visibility = View.VISIBLE
-            webViewInstruction.loadData(giftInfoItem.giftTransaction?.introduce ?: "", "text/html", "UTF-8")
+            webViewInstruction.loadData(
+                giftInfoItem.giftTransaction?.introduce ?: "",
+                "text/html",
+                "UTF-8"
+            )
         } else {
             txtInstructionTitle.visibility = View.GONE
             webViewInstruction.visibility = View.GONE
             dividerInstruction.visibility = View.GONE
         }
 
-        txtContactHotline.setOnClickListener { openCall(requireContext(), giftInfoItem.giftTransaction?.contactHotline ?: "") }
-        txtContactEmail.setOnClickListener { openEmail(requireContext(), giftInfoItem.giftTransaction?.contactEmail ?: "") }
+        txtContactHotline.setOnClickListener {
+            openCall(
+                requireContext(),
+                giftInfoItem.giftTransaction?.contactHotline ?: ""
+            )
+        }
+        txtContactEmail.setOnClickListener {
+            openEmail(
+                requireContext(),
+                giftInfoItem.giftTransaction?.contactEmail ?: ""
+            )
+        }
         if ((giftInfoItem.giftTransaction?.contactEmail
-                ?: "").isNotEmpty() && (giftInfoItem.giftTransaction?.contactHotline ?: "").isNotEmpty()
+                ?: "").isNotEmpty() && (giftInfoItem.giftTransaction?.contactHotline
+                ?: "").isNotEmpty()
         ) {
             txtContactTitle.visibility = View.VISIBLE
             txtContactBody.visibility = View.VISIBLE

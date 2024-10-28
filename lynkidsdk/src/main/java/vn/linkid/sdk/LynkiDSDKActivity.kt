@@ -132,7 +132,7 @@ class LynkiDSDKActivity : AppCompatActivity() {
             1 -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardPhysicalDetailFragment(
                 transactionCode
             )
-            else -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardPhysicalDetailFragment(
+            else -> MyRewardFragmentDirections.actionMyRewardFragmentToMyRewardTopupDetailFragment(
                 transactionCode
             )
         }
