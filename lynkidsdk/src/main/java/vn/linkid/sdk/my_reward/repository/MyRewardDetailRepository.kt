@@ -12,8 +12,25 @@ class MyRewardDetailRepository(private val service: MyRewardDetailService) {
                 Result.success(result.getOrNull())
             } else {
                 Log.d(
-                    "MyRewardDetailRepository",
+                    "MyRewardDetailRepo",
                     "getMyRewardDetail: ${result.exceptionOrNull()?.toString()}"
+                )
+                Result.failure(result.exceptionOrNull()!!)
+            }
+        }
+
+    suspend fun getFullAddress(
+        cityCode: String,
+        districtCode: String,
+        wardCode: String
+    ) =
+        service.getFullAddress(cityCode, districtCode, wardCode).map { result ->
+            if (result.isSuccess) {
+                Result.success(result.getOrNull())
+            } else {
+                Log.d(
+                    "MyRewardDetailRepo",
+                    "getFullAddress: ${result.exceptionOrNull()?.toString()}"
                 )
                 Result.failure(result.exceptionOrNull()!!)
             }

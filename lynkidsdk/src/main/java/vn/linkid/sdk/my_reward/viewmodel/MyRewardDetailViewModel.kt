@@ -9,4 +9,6 @@ class MyRewardDetailViewModel(private val repository: MyRewardDetailRepository) 
 
     fun getMyRewardDetail(transactionCode: String) = liveData { emitSource(repository.getMyRewardDetail(transactionCode).asLiveData()) }
 
+    fun getFullAddress(cityCode: String, districtCode: String, wardCode: String) = liveData { emitSource(repository.getFullAddress(cityCode, districtCode, wardCode).asLiveData()) }
+
 }
