@@ -17,11 +17,13 @@ class TransactionDetailViewModel(private val repository: TransactionRepository) 
                 .map { it.getOrNull() }
                 .first()
             transactionResult?.let { transaction ->
-                emitSource(
-                    repository.getTransactionDetail(
-                        transaction.items?.get(0)?.tokenTransID ?: ""
-                    ).asLiveData()
-                )
+                if ((transaction.items ?: emptyList()).isNotEmpty()) {
+                    emitSource(
+                        repository.getTransactionDetail(
+                            transaction.items?.get(0)?.tokenTransID ?: ""
+                        ).asLiveData()
+                    )
+                }
             }
         }
     }

@@ -17,6 +17,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentMyRewardTopupDetailBinding
 import vn.linkid.sdk.utils.dpToPx
@@ -72,11 +74,7 @@ class MyRewardTopupDetailFragment : Fragment() {
             btnBack.setOnClickListener { findNavController().popBackStack() }
             setUpCommonView(giftInfoItem)
             setUpLocationList(giftInfoItem)
-            if (giftInfoItem.eGift != null) {
-                setUpEGiftView(giftInfoItem)
-            } else {
-                setUpPhysicalGiftView(giftInfoItem)
-            }
+            setUpTopUpView(giftInfoItem)
         }
     }
 
@@ -182,232 +180,35 @@ class MyRewardTopupDetailFragment : Fragment() {
         }
     }
 
-    private fun FragmentMyRewardTopupDetailBinding.setUpEGiftView(giftInfoItem: GiftInfoItem) {
-        val expiredDate = formatDate(giftInfoItem.eGift?.expiredDate)
-        val sentDate = formatDate(giftInfoItem.giftTransaction?.transferTime)
-        val usedDate = formatDate(giftInfoItem.giftTransaction?.eGiftUsedAt)
-
-        val (text, color) = when {
-            giftInfoItem.giftTransaction?.whyHaveIt == WhyHaveRewardType.SENT -> "Đã tặng vào: $sentDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.EXPIRED -> "Hết hạn vào: $expiredDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.USED && usedDate.isNotEmpty() -> "Đã dùng vào: $usedDate" to "#F5574E"
-            giftInfoItem.eGift?.usedStatus == RewardUsedStatus.USED -> "Đã sử dụng" to "#F5574E"
-            expiredDate.isNotEmpty() -> "HSD: $expiredDate" to "#6D6B7A"
-            else -> "" to "#6D6B7A"
-        }
-        txtExpireDate.text = text
-        txtExpireDate.setTextColor(Color.parseColor(color))
-
-        if (giftInfoItem.giftTransaction?.whyHaveIt == WhyHaveRewardType.RECEIVED) {
-            tagGift.visibility = View.VISIBLE
-        }
-
-        layoutEGiftFooter.visibility = View.VISIBLE
-
-
-        val codeImage = giftInfoItem.giftTransaction?.qrCode
-        val codeString = giftInfoItem.eGift?.code
-
-        if (!codeImage.isNullOrEmpty()) {
-            Glide.with(imgCode)
-                .load(codeImage)
-                .into(imgCode)
-        } else {
-            imgCode.visibility = View.GONE
-        }
-        if (!codeString.isNullOrEmpty()) {
-            txtCode.text = codeString
-        } else {
-            txtCode.visibility = View.GONE
-        }
-
-        val fullText = "Lưu ý: Không cung cấp ảnh chụp màn hình cho nhân viên để thanh toán."
-        val spannable = SpannableString(fullText)
-        spannable.setSpan(
-            ForegroundColorSpan(Color.parseColor("#F5574E")),
-            0,
-            7,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )  // Adjust index based on actual text
-        spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        txtWarning.text = spannable
-
-        btnCopy.setOnClickListener {
-            copyToClipboard(
-                requireContext(),
-                codeString,
-                "gift_code",
-                "Đã sao chép mã quà tặng"
-            )
-        }
-
-    }
-
-
-    private fun FragmentMyRewardTopupDetailBinding.setUpPhysicalGiftView(giftInfoItem: GiftInfoItem) {
-        layoutPhysicalFooter.visibility = View.VISIBLE
-        when (giftInfoItem.giftTransaction?.rewardStatus) {
-            RewardStatus.PENDING -> setUpPhysicalTypeOne(1)
-            RewardStatus.WAITING -> setUpPhysicalTypeOne(1)
-            RewardStatus.DELIVERING -> setUpPhysicalTypeOne(2)
-            RewardStatus.DELIVERED -> setUpPhysicalTypeOne(3)
-            RewardStatus.RETURNING -> setUpPhysicalTypeOne(3)
-            RewardStatus.RETURNED -> setUpPhysicalTypeThree(4)
-            RewardStatus.CANCELLING -> setUpPhysicalTypeThree(4)
-            RewardStatus.CANCELED -> setUpPhysicalTypeThree(4)
-            RewardStatus.CONFIRM_FAILED -> setUpPhysicalTypeOne(1)
-            RewardStatus.CONFIRMED -> setUpPhysicalTypeOne(1)
-            RewardStatus.REJECTED -> setUpPhysicalTypeTwo(2)
-            RewardStatus.APPROVED -> setUpPhysicalTypeOne(1)
-            null -> layoutPhysicalFooter.visibility = View.GONE
-        }
-    }
-
-    private fun FragmentMyRewardTopupDetailBinding.setUpPhysicalTypeOne(step: Int) {
-        layoutStep2.visibility = View.GONE
-        layoutStep2Image.visibility = View.GONE
-        txtStep2Description.visibility = View.GONE
-        layoutStep4.visibility = View.GONE
-        layoutStep4Image.visibility = View.GONE
-        txtStep4Description.visibility = View.GONE
-
-        txtStep1Description.text = "Đang xử lý"
-        txtStep3Description.text = "Đang giao hàng"
-        txtStep3.text = "2"
-        txtStep5Description.text = "Đã giao hàng"
-        txtStep5.text = "3"
-        if (step >= 1) {
-            progressShipping.progress = 20
-            layoutStep1.visibility = View.VISIBLE
-            layoutStep1Image.visibility = View.VISIBLE
-            txtStep1Description.visibility = View.VISIBLE
-            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep1Description.setTextColor(Color.parseColor("#663692"))
-            txtStep1.visibility = View.GONE
-            imgStep1Done.visibility = View.VISIBLE
-            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 2) {
-            progressShipping.progress = 50
-            layoutStep3.visibility = View.VISIBLE
-            layoutStep3Image.visibility = View.VISIBLE
-            txtStep3Description.visibility = View.VISIBLE
-            layoutStep3Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep3Description.setTextColor(Color.parseColor("#663692"))
-            txtStep3.visibility = View.GONE
-            imgStep3Done.visibility = View.VISIBLE
-            layoutStep3.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 3) {
-            progressShipping.progress = 100
-            layoutStep5.visibility = View.VISIBLE
-            layoutStep5Image.visibility = View.VISIBLE
-            txtStep5Description.visibility = View.VISIBLE
-            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep5Description.setTextColor(Color.parseColor("#663692"))
-            txtStep5.visibility = View.GONE
-            imgStep5Done.visibility = View.VISIBLE
-            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-    }
-
-    private fun FragmentMyRewardTopupDetailBinding.setUpPhysicalTypeTwo(step: Int) {
-        layoutStep2.visibility = View.GONE
-        layoutStep2Image.visibility = View.GONE
-        txtStep2Description.visibility = View.GONE
-        layoutStep3.visibility = View.GONE
-        layoutStep3Image.visibility = View.GONE
-        txtStep3Description.visibility = View.GONE
-        layoutStep4.visibility = View.GONE
-        layoutStep4Image.visibility = View.GONE
-        txtStep4Description.visibility = View.GONE
-
-        txtStep1Description.text = "Đang xử lý"
-        txtStep5Description.text = "Đã hủy"
-        txtStep5.text = "2"
-        if (step >= 1) {
-            progressShipping.progress = 20
-            layoutStep1.visibility = View.VISIBLE
-            layoutStep1Image.visibility = View.VISIBLE
-            txtStep1Description.visibility = View.VISIBLE
-            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep1Description.setTextColor(Color.parseColor("#663692"))
-            txtStep1.visibility = View.GONE
-            imgStep1Done.visibility = View.VISIBLE
-            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 2) {
-            progressShipping.progress = 100
-            layoutStep5.visibility = View.VISIBLE
-            layoutStep5Image.visibility = View.VISIBLE
-            txtStep5Description.visibility = View.VISIBLE
-            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep5Description.setTextColor(Color.parseColor("#663692"))
-            txtStep5.visibility = View.GONE
-            imgStep5Done.visibility = View.VISIBLE
-            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-    }
-
-    private fun FragmentMyRewardTopupDetailBinding.setUpPhysicalTypeThree(step: Int) {
-        layoutStep3.visibility = View.GONE
-        layoutStep3Image.visibility = View.GONE
-        txtStep3Description.visibility = View.GONE
-
-        txtStep1Description.text = "Đang xử lý"
-        txtStep2Description.text = "Đang giao hàng"
-        txtStep2.text = "2"
-        txtStep4Description.text = "Vận chuyển trả hàng"
-        txtStep4.text = "3"
-        txtStep5Description.text = "Đã huỷ"
-        txtStep5.text = "4"
-        if (step >= 1) {
-            progressShipping.progress = 20
-            layoutStep1.visibility = View.VISIBLE
-            layoutStep1Image.visibility = View.VISIBLE
-            txtStep1Description.visibility = View.VISIBLE
-            layoutStep1Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep1Description.setTextColor(Color.parseColor("#663692"))
-            txtStep1.visibility = View.GONE
-            imgStep1Done.visibility = View.VISIBLE
-            layoutStep1.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 2) {
-            progressShipping.progress = 40
-            layoutStep2.visibility = View.VISIBLE
-            layoutStep2Image.visibility = View.VISIBLE
-            txtStep2Description.visibility = View.VISIBLE
-            layoutStep2Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep2Description.setTextColor(Color.parseColor("#663692"))
-            txtStep2.visibility = View.GONE
-            imgStep2Done.visibility = View.VISIBLE
-            layoutStep2.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 3) {
-            progressShipping.progress = 60
-            layoutStep4.visibility = View.VISIBLE
-            layoutStep4Image.visibility = View.VISIBLE
-            txtStep4Description.visibility = View.VISIBLE
-            layoutStep4Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep4Description.setTextColor(Color.parseColor("#663692"))
-            txtStep4.visibility = View.GONE
-            imgStep4Done.visibility = View.VISIBLE
-            layoutStep4.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-        if (step >= 4) {
-            progressShipping.progress = 100
-            layoutStep5.visibility = View.VISIBLE
-            layoutStep5Image.visibility = View.VISIBLE
-            txtStep5Description.visibility = View.VISIBLE
-            layoutStep5Image.setBackgroundResource(R.drawable.bg_circular_purple)
-            txtStep5Description.setTextColor(Color.parseColor("#663692"))
-            txtStep5.visibility = View.GONE
-            imgStep5Done.visibility = View.VISIBLE
-            layoutStep5.setBackgroundResource(R.drawable.bg_circular_purple)
-        }
-    }
-
     private fun FragmentMyRewardTopupDetailBinding.setUpTopUpView(giftInfoItem: GiftInfoItem) {
+
+
+        val description = giftInfoItem.giftTransaction?.description ?: ""
+        if (description.isNotEmpty()) {
+            try {
+                val jsonObject = Gson().fromJson(description, JsonObject::class.java)
+                val operation = jsonObject?.get("operation")?.asInt
+                val ownerPhone = jsonObject?.get("ownerPhone")?.asString ?: ""
+                val accountType = jsonObject?.get("accountType")?.asString ?: ""
+                val isTopup = operation == 1200;
+            } catch (e: Exception) {
+                // do nothing
+            }
+        }
+
+
+        val eGiftCode = giftInfoItem.eGift?.code ?: ""
+        if(eGiftCode.isNotEmpty()) {
+            txtCardNumber.text = eGiftCode
+        } else {
+            txtCardNumber.visibility = View.GONE
+        }
+        val serialNumber = giftInfoItem.giftTransaction?.serialNo ?: ""
+        if(serialNumber.isNotEmpty()) {
+            txtCardSerial.text = "Số seri: " + serialNumber
+        } else {
+            txtCardSerial.visibility = View.GONE
+        }
 
     }
 

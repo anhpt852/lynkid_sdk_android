@@ -168,7 +168,7 @@ class GiftExchangeFragment : Fragment() {
                             brandName = giftDetail.giftInfor?.brandName,
                             giftName = giftDetail.giftInfor?.name,
                             expiredString = expiredString,
-                            transactionCode = exchangeModel.items?.firstOrNull()?.code,
+                            transactionCode = exchangeModel.items?.firstOrNull()?.transactionCode,
                             isEGift = giftDetail.giftInfor?.isEGift ?: true
                         )
                         val action = if (isOtpSent) {

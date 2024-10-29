@@ -100,7 +100,7 @@ class IMediaTabFragment : Fragment() {
                             ownerPhone = if (tab == 1 || tab == 4) LynkiD_SDK.phoneNumber else formatPhoneNumber(
                                 edtPhoneNumber.text.toString().replace(" ", "").replace("+84", "0")
                             ),
-                            accountType = if (tab == 0) 0 else if (tab == 2) 1 else null,
+                            accountType = if (tab == 2) 1 else 0,
                             type = tab,
                             brand = viewModel.selectedBrand.value?.brandMapping?.brandName,
                             brandImage = viewModel.selectedBrand.value?.brandMapping?.linkLogo,

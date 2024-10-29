@@ -18,7 +18,8 @@ data class ExchangedItem(
     val status: String?,
     val date: String,
     val description: String?,
-    val eGift: ExchangedEGift?
+    val eGift: ExchangedEGift?,
+    val transactionCode: String?
 )
 
 data class ExchangedEGift(

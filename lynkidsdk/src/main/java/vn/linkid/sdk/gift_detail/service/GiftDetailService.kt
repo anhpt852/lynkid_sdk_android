@@ -19,6 +19,10 @@ import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.imedia.TopupRedeemInfo
 import vn.linkid.sdk.models.imedia.toJsonStringForExchange
 import vn.linkid.sdk.models.point.PointResponseModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class GiftDetailService(private val api: APIEndpoints) {
 
@@ -65,18 +69,23 @@ class GiftDetailService(private val api: APIEndpoints) {
         description: String,
         topupRedeemInfo: TopupRedeemInfo? = null
     ): Flow<Result<Pair<String, ExchangeResponseModel>>> = flow {
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
         val params: MutableMap<String, Any> = mutableMapOf(
             "memberCode" to LynkiD_SDK.memberCode,
             "cifCode" to LynkiD_SDK.cif,
             "sessionId" to sessionId,
             "giftCode" to giftCode,
             "quantity" to quantity,
-            "totalAmount" to totalAmount
+            "totalAmount" to totalAmount,
+            "date" to dateFormat.format(Date())
         )
         if (description.isNotEmpty()) {
             params["description"] = description
         } else if (topupRedeemInfo != null) {
-            params["description"] = Gson().toJson(topupRedeemInfo.toJsonStringForExchange())
+            params["description"] = topupRedeemInfo.toJsonStringForExchange()
         }
         val response = api.createTransaction(body = params)
         emit(Result.success(Pair(sessionId, response)))
@@ -93,6 +102,7 @@ class GiftDetailService(private val api: APIEndpoints) {
                     errorBody ?: "Unknown error occurred"
                 }
             }
+
             else -> throwable.message ?: "Unknown error occurred"
         }
         Log.e("GiftDetailService", "createTransaction: $errorMessage")
