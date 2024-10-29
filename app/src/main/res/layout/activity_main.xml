@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
-        android:text="+84868218516"
+        android:text="+84987888003"
         app:layout_constraintBottom_toTopOf="@id/edtCIF"
         app:layout_constraintTop_toBottomOf="@id/edtPartnerCode" />
 
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="CIF"
-        android:text="111111"
+        android:text="8880003"
         app:layout_constraintBottom_toTopOf="@id/edtName"
         app:layout_constraintTop_toBottomOf="@id/edtPhoneNumber" />
 

@@ -172,30 +172,41 @@
                     android:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/txtCardNumber"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layoutCardInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#242424"
-                        android:textSize="20sp"
-                        app:fontFamily="@font/bevietnampro_semibold"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@id/btnCardCopy"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="34565897654231" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/txtCardSerial"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#6D6B7A"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/bevietnampro_regular"
-                        app:layout_constraintEnd_toEndOf="@id/txtCardNumber"
-                        app:layout_constraintStart_toStartOf="@id/txtCardNumber"
-                        app:layout_constraintTop_toBottomOf="@id/txtCardNumber"
-                        tools:text="Số seri: 232131232131" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtCardNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#242424"
+                            android:textSize="20sp"
+                            app:fontFamily="@font/bevietnampro_semibold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="34565897654231" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtCardSerial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#6D6B7A"
+                            android:textSize="14sp"
+                            app:fontFamily="@font/bevietnampro_regular"
+                            app:layout_constraintEnd_toEndOf="@id/txtCardNumber"
+                            app:layout_constraintStart_toStartOf="@id/txtCardNumber"
+                            app:layout_constraintTop_toBottomOf="@id/txtCardNumber"
+                            tools:text="Số seri: 232131232131" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/btnCardCopy"
@@ -203,10 +214,10 @@
                         android:layout_height="24dp"
                         android:layout_marginStart="8dp"
                         android:src="@drawable/ic_copy"
-                        app:layout_constraintBottom_toBottomOf="@id/txtCardSerial"
+                        app:layout_constraintBottom_toBottomOf="@id/layoutCardInfo"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/txtCardNumber"
-                        app:layout_constraintTop_toTopOf="@id/txtCardNumber" />
+                        app:layout_constraintStart_toEndOf="@id/layoutCardInfo"
+                        app:layout_constraintTop_toTopOf="@id/layoutCardInfo" />
 
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -224,7 +235,7 @@
                         app:fontFamily="@font/bevietnampro_semibold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txtCardSerial" />
+                        app:layout_constraintTop_toBottomOf="@id/layoutCardInfo" />
 
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -242,7 +253,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/btnUseCard"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txtCardSerial" />
+                        app:layout_constraintTop_toBottomOf="@id/layoutCardInfo" />
 
 
                     <androidx.appcompat.widget.AppCompatButton

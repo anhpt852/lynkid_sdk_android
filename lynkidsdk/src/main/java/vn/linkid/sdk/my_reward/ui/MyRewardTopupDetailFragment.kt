@@ -210,6 +210,11 @@ class MyRewardTopupDetailFragment : Fragment() {
             txtCardSerial.visibility = View.GONE
         }
 
+        btnCardCopy.setOnClickListener {
+            val copyDialog = MyRewardTopupCopyDialog.newInstance(eGiftCode, serialNumber)
+            copyDialog.show(childFragmentManager, "MyRewardTopupCopyDialog")
+        }
+
     }
 
 }

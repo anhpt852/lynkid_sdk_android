@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottomsheet">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toTopOf="@id/btnExit" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sao chép"
+        android:textAlignment="center"
+        android:textColor="#242424"
+        android:textSize="18sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="@id/btnExit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnExit" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_exit"
+        android:tint="#242424"
+        app:layout_constraintBottom_toTopOf="@id/dividerHeader"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/dividerHeader"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
+        android:background="#D8D6DD"
+        app:layout_constraintBottom_toTopOf="@id/txtCardNumberTitle" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtCardNumberTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="Sao chép mã thẻ"
+        android:textColor="#242424"
+        android:textSize="16sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toTopOf="@id/txtCardNumber"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtCardNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#6D6B7A"
+        android:textSize="12sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toTopOf="@id/dividerBody"
+        tools:text="asfkjnbasjlkgnaslkgn" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginHorizontal="16dp"
+        android:src="@drawable/ic_arrow_right_gray"
+        app:layout_constraintBottom_toBottomOf="@id/txtCardNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtCardNumberTitle" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/dividerBody"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#EFEFF6"
+        app:layout_constraintBottom_toTopOf="@id/txtSerialNumberTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSerialNumberTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="Sao chép số seri"
+        android:textColor="#242424"
+        android:textSize="16sp"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toTopOf="@id/txtSerialNumber"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtSerialNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#6D6B7A"
+        android:textSize="12sp"
+        app:fontFamily="@font/bevietnampro_regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="asfkjnbasjlkgnaslkgn" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginHorizontal="16dp"
+        android:src="@drawable/ic_arrow_right_gray"
+        app:layout_constraintBottom_toBottomOf="@id/txtSerialNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtSerialNumberTitle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
