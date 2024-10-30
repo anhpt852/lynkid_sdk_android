@@ -546,5 +546,8 @@
         <argument
             android:name="transactionCode"
             app:argType="string" />
+        <action
+            android:id="@+id/action_myRewardTopupDetailFragment_to_IMediaHomeFragment"
+            app:destination="@id/IMediaHomeFragment" />
     </fragment>
 </navigation>

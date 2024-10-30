@@ -227,7 +227,7 @@ class IMediaTabFragment : Fragment() {
                     btnApply.alpha = 0.6f
                 }
             },
-            "Thông tin chưa đúng định dạng"
+            txtErrorText
         )
         edtPhoneNumber.addTextChangedListener(phoneNumberFormatter)
         edtPhoneNumber.setText(LynkiD_SDK.phoneNumber.replace("+84", "0"))

@@ -2,7 +2,9 @@ package vn.linkid.sdk.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
+import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import vn.linkid.sdk.models.gift.Gift
@@ -11,7 +13,7 @@ class PhoneTextWatcher(
     private val editText: TextInputEditText,
     private val textInputLayout: TextInputLayout,
     private val onValidButton: ((Boolean) -> Unit)?,
-    private val errorMessage: String = "Please enter a valid Vietnamese phone number"
+    private val txtErrorText: AppCompatTextView
 ) : TextWatcher {
     private var isFormatting = false
     private var deletingHyphen = false
@@ -98,9 +100,11 @@ class PhoneTextWatcher(
 
     private fun updateErrorStatus(isValid: Boolean) {
         if (isValid) {
+            txtErrorText.visibility = View.GONE
             textInputLayout.error = null
         } else {
-            textInputLayout.error = errorMessage
+            txtErrorText.visibility = View.VISIBLE
+            textInputLayout.error = "Số điện thoại không hợp lệ"
         }
     }
 }

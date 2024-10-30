@@ -37,6 +37,7 @@ import vn.linkid.sdk.utils.copyToClipboard
 import vn.linkid.sdk.utils.formatDate
 import vn.linkid.sdk.utils.openCall
 import vn.linkid.sdk.utils.openEmail
+import vn.linkid.sdk.utils.openInstallApp
 
 class MyRewardTopupDetailFragment : Fragment() {
 
@@ -75,6 +76,7 @@ class MyRewardTopupDetailFragment : Fragment() {
             setUpCommonView(giftInfoItem)
             setUpLocationList(giftInfoItem)
             setUpTopUpView(giftInfoItem)
+            setUpActionButtons(giftInfoItem)
         }
     }
 
@@ -220,5 +222,24 @@ class MyRewardTopupDetailFragment : Fragment() {
         }
 
     }
+
+
+    private fun FragmentMyRewardTopupDetailBinding.setUpActionButtons(giftInfoItem: GiftInfoItem) {
+
+        btnExchangeMore.setOnClickListener {
+            val action = MyRewardTopupDetailFragmentDirections.actionMyRewardTopupDetailFragmentToIMediaHomeFragment(0)
+            findNavController().navigate(action)
+        }
+
+        btnGiveCard.setOnClickListener {
+            openInstallApp(requireContext())
+        }
+
+        btnUseCard.setOnClickListener {
+
+        }
+
+    }
+
 
 }
