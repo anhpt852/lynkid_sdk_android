@@ -229,10 +229,10 @@ class TransactionDetailFragment : Fragment() {
                                     .into(imgRelatedBrand)
                                 txtTitle.text = title
                                 txtBrand.text = brandName ?: "Thương hiệu khác"
-                                if (!creationTime.isNullOrEmpty()) {
+                                if (!eGiftExpiredDate.isNullOrEmpty()) {
                                     txtTime.visibility = View.VISIBLE
                                     txtTime.text =
-                                        "HSD: ${formatDateTimeToHourMinuteDayMonth(creationTime)}"
+                                        "HSD: ${formatDateTimeToHourMinuteDayMonth(eGiftExpiredDate)}"
                                 } else {
                                     txtTime.visibility = View.GONE
                                 }
@@ -259,7 +259,9 @@ class TransactionDetailFragment : Fragment() {
     private fun FragmentTransactionDetailBinding.handleGift(transaction: GetTransactionDetail) {
         if (!transaction.giftName.isNullOrEmpty()) {
             layoutGift.visibility = View.VISIBLE
-            Glide.with(requireContext()).load(transaction.brandImage ?: "").into(imgBrand)
+            Glide.with(requireContext()).load(transaction.brandImage ?: "")
+                .error(R.drawable.img_lynkid)
+                .centerCrop().into(imgBrand)
             txtBrand.text = transaction.brandName ?: "Thương hiệu khác"
             txtGiftName.text = transaction.giftName
             if (!transaction.expiredTime.isNullOrEmpty()) {

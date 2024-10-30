@@ -58,7 +58,14 @@ class GiftExchangeSuccessFragment : Fragment() {
 
             giftExchange.apply {
                 btnHome.setOnClickListener {
-                    findNavController().popBackStack(R.id.homeFragment, true)
+                    if(from == "TopUp") {
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                    } else {
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                    }
                 }
                 txtExchangeInfo.text =
                     "Bạn vừa tiết kiệm ${totalAmount.formatPrice()}VND cùng LynkiD"
@@ -112,7 +119,14 @@ class GiftExchangeSuccessFragment : Fragment() {
                 }
 
                 btnBottomHome.setOnClickListener {
-                    findNavController().popBackStack(R.id.homeFragment, true)
+                    if(from == "TopUp") {
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                    } else {
+                        findNavController().popBackStack()
+                        findNavController().popBackStack()
+                    }
                 }
 
 
