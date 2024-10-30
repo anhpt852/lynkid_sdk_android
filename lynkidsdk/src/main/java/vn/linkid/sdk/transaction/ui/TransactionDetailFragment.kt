@@ -71,32 +71,34 @@ class TransactionDetailFragment : Fragment() {
     }
 
     private fun setUpTransactionDetail() {
-        viewModel.getTransactionDetail(transactionCode, isTokenTransId).observe(viewLifecycleOwner) { result ->
-            result.onSuccess { transaction ->
-                Log.d("TransactionDetailFragment", "setUpTransactionDetail: $transaction")
-                binding.apply {
-                    Glide.with(requireContext())
-                        .load(transaction?.result?.contentPhoto ?: "")
-                        .into(imgTransactionIcon)
-                    txtTransactionTitle.text =
-                        transaction?.result?.title ?: "Số dư điểm LynkiD thay đổi"
-                    txtTransactionTitle.text =
-                        transaction?.result?.title ?: "Số dư điểm LynkiD thay đổi"
-                    handleBalance(
-                        transaction?.result?.walletAddress ?: "",
-                        transaction?.result?.toWalletAddress ?: "",
-                        transaction?.result?.amount ?: 0.0
-                    )
-                    if (transaction?.result != null) {
-                        Log.d(
-                            "TransactionDetailFragment",
-                            "setUpTransactionDetail: ${transaction.result}"
+        viewModel.getTransactionDetail(transactionCode, isTokenTransId)
+            .observe(viewLifecycleOwner) { result ->
+                result.onSuccess { transaction ->
+                    Log.d("TransactionDetailFrag", "setUpTransactionDetail: $transaction")
+                    binding.apply {
+                        Glide.with(requireContext())
+                            .load(transaction?.result?.contentPhoto ?: "")
+                            .error(R.drawable.ic_exchange_done)
+                            .into(imgTransactionIcon)
+                        txtTransactionTitle.text =
+                            transaction?.result?.title ?: "Số dư điểm LynkiD thay đổi"
+                        txtTransactionTitle.text =
+                            transaction?.result?.title ?: "Số dư điểm LynkiD thay đổi"
+                        handleBalance(
+                            transaction?.result?.walletAddress ?: "",
+                            transaction?.result?.toWalletAddress ?: "",
+                            transaction?.result?.amount ?: 0.0
                         )
-                        handleDetailList(transaction.result)
+                        if (transaction?.result != null) {
+                            Log.d(
+                                "TransactionDetailFrag",
+                                "setUpTransactionDetail: ${transaction.result}"
+                            )
+                            handleDetailList(transaction.result)
+                        }
                     }
                 }
             }
-        }
     }
 
     private fun FragmentTransactionDetailBinding.handleBalance(
@@ -125,18 +127,18 @@ class TransactionDetailFragment : Fragment() {
                 )
             )
         }
-        if (transaction.partnerPointAmount != null && transaction.partnerPointAmount > 0 && !transaction.creationTime.isNullOrEmpty()) {
+        if (!transaction.creationTime.isNullOrEmpty()) {
             detailList.add(
                 TransactionDetailItem(
-                    title = "Thời gian đổi",
+                    title = if (transaction.partnerPointAmount != null && transaction.partnerPointAmount > 0) "Thời gian đổi" else "Thời gian",
                     body = formatDateTimeToHourMinuteDayMonthYear(transaction.creationTime)
                 )
             )
         }
-        Log.d("TransactionDetailFragment", "transaction.partnerName: ${transaction.partnerName}")
+        Log.d("TransactionDetailFrag", "transaction.partnerName: ${transaction.partnerName}")
         if (!transaction.partnerName.isNullOrEmpty()) {
             Log.d(
-                "TransactionDetailFragment",
+                "TransactionDetailFrag",
                 "transaction.partnerName: ${transaction.partnerName}"
             )
             detailList.add(
@@ -195,7 +197,7 @@ class TransactionDetailFragment : Fragment() {
                 )
             )
         }
-        Log.d("TransactionDetailFragment", "handleDetailList: $detailList")
+        Log.d("TransactionDetailFrag", "handleDetailList: $detailList")
         val adapter = TransactionDetailAdapter(detailList)
         listDetails.layoutManager = LinearLayoutManager(binding.root.context)
         val divider = ContextCompat.getDrawable(listDetails.context, R.drawable.list_divider)
@@ -222,6 +224,8 @@ class TransactionDetailFragment : Fragment() {
                                 layoutRelated.visibility = View.VISIBLE
                                 Glide.with(requireContext())
                                     .load(brandImage ?: "")
+                                    .error(R.drawable.img_lynkid)
+                                    .centerCrop()
                                     .into(imgRelatedBrand)
                                 txtTitle.text = title
                                 txtBrand.text = brandName ?: "Thương hiệu khác"

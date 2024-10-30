@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.ItemImediaBrandBinding
 import vn.linkid.sdk.databinding.ItemImediaDialogBrandBinding
 import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendor
@@ -43,7 +44,8 @@ class DialogIMediaBrandAdapter(
             binding.apply {
                 root.isSelected = isSelected
                 imgCheck.visibility = if (isSelected) View.VISIBLE else View.GONE
-                Glide.with(root.context).load(iMediaBrand.brandMapping?.linkLogo).into(imgBrand)
+                Glide.with(root.context).load(iMediaBrand.brandMapping?.linkLogo)
+                    .error(R.drawable.img_lynkid).into(imgBrand)
                 imgBrand.clipToOutline = true
                 txtBrandName.text = iMediaBrand.brandMapping?.brandName
                 txtBrandName.setTextColor(

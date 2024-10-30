@@ -252,6 +252,10 @@
         <action
             android:id="@+id/action_giftExchangeSuccessFragment_to_myRewardPhysicalDetailFragment"
             app:destination="@id/myRewardPhysicalDetailFragment" />
+        <argument
+            android:name="from"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/giftExchangeAddressFragment"

@@ -278,4 +278,43 @@
         app:layout_constraintStart_toEndOf="@id/btnGiveFriend" />
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBottomHome"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_outlined_button"
+        android:gravity="center"
+        android:text="Trang chủ"
+        android:textColor="#242424"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnReExchange"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnReExchange"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_gradient_button"
+        android:gravity="center"
+        android:text="Nạp thêm"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:fontFamily="@font/bevietnampro_semibold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBottomHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBottomHome"
+        app:layout_constraintTop_toTopOf="@id/btnBottomHome" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

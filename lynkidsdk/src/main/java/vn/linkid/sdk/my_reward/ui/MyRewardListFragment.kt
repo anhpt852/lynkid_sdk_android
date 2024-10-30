@@ -47,7 +47,7 @@ class MyRewardListFragment : Fragment() {
     private val service = MyRewardListService(mainAPI)
     private val repository = MyRewardListRepository(service)
     private lateinit var viewModelFactory: MyRewardListViewModelFactory
-    private val adapter = MyRewardListAdapter()
+    private lateinit var adapter: MyRewardListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,6 +81,7 @@ class MyRewardListFragment : Fragment() {
     private fun setUpList() {
         binding.apply {
             listMyReward.layoutManager = LinearLayoutManager(binding.root.context)
+            adapter = MyRewardListAdapter(tab)
             listMyReward.adapter = adapter
             adapter.onItemClicked = { myReward ->
                 Log.d("MyRewardListFragment", "Selected reward: $myReward")

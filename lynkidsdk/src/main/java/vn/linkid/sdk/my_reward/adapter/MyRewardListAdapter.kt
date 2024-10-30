@@ -1,6 +1,8 @@
 package vn.linkid.sdk.my_reward.adapter
 
 import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -103,12 +105,17 @@ class MyRewardListAdapter(private val tab: Int = 0) :
             binding.apply {
                 Glide.with(imgBrand).load(giftInfoItem.brandInfo?.brandImage).circleCrop()
                     .placeholder(R.drawable.img_lynkid).into(imgBrand)
+                if (tab == 1) {
+                    val colorMatrix = ColorMatrix();
+                    colorMatrix.setSaturation(0.0f);
+                    val filter = ColorMatrixColorFilter(colorMatrix);
+                    imgBrand.colorFilter = filter;
+                }
                 txtGiftName.text = giftInfoItem.giftTransaction?.giftName
                 txtBrand.text = if ((giftInfoItem.brandInfo?.brandName
                         ?: "").isEmpty()
                 ) "THƯƠNG HIỆU KHÁC" else giftInfoItem.brandInfo?.brandName?.uppercase()
                 txtExpireDate.text = ""
-                txtAction.visibility = View.GONE
                 if (tab == 0) {
                     txtAction.visibility = View.VISIBLE
                     if (giftInfoItem.eGift != null) {
@@ -116,6 +123,8 @@ class MyRewardListAdapter(private val tab: Int = 0) :
                     } else {
                         txtAction.text = "THEO DÕI"
                     }
+                } else {
+                    txtAction.visibility = View.GONE
                 }
                 if (isShowExpiredDate) {
                     txtExpireDate.visibility = View.VISIBLE
@@ -148,7 +157,10 @@ class MyRewardListAdapter(private val tab: Int = 0) :
                                     giftInfoItem?.giftTransaction?.isTimer == true ->
                                 giftInfoItem?.giftTransaction?.transferTime ?: ""
 
-                            else -> ""
+                            else -> {
+                                txtExpireDate.visibility = View.GONE
+                                ""
+                            }
                         }
                     }"
                 } else {

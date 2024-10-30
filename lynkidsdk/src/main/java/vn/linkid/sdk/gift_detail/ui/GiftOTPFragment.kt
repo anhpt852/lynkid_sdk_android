@@ -100,7 +100,7 @@ class GiftOTPFragment : Fragment() {
                                 )
                                 val action =
                                     GiftOTPFragmentDirections.actionGiftOTPFragmentToGiftExchangeSuccessFragment(
-                                        newGiftExchange
+                                        newGiftExchange, null
                                     )
                                 findNavController().navigate(action)
                             }

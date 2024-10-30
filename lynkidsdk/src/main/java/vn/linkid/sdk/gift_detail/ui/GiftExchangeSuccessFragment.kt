@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentGiftExchangeSuccessBinding
 import vn.linkid.sdk.models.gift.GiftExchange
 import vn.linkid.sdk.utils.dpToPx
@@ -22,6 +24,7 @@ class GiftExchangeSuccessFragment : Fragment() {
 
     private val args: GiftExchangeSuccessFragmentArgs by navArgs()
     private val giftExchange: GiftExchange by lazy { args.giftExchange }
+    private val from: String? by lazy { args.from }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,17 +51,27 @@ class GiftExchangeSuccessFragment : Fragment() {
                 getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             btnUse.layoutParams = bottomLayoutParam
 
+            val bottomHomeLayoutParam = btnBottomHome.layoutParams as ViewGroup.MarginLayoutParams
+            bottomHomeLayoutParam.bottomMargin =
+                getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
+            btnBottomHome.layoutParams = bottomHomeLayoutParam
+
             giftExchange.apply {
-                btnHome.setOnClickListener { findNavController().popBackStack() }
+                btnHome.setOnClickListener {
+                    findNavController().popBackStack(R.id.homeFragment, true)
+                }
                 txtExchangeInfo.text =
                     "Bạn vừa tiết kiệm ${totalAmount.formatPrice()}VND cùng LynkiD"
+                txtExchangeInfo.visibility = if (from == "TopUp") View.GONE else View.VISIBLE
+
                 txtBrand.text = brandName
                 Glide.with(root.context)
                     .load(brandImage)
+                    .centerCrop()
                     .into(imgBrand)
                 txtGiftName.text = giftName
                 txtExpireDate.text =
-                    if (!expiredString.isNullOrEmpty()) "HSD: ${expiredString}" else ""
+                    if (!expiredString.isNullOrEmpty()) "HSD: $expiredString" else ""
                 if ((amount ?: 1) > 1) {
                     tagAmount.visibility = View.VISIBLE
                     txtAmount.text = "X${(amount ?: 1).formatPrice()}"
@@ -81,6 +94,36 @@ class GiftExchangeSuccessFragment : Fragment() {
                             false
                         )
                     findNavController().navigate(action)
+                }
+
+                btnUse.setOnClickListener {
+                    val action =
+                        if (isEGift == true) GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardEGiftDetailFragment(
+                            transactionCode ?: ""
+                        ) else GiftExchangeSuccessFragmentDirections.actionGiftExchangeSuccessFragmentToMyRewardPhysicalDetailFragment(
+                            transactionCode ?: ""
+                        )
+                    findNavController().navigate(action)
+                }
+
+                btnReExchange.setOnClickListener {
+                    findNavController().popBackStack()
+                    findNavController().popBackStack()
+                }
+
+                btnBottomHome.setOnClickListener {
+                    findNavController().popBackStack(R.id.homeFragment, true)
+                }
+
+
+                if (from == "TopUp") {
+                    btnUse.visibility = View.GONE
+                    btnBottomHome.visibility = View.VISIBLE
+                    btnReExchange.visibility = View.VISIBLE
+                } else {
+                    btnUse.visibility = View.VISIBLE
+                    btnBottomHome.visibility = View.GONE
+                    btnReExchange.visibility = View.GONE
                 }
             }
         }

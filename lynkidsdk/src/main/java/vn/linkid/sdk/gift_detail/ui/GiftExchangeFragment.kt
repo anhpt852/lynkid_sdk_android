@@ -111,6 +111,19 @@ class GiftExchangeFragment : Fragment() {
         }
         btnSubtractQuantities.setOnClickListener { viewModel.decreaseQuantity() }
         btnAddQuantities.setOnClickListener { viewModel.increaseQuantity() }
+        if (topupRedeemInfo != null) {
+            txtQuantityTitle.visibility = View.GONE
+            txtQuantity.visibility = View.GONE
+            btnSubtractQuantities.visibility = View.GONE
+            btnAddQuantities.visibility = View.GONE
+            dividerQuantity.visibility = View.GONE
+        } else {
+            txtQuantityTitle.visibility = View.VISIBLE
+            txtQuantity.visibility = View.VISIBLE
+            btnSubtractQuantities.visibility = View.VISIBLE
+            btnAddQuantities.visibility = View.VISIBLE
+            dividerQuantity.visibility = View.VISIBLE
+        }
     }
 
     private fun FragmentGiftExchangeBinding.setUpBalance(giftDetail: GiftDetail) {
@@ -152,7 +165,7 @@ class GiftExchangeFragment : Fragment() {
                 if (giftReceiver != null) parseReceiverInfo(giftReceiver!!) else "",
                 topupRedeemInfo
             ).observe(viewLifecycleOwner) { result ->
-                if(result.isSuccess) {
+                if (result.isSuccess) {
                     result.getOrNull()?.let { exchangeModel ->
                         val isOtpSent = exchangeModel.isOtpSent ?: false
                         val expiredString =
@@ -177,7 +190,7 @@ class GiftExchangeFragment : Fragment() {
                             )
                         } else {
                             GiftExchangeFragmentDirections.actionGiftExchangeFragmentToGiftExchangeSuccessFragment(
-                                giftExchange
+                                giftExchange, if (topupRedeemInfo != null) "TopUp" else null
                             )
                         }
                         findNavController().navigate(action)
@@ -185,7 +198,8 @@ class GiftExchangeFragment : Fragment() {
                 } else {
                     val errorDialog = ErrorDialog.newInstance(
                         "Có lỗi xảy ra",
-                        result.exceptionOrNull()?.message ?: "Có lỗi trong quá trình kết nối bạn vui lòng thực hiện lại nhé."
+                        result.exceptionOrNull()?.message
+                            ?: "Có lỗi trong quá trình kết nối bạn vui lòng thực hiện lại nhé."
                     )
                     errorDialog.show(childFragmentManager, "error_dialog")
                 }

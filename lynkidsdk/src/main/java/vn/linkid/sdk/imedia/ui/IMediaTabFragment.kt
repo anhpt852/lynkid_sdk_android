@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.LynkiDSDKActivity
 import vn.linkid.sdk.LynkiD_SDK
+import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentImeadiaTabBinding
 import vn.linkid.sdk.gift_detail.repository.GiftDetailRepository
 import vn.linkid.sdk.gift_detail.service.GiftDetailService
@@ -127,6 +128,7 @@ class IMediaTabFragment : Fragment() {
                 viewModel.selectedBrand.value = firstBrand
                 Glide.with(this@IMediaTabFragment)
                     .load(firstBrand.brandMapping?.linkLogo)
+                    .error(R.drawable.img_lynkid)
                     .into(imgBrand)
                 getIMediaGifts(firstBrand.brandMapping?.brandId ?: 0)
                 setUpDiscountGifts(firstBrand.brandMapping?.brandId ?: 0)
@@ -152,7 +154,7 @@ class IMediaTabFragment : Fragment() {
             bottomSheet.onApplyBrand = { brand ->
                 viewModel.selectedBrand.value = brand
                 Glide.with(this@IMediaTabFragment)
-                    .load(brand.brandMapping?.linkLogo)
+                    .load(brand.brandMapping?.linkLogo).error(R.drawable.img_lynkid)
                     .into(imgBrand)
                 getIMediaGifts(brand.brandMapping?.brandId ?: 0)
                 setUpDiscountGifts(brand.brandMapping?.brandId ?: 0)
@@ -228,7 +230,7 @@ class IMediaTabFragment : Fragment() {
             "Thông tin chưa đúng định dạng"
         )
         edtPhoneNumber.addTextChangedListener(phoneNumberFormatter)
-        edtPhoneNumber.setText(LynkiD_SDK.phoneNumber)
+        edtPhoneNumber.setText(LynkiD_SDK.phoneNumber.replace("+84", "0"))
     }
 
     private fun FragmentImeadiaTabBinding.setUpLayout() {
