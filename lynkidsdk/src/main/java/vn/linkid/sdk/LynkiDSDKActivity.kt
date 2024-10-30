@@ -32,8 +32,6 @@ class LynkiDSDKActivity : AppCompatActivity() {
         binding = ActivityMainSdkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d("LynkiDSDKActivity", "onCreate")
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
@@ -67,34 +65,6 @@ class LynkiDSDKActivity : AppCompatActivity() {
                 } else {
                     bottomNavigation.visibility = View.GONE
                 }
-//                if (destination.id == R.id.homeFragment || destination.id == R.id.settingFragment || destination.id == R.id.introFragment) {
-//                    window.navigationBarColor = Color.WHITE
-//                } else {
-//                    window.navigationBarColor = Color.parseColor("#F7F7F7")
-//                }
-//                if (destination.id == R.id.homeFragment || destination.id == R.id.languageFragment) {
-//                    window.statusBarColor = Color.parseColor("#1A998E")
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                        window.insetsController?.setSystemBarsAppearance(
-//                            0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-//                        )
-//                    } else {
-//                        @Suppress("DEPRECATION")
-//                        window.decorView.systemUiVisibility = 0
-//                    }
-//                } else {
-//                    window.statusBarColor = Color.WHITE
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                        window.insetsController?.setSystemBarsAppearance(
-//                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-//                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-//                        )
-//                    } else {
-//                        @Suppress("DEPRECATION")
-//                        window.decorView.systemUiVisibility =
-//                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//                    }
-//                }
             }
         }
     }
@@ -136,17 +106,6 @@ class LynkiDSDKActivity : AppCompatActivity() {
                 transactionCode
             )
         }
-        navController.navigate(action)
-    }
-
-    fun navigateFromIMediaToGiftExchangeFragment(giftId: Int, topupRedeemInfo: TopupRedeemInfo) {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        val action = IMediaHomeFragmentDirections.actionIMediaHomeFragmentToGiftExchangeFragment(
-            giftId = giftId,
-            topupRedeemInfo = topupRedeemInfo
-        )
         navController.navigate(action)
     }
 

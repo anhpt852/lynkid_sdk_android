@@ -70,15 +70,19 @@ class IMediaTabFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentImeadiaTabBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, viewModelFactory)[IMediaTabViewModel::class.java]
+        if (this::binding.isInitialized) {
+            binding
+        } else {
+            binding = FragmentImeadiaTabBinding.inflate(inflater, container, false)
+            viewModel = ViewModelProvider(this, viewModelFactory)[IMediaTabViewModel::class.java]
+            setUpView()
+        }
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpView()
     }
 
     private fun setUpView() {
@@ -95,7 +99,7 @@ class IMediaTabFragment : Fragment() {
             if (phoneNumberFormatter.isValid()) {
                 viewModel.selectedGift.value?.let { gift ->
                     Log.d("IMediaTabFragment", "Selected gift: $gift")
-                    (activity as LynkiDSDKActivity).navigateFromIMediaToGiftExchangeFragment(
+                    (parentFragment as IMediaHomeFragment).navigateFromIMediaToGiftExchangeFragment(
                         gift.giftInfor?.id ?: 0, TopupRedeemInfo(
                             operation = if (tab == 0 || tab == 2 || tab == 3) 1200 else 1000,
                             ownerPhone = if (tab == 1 || tab == 4) LynkiD_SDK.phoneNumber else formatPhoneNumber(
