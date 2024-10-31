@@ -71,6 +71,7 @@ class IMediaHomeFragment : Fragment() {
 
             viewPager.isUserInputEnabled = false
             viewPager.isSaveEnabled = false
+            viewPager.offscreenPageLimit = 5
             viewPager.adapter = SectionsPagerAdapter(this@IMediaHomeFragment)
             tabLayout.addTab(tabLayout.newTab().setText("Điện thoại"))
             tabLayout.addTab(tabLayout.newTab().setText("Data 3G/4G"))
