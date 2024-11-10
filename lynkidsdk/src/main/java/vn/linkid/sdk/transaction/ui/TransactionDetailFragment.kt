@@ -1,6 +1,8 @@
 package vn.linkid.sdk.transaction.ui
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -67,6 +69,12 @@ class TransactionDetailFragment : Fragment() {
             val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
             toolbar.layoutParams = layoutParams
+
+            layoutSupport.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:1900545415")
+                startActivity(intent)
+            }
         }
     }
 
@@ -244,6 +252,14 @@ class TransactionDetailFragment : Fragment() {
                                 } else {
                                     txtCoin.text = "-${(amount ?: 0.0).formatPrice()}"
                                     txtCoin.setTextColor(Color.parseColor("#F5574E"))
+                                }
+                                layoutRelated.setOnClickListener {
+                                    val action =
+                                        TransactionDetailFragmentDirections.actionTransactionDetailFragmentToTransactionDetailFragment(
+                                            relatedTokenTransId ?: "",
+                                            true
+                                        )
+                                    findNavController().navigate(action)
                                 }
                             }
                         }

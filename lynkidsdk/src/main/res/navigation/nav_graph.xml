@@ -302,6 +302,9 @@
         <action
             android:id="@+id/action_transactionDetailFragment_to_myRewardPhysicalDetailFragment"
             app:destination="@id/myRewardPhysicalDetailFragment" />
+        <action
+            android:id="@+id/action_transactionDetailFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

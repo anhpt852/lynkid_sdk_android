@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.linkid.sdk.databinding.ItemTransactionDetailBinding
 import vn.linkid.sdk.models.transaction.TransactionDetailItem
+import vn.linkid.sdk.utils.copyToClipboard
 
 class TransactionDetailAdapter(private val items: List<TransactionDetailItem>) :
     RecyclerView.Adapter<TransactionDetailAdapter.TransactionDetailViewHolder>() {
@@ -46,7 +47,12 @@ class TransactionDetailAdapter(private val items: List<TransactionDetailItem>) :
                         imgCoin.visibility = View.GONE
                         imgCopy.visibility = View.VISIBLE
                         itemView.setOnClickListener {
-                            onClipBoardClick?.invoke(item.body)
+                            copyToClipboard(
+                                binding.root.context,
+                                item.body,
+                                "transaction_id",
+                                "Đã sao chép ${item.title}"
+                            )
                         }
                     } else {
                         imgCoin.visibility = View.VISIBLE

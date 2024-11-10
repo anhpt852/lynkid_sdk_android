@@ -1,5 +1,8 @@
 package vn.linkid.sdk.gift_detail.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -126,6 +129,14 @@ class GiftExchangeSuccessFragment : Fragment() {
                     } else {
                         findNavController().popBackStack()
                         findNavController().popBackStack()
+                    }
+                }
+
+                btnInstallAppSmall.setOnClickListener {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.linkid")))
+                    } catch (e: ActivityNotFoundException) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.linkid")))
                     }
                 }
 
