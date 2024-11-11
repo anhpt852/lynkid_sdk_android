@@ -36,6 +36,7 @@ import vn.linkid.sdk.models.exchange.ExchangeResponseModel
 import vn.linkid.sdk.models.flash_sale.GetAllFlashSaleProgramResponseModel
 import vn.linkid.sdk.models.gift.GiftDetailResponseModel
 import vn.linkid.sdk.models.gift.GiftGroupResponseModel
+import vn.linkid.sdk.models.gift_usage.GiftUsageResponseModel
 import vn.linkid.sdk.models.imedia.GetIMediaGiftsResponseModel
 import vn.linkid.sdk.models.imedia.GetIMediaHistoryResponseModel
 import vn.linkid.sdk.models.imedia.GetThirdPartyBrandByVendorResponseModel
@@ -282,7 +283,7 @@ interface APIEndpoints {
             "X-PartnerCode" to LynkiD_SDK.partnerCode,
             "Authorization" to "Bearer ${LynkiD_SDK.accessToken}"
         ), @QueryMap queries: MutableMap<String, Any>
-    )
+    ): GiftUsageResponseModel
 
     @GET(Endpoints.GET_GIFTS)
     suspend fun searchGift(

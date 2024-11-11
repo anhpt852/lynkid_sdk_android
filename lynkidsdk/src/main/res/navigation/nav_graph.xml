@@ -553,4 +553,13 @@
             android:id="@+id/action_myRewardTopupDetailFragment_to_IMediaHomeFragment"
             app:destination="@id/IMediaHomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/giftUsageFragment"
+        android:name="vn.linkid.sdk.gift_usage.ui.GiftUsageFragment"
+        android:label="GiftUsageFragment"
+        tools:layout="@layout/fragment_gift_usage">
+        <argument
+            android:name="giftCode"
+            app:argType="string" />
+    </fragment>
 </navigation>
