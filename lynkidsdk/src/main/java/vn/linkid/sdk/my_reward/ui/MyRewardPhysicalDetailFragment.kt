@@ -250,6 +250,10 @@ class MyRewardPhysicalDetailFragment : Fragment() {
             }
             listAddress.layoutManager = LinearLayoutManager(context)
             listAddress.adapter = adapter
+            btnAddressMore.setOnClickListener {
+                val action = MyRewardPhysicalDetailFragmentDirections.actionMyRewardPhysicalDetailFragmentToGiftUsageFragment(giftInfoItem.giftInfor?.code ?: "")
+                findNavController().navigate(action)
+            }
         }
     }
 

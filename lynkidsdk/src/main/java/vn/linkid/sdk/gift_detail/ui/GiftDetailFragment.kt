@@ -314,6 +314,10 @@ class GiftDetailFragment : Fragment() {
             }
             listAddress.layoutManager = LinearLayoutManager(context)
             listAddress.adapter = adapter
+            btnAddressMore.setOnClickListener {
+                val action = GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftUsageFragment(giftDetail.giftInfor?.code ?: "")
+                findNavController().navigate(action)
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -113,6 +114,16 @@ class AddressPickerFragment : Fragment() {
                         adapter.filter(s.toString())
                     }
                 })
+
+                edtSearch.setOnTouchListener { view, event ->
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        if (event.rawX >= (edtSearch.right - edtSearch.compoundDrawablesRelative[2].bounds.width() - 48)) {
+                            edtSearch.setText("")
+                            return@setOnTouchListener true
+                        }
+                    }
+                    false
+                }
             }
         }
     }

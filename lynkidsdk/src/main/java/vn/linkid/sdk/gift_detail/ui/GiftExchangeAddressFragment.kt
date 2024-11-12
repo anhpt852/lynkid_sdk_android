@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.R
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModel
 import vn.linkid.sdk.address.viewmodel.GiftExchangeAddressPickerViewModelFactory
@@ -51,6 +52,11 @@ class GiftExchangeAddressFragment : Fragment() {
             bottomLayoutParam.bottomMargin =
                 getNavigationBarHeight(root) + (context?.dpToPx(24) ?: 0)
             btnExchange.layoutParams = bottomLayoutParam
+
+            btnBack.setOnClickListener { findNavController().popBackStack() }
+
+            edtName.setText(LynkiD_SDK.name)
+            edtPhone.setText(LynkiD_SDK.phoneNumber.replace("+84", "0"))
 
             pickerViewModel.selectedCity.observe(viewLifecycleOwner) {
                 txtCityTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)

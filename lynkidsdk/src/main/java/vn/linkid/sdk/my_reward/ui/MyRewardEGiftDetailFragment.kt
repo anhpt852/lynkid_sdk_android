@@ -175,6 +175,10 @@ class MyRewardEGiftDetailFragment : Fragment() {
             }
             listAddress.layoutManager = LinearLayoutManager(context)
             listAddress.adapter = adapter
+            btnAddressMore.setOnClickListener {
+                val action = MyRewardEGiftDetailFragmentDirections.actionMyRewardEGiftDetailFragmentToGiftUsageFragment(giftInfoItem.giftInfor?.code ?: "")
+                findNavController().navigate(action)
+            }
         }
     }
 

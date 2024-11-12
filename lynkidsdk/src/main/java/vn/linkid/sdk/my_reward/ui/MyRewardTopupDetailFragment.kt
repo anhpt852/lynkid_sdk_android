@@ -179,6 +179,10 @@ class MyRewardTopupDetailFragment : Fragment() {
             }
             listAddress.layoutManager = LinearLayoutManager(context)
             listAddress.adapter = adapter
+            btnAddressMore.setOnClickListener {
+                val action = MyRewardTopupDetailFragmentDirections.actionMyRewardTopupDetailFragmentToGiftUsageFragment(giftInfoItem.giftInfor?.code ?: "")
+                findNavController().navigate(action)
+            }
         }
     }
 
