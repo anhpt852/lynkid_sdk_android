@@ -1,5 +1,8 @@
 package vn.linkid.sdk.account.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,13 +33,13 @@ class AccountFragment : Fragment() {
 
     private fun setUpView() {
         binding.apply {
-            val layoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.topMargin = getStatusBarHeight(root) + (context?.dpToPx(12) ?: 0)
-            toolbar.layoutParams = layoutParams
-            layoutNeedLogin.btnInstall.setOnClickListener {
-
+            btnInstallApp.setOnClickListener {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.linkid")))
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.linkid")))
+                }
             }
-            layoutNeedLogin.txtLogin.visibility = View.GONE
         }
     }
 
