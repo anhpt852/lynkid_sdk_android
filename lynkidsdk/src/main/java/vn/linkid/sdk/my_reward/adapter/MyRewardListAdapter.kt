@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -177,6 +178,21 @@ class MyRewardListAdapter(private val tab: Int = 0) :
 
                 } else if (!isEgift) {
                     viewTag.visibility = View.VISIBLE
+                    Log.i("MyRewardListAdapter", "bind: ${giftInfoItem.giftTransaction?.status}")
+                    Log.i(
+                        "MyRewardListAdapter", "bind2: ${
+                            when (giftInfoItem.giftTransaction?.status) {
+                                "Pending", "Waiting" -> "Chờ xác nhận"
+                                "Approved", "Confirmed" -> "Đã xác nhận"
+                                "Rejected", "Canceled" -> "Đã hủy"
+                                "Delivered" -> "Đã giao hàng"
+                                "Delivering" -> "Đang giao"
+                                "Returned" -> "Đã trả hàng"
+                                "Returning" -> "Đang trả hàng"
+                                else -> "Quà tặng"
+                            }
+                        }"
+                    )
                     txtTag.text = when (giftInfoItem.giftTransaction?.status) {
                         "Pending", "Waiting" -> "Chờ xác nhận"
                         "Approved", "Confirmed" -> "Đã xác nhận"
@@ -187,7 +203,6 @@ class MyRewardListAdapter(private val tab: Int = 0) :
                         "Returning" -> "Đang trả hàng"
                         else -> "Quà tặng"
                     }
-                    txtTag.text = nameTag
                     val drawable = GradientDrawable().apply {
                         shape = GradientDrawable.RECTANGLE
                         val color = when (giftInfoItem.giftTransaction?.status) {
@@ -214,7 +229,10 @@ class MyRewardListAdapter(private val tab: Int = 0) :
                             binding.root.context.dpToPx(8).toFloat()  // bottom-left
                         )
                     }
-                    viewTag.background = drawable
+                    viewTag.background = if (txtTag.text == "Quà tặng") ContextCompat.getDrawable(
+                        binding.root.context,
+                        R.drawable.bg_my_reward_tag
+                    ) else drawable
                 } else {
                     viewTag.visibility = View.GONE
                 }

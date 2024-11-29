@@ -1,12 +1,7 @@
 package vn.linkid.sdk.my_reward.ui
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,22 +16,19 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import vn.linkid.sdk.R
 import vn.linkid.sdk.databinding.FragmentMyRewardPhysicalDetailBinding
-import vn.linkid.sdk.utils.dpToPx
-import vn.linkid.sdk.utils.getStatusBarHeight
-import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import vn.linkid.sdk.models.my_reward.RewardStatus
-import vn.linkid.sdk.models.my_reward.RewardUsedStatus
-import vn.linkid.sdk.models.my_reward.WhyHaveRewardType
 import vn.linkid.sdk.my_reward.adapter.MyRewardDetailAddressAdapter
 import vn.linkid.sdk.my_reward.repository.MyRewardDetailRepository
 import vn.linkid.sdk.my_reward.service.MyRewardDetailService
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModel
 import vn.linkid.sdk.my_reward.viewmodel.MyRewardDetailViewModelFactory
-import vn.linkid.sdk.utils.copyToClipboard
-import vn.linkid.sdk.utils.formatDate
+import vn.linkid.sdk.utils.dpToPx
+import vn.linkid.sdk.utils.getStatusBarHeight
+import vn.linkid.sdk.utils.mainAPI
 import vn.linkid.sdk.utils.openCall
 import vn.linkid.sdk.utils.openEmail
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -127,8 +119,9 @@ class MyRewardPhysicalDetailFragment : Fragment() {
 
 
         val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
         val exchangeDate =
-            if (giftInfoItem.giftTransaction?.date != null) outputFormat.format(giftInfoItem.giftTransaction.date) else ""
+            if (giftInfoItem.giftTransaction?.date != null) outputFormat.format(inputFormat.parse(giftInfoItem.giftTransaction.date) ?: "") else ""
         if (exchangeDate.isNotEmpty()) {
             txtExchangeDate.text = exchangeDate
             txtExchangeDateTitle.visibility = View.VISIBLE
