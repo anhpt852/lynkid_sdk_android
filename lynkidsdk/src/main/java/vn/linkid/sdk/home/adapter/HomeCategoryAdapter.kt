@@ -35,6 +35,7 @@ class HomeCategoryAdapter(private val categories: List<Category>) :
             binding.apply {
                 Glide.with(imgCategory)
                     .load(category.fullLink ?: "")
+                    .placeholder(R.drawable.ic_category_placeholder)
                     .into(imgCategory)
                 txtCategory.text = category.name ?: ""
                 itemView.setOnClickListener { onItemClick?.invoke(category) }

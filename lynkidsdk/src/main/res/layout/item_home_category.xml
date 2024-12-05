@@ -10,7 +10,7 @@
         android:id="@+id/cardCategory"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:padding="10dp"
+        app:contentPadding="10dp"
         app:cardBackgroundColor="#F0F0F4"
         app:cardCornerRadius="100dp"
         app:cardElevation="0dp"

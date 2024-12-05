@@ -58,6 +58,7 @@ class CategoryAdapter(
             binding.apply {
                 Glide.with(root.context)
                     .load(if (category.code == "all") R.drawable.ic_category_all else category.fullLink)
+                    .placeholder(R.drawable.ic_category_placeholder)
                     .into(imgCategory)
                 txtCategory.text = category.name
                 if (itemView.isSelected != isSelected) {

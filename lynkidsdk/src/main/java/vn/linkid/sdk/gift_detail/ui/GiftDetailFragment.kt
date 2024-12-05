@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import vn.linkid.sdk.InstallAppDialog
+import vn.linkid.sdk.LynkiD_SDK
 import vn.linkid.sdk.databinding.FragmentGiftDetailBinding
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.formatPrice
@@ -350,20 +352,25 @@ class GiftDetailFragment : Fragment() {
         }
 
         btnExchange.setOnClickListener {
-            if ((viewModel.countdownFlashSaleTime.value ?: 0) > 0) {
-                layoutFlashSalePromo.visibility = View.VISIBLE
+            if (LynkiD_SDK.isAnonymous){
+                val dialog = InstallAppDialog()
+                dialog.show(childFragmentManager, "InstallAppDialog")
             } else {
-                val action =
-                    if (giftDetail.giftInfor?.isEGift == true) {
-                        GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(
-                            giftId
-                        )
-                    } else {
-                        GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
-                            giftId
-                        )
-                    }
-                findNavController().navigate(action)
+                if ((viewModel.countdownFlashSaleTime.value ?: 0) > 0) {
+                    layoutFlashSalePromo.visibility = View.VISIBLE
+                } else {
+                    val action =
+                        if (giftDetail.giftInfor?.isEGift == true) {
+                            GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeFragment(
+                                giftId
+                            )
+                        } else {
+                            GiftDetailFragmentDirections.actionGiftDetailFragmentToGiftExchangeAddressFragment(
+                                giftId
+                            )
+                        }
+                    findNavController().navigate(action)
+                }
             }
         }
         btnKeepExchange.setOnClickListener {

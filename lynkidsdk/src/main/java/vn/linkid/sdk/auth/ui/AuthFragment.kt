@@ -1,6 +1,7 @@
 package vn.linkid.sdk.auth.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,16 +77,24 @@ class AuthFragment : Fragment() {
                 val isAccountConnected = connectedMember.connectionInfo?.isExisting ?: false
                 val isDifferentPhone =
                     connectedMember.phoneNumber != connectedMember.connectionInfo?.connectedToPhone
+                Log.d(
+                    "AuthFragment",
+                    "isAccountExist: $isAccountExist, isAccountConnected: $isAccountConnected, isDifferentPhone: $isDifferentPhone"
+                )
                 val action =
-                    if (isAccountExist && isAccountConnected && !isDifferentPhone) AuthFragmentDirections.actionAuthFragmentToLoginFragment(
+                    if (!isAccountExist && !isAccountConnected) AuthFragmentDirections.actionAuthFragmentToRegisterFragment(
                         connectedMember
                     )
-                    else if (isAccountExist && isAccountConnected) AuthFragmentDirections.actionAuthFragmentToSwitchAccountFragment(
+                    else if (!isAccountExist) {
+                        if (isDifferentPhone) AuthFragmentDirections.actionAuthFragmentToSwitchAccountFragment(
+                            connectedMember
+                        )
+                        else AuthFragmentDirections.actionAuthFragmentToLoginWithoutConnectFragment(
+                            connectedMember
+                        )
+                    } else if (!isAccountConnected) AuthFragmentDirections.actionAuthFragmentToLoginWithoutConnectFragment(
                         connectedMember
-                    ) else if (isAccountExist) AuthFragmentDirections.actionAuthFragmentToLoginWithoutConnectFragment(
-                        connectedMember
-                    )
-                    else AuthFragmentDirections.actionAuthFragmentToRegisterFragment(connectedMember)
+                    ) else AuthFragmentDirections.actionAuthFragmentToLoginFragment(connectedMember)
                 findNavController().navigate(action)
             }
         }

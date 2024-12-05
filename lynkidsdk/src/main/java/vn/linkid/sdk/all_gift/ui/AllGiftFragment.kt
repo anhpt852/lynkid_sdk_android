@@ -123,9 +123,6 @@ class AllGiftFragment : Fragment() {
                             )
                         findNavController().navigate(action)
                     }
-                    adapter.onBannerClick = {
-
-                    }
                     listGift.adapter = adapter
                 }
             }

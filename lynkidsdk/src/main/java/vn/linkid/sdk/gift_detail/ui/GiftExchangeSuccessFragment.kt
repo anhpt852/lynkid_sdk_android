@@ -72,7 +72,7 @@ class GiftExchangeSuccessFragment : Fragment() {
                 }
                 txtExchangeInfo.text =
                     "Bạn vừa tiết kiệm ${totalAmount.formatPrice()}VND cùng LynkiD"
-                txtExchangeInfo.visibility = if (from == "TopUp") View.GONE else View.VISIBLE
+                txtExchangeInfo.visibility = if (from == "TopUp" || isEGift == false) View.GONE else View.VISIBLE
 
                 txtBrand.text = brandName
                 Glide.with(root.context)
@@ -146,6 +146,11 @@ class GiftExchangeSuccessFragment : Fragment() {
                     btnBottomHome.visibility = View.VISIBLE
                     btnReExchange.visibility = View.VISIBLE
                 } else {
+                    if (giftExchange.isEGift == false){
+                        btnUse.text = "Theo dõi đơn hàng"
+                    } else {
+                        btnUse.text = "Sử dụng ngay"
+                    }
                     btnUse.visibility = View.VISIBLE
                     btnBottomHome.visibility = View.GONE
                     btnReExchange.visibility = View.GONE
