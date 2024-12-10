@@ -12,6 +12,7 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import vn.linkid.sdk.models.transaction.GetTransactionItem
+import vn.linkid.sdk.models.transaction.GroupTransactionItem
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 
 class TransactionListViewModel(private val repository: TransactionRepository) : ViewModel() {
@@ -38,7 +39,7 @@ class TransactionListViewModel(private val repository: TransactionRepository) : 
         }
     }
 
-    val transactions: LiveData<PagingData<GetTransactionItem>> =
+    val transactions: LiveData<PagingData<GroupTransactionItem>> =
         liveData {
             loader.postValue(true)
             repository.getTransactionsStream(_tab.value ?: 0)

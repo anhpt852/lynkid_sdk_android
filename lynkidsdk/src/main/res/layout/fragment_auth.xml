@@ -193,7 +193,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textColor="#6D6B7A"
             android:textSize="14sp"
             app:fontFamily="@font/bevietnampro_regular"

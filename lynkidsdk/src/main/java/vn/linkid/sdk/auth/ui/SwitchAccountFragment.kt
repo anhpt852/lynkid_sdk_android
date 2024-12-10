@@ -58,6 +58,7 @@ class SwitchAccountFragment : Fragment() {
 
             txtFirstPhone.text = LynkiD_SDK.connectedPhoneNumber
             txtSecondPhone.text = LynkiD_SDK.phoneNumber
+            txtSecondLink.text = LynkiD_SDK.name
 
             viewModel.currentOption.observe(viewLifecycleOwner) {
                 layoutCheckFirstProfile.visibility = if (it == 0) View.VISIBLE else View.GONE

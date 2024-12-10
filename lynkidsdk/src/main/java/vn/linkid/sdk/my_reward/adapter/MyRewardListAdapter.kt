@@ -18,8 +18,6 @@ import vn.linkid.sdk.databinding.ItemMyRewardBinding
 import vn.linkid.sdk.models.my_reward.GiftInfoItem
 import vn.linkid.sdk.models.my_reward.RewardUsedStatus
 import vn.linkid.sdk.models.my_reward.WhyHaveRewardType
-import vn.linkid.sdk.transaction.adapter.TransactionAdapter
-import vn.linkid.sdk.transaction.adapter.TransactionAdapter.Companion
 import vn.linkid.sdk.utils.dpToPx
 import java.text.SimpleDateFormat
 import java.util.Date

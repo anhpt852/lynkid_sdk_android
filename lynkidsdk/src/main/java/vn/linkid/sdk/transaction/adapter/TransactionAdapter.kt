@@ -14,25 +14,9 @@ import vn.linkid.sdk.models.transaction.GetTransactionItem
 import vn.linkid.sdk.utils.formatDateTimeToHourMinuteDayMonth
 import vn.linkid.sdk.utils.formatPrice
 
-class TransactionAdapter(private val merchants: List<GetMerchant>) :
-    PagingDataAdapter<GetTransactionItem, TransactionAdapter.TransactionViewHolder>(DIFF_CALLBACK) {
+class TransactionAdapter(private val merchants: List<GetMerchant>, private val transactions: List<GetTransactionItem>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
     var onItemClick: ((GetTransactionItem) -> Unit)? = null
-
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GetTransactionItem>() {
-            override fun areItemsTheSame(
-                oldItem: GetTransactionItem,
-                newItem: GetTransactionItem,
-            ): Boolean =
-                oldItem.tokenTransID == newItem.tokenTransID
-
-            override fun areContentsTheSame(
-                oldItem: GetTransactionItem,
-                newItem: GetTransactionItem,
-            ): Boolean =
-                oldItem == newItem
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val binding =
@@ -41,10 +25,11 @@ class TransactionAdapter(private val merchants: List<GetMerchant>) :
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val transactionItem = getItem(position)
-        transactionItem?.let { holder.bind(it) }
+        val transactionItem = transactions[position]
+        transactionItem.let { holder.bind(it) }
     }
 
+    override fun getItemCount(): Int = transactions.size
 
     inner class TransactionViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {

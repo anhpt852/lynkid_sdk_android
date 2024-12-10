@@ -7,12 +7,13 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.linkid.sdk.models.transaction.GetTransactionItem
+import vn.linkid.sdk.models.transaction.GroupTransactionItem
 import vn.linkid.sdk.transaction.paging.TransactionPagingSource
 import vn.linkid.sdk.transaction.service.TransactionService
 
 class TransactionRepository(private val service: TransactionService) {
 
-    fun getTransactionsStream(tab: Int): Flow<PagingData<GetTransactionItem>> = Pager(
+    fun getTransactionsStream(tab: Int): Flow<PagingData<GroupTransactionItem>> = Pager(
         PagingConfig(pageSize = 10, enablePlaceholders = false)
     ) {
         TransactionPagingSource(service, tab)

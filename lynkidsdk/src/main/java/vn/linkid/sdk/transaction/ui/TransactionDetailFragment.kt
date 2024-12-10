@@ -129,7 +129,7 @@ class TransactionDetailFragment : Fragment() {
         if (!transaction.orderCode.isNullOrEmpty()) {
             detailList.add(
                 TransactionDetailItem(
-                    title = "Mã đơn hàng",
+                    title = "Mã giao dịch",
                     body = transaction.orderCode,
                     postIcon = "copy"
                 )

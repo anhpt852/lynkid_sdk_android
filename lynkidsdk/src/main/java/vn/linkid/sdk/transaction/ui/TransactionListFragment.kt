@@ -1,5 +1,8 @@
 package vn.linkid.sdk.transaction.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +21,7 @@ import vn.linkid.sdk.databinding.FragmentTransactionListBinding
 import vn.linkid.sdk.models.category.GiftFilterModel
 import vn.linkid.sdk.models.merchant.GetMerchant
 import vn.linkid.sdk.transaction.adapter.TransactionAdapter
+import vn.linkid.sdk.transaction.adapter.TransactionGroupAdapter
 import vn.linkid.sdk.transaction.repository.TransactionRepository
 import vn.linkid.sdk.transaction.service.TransactionService
 import vn.linkid.sdk.transaction.viewmodel.TransactionListViewModel
@@ -93,21 +97,22 @@ class TransactionListFragment() : Fragment() {
     }
 
     private fun setUpTransactionList(merchants: List<GetMerchant>) {
-        val adapter = TransactionAdapter(merchants)
+        val adapter = TransactionGroupAdapter(merchants)
         binding.apply {
             listTransaction.layoutManager = LinearLayoutManager(binding.root.context)
-            val divider = ContextCompat.getDrawable(listTransaction.context, R.drawable.list_divider)
-            val dividerItemDecoration = DividerItemDecoration(listTransaction.context, LinearLayoutManager.VERTICAL)
-            divider?.let {
-                dividerItemDecoration.setDrawable(it)
-            }
-            listTransaction.addItemDecoration(dividerItemDecoration)
             listTransaction.adapter = adapter
             adapter.onItemClick = { transactionItem ->
                 Log.d("TransactionListFragment", "Selected transaction: $transactionItem")
                 (activity as LynkiDSDKActivity).navigateFromTransactionToTransactionDetail(
                     transactionItem.tokenTransID ?: ""
                 )
+            }
+            adapter.onInstallAppClick = {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.linkid")))
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.linkid")))
+                }
             }
             adapter.registerAdapterDataObserver(object :
                 RecyclerView.AdapterDataObserver() {
