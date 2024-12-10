@@ -18,6 +18,7 @@ import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModel
 import vn.linkid.sdk.all_gift.viewmodel.AllGiftViewModelFactory
 import vn.linkid.sdk.databinding.FragmentAllGiftBinding
 import vn.linkid.sdk.home.ui.HomeFragmentDirections
+import vn.linkid.sdk.models.category.Category
 import vn.linkid.sdk.utils.dpToPx
 import vn.linkid.sdk.utils.getStatusBarHeight
 import vn.linkid.sdk.utils.handleScroll
@@ -80,11 +81,28 @@ class AllGiftFragment : Fragment() {
                             LinearLayoutManager.HORIZONTAL,
                             false
                         )
-                    val categoryAdapter = AllGiftCategoryAdapter(categories.getOrNull()!!)
+                    val allAddedCategories: List<Category> =
+                        listOf(
+                            Category(
+                                code = "all",
+                                name = "Tất cả",
+                                description = "",
+                                status = "",
+                                categoryTypeCode = null,
+                                fullLink = null,
+                                imageLink = null,
+                                level = null,
+                                parentCode = null,
+                                parentId = null
+                            )
+                        ).plus(categories.getOrNull()!!)
+                    val categoryAdapter = AllGiftCategoryAdapter(allAddedCategories)
                     listCategory.adapter = categoryAdapter
                     categoryAdapter.onItemClick = { category ->
                         val action =
-                            if (category.categoryTypeCode == "Diamond") AllGiftFragmentDirections.actionAllGiftFragmentToDiamondCategoryFragment(category.code ?: "") else
+                            if (category.categoryTypeCode == "Diamond") AllGiftFragmentDirections.actionAllGiftFragmentToDiamondCategoryFragment(
+                                category.code ?: ""
+                            ) else
                                 AllGiftFragmentDirections.actionAllGiftFragmentToCategoryFragment(
                                     category.code ?: ""
                                 )

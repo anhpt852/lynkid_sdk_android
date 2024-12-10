@@ -1,5 +1,7 @@
 package vn.linkid.sdk.home.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -102,6 +104,12 @@ class HomeFragment : Fragment() {
 
             btnScrollToTop.setOnClickListener {
                 scrollHome.smoothScrollTo(0, 0)
+            }
+
+            btnSupport.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:1900545415")
+                startActivity(intent)
             }
         }
     }

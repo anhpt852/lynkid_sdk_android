@@ -44,7 +44,7 @@ class GiftGroupAdapter() :
         fun bind(gift: Gift) {
             binding.apply {
                 Glide.with(root.context)
-                    .load(gift.imageLink?.firstOrNull())
+                    .load(gift.imageLink?.firstOrNull()?.link)
                     .placeholder(R.drawable.img_gift_placeholder)
                     .into(imgGift)
                 txtGiftName.text = gift.giftInfor?.name ?: ""

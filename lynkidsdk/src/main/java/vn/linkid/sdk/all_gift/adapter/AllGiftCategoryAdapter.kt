@@ -30,7 +30,7 @@ class AllGiftCategoryAdapter(private val categories: List<Category>) :
         fun bind(category: Category) {
             binding.apply {
                 Glide.with(root.context)
-                    .load(category.fullLink)
+                    .load(if (category.code == "all") R.drawable.ic_category_all else category.fullLink)
                     .placeholder(R.drawable.ic_category_placeholder)
                     .into(imgCategory)
                 txtCategory.text = category.name
